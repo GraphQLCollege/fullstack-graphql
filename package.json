@@ -1,0 +1,10 @@
+{
+  "name": "GraphQL Webapps",
+  "description": "Book about fullstack GraphQL development with React and Node",
+  "homepage": "http://graphql.college/graphql-webapps",
+  "author": {
+    "email": "mayorga.julian@gmail.com",
+    "name": "Julian Mayorga"
+  },
+  "license": "CC-BY-NC-SA-4.0"
+}
