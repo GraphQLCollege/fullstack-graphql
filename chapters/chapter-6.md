@@ -1,11 +1,4 @@
-## First steps with Apollo client
+## Testing
 
-Connect client with server
-
-[React Apollo](https://www.apollographql.com/docs/react/)
-
-* `gql`
-* `graphql`
-* `ApolloProvider`
-* `Query`
-* `Mutation`
+* Learn how to test GraphQL APIs using Jest
+* Learn how to test in React Apollo using Jest and Enzyme

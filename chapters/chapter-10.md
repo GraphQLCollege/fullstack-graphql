@@ -1,1 +1,3 @@
-## GraphQL Subscriptions
+## Deployment
+
+* Deploy to heroku and netlify

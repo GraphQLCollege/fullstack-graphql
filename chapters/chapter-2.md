@@ -1,8 +1,4 @@
-## React crash course
+## Schemas and Types
 
-Create a couple of pinapp features client side only
-
-* Components
-* Props
-* State
-* Render props
+* Learn about GraphQL schemas and types.
+* Design PinApp schema

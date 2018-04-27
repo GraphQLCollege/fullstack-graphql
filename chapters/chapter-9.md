@@ -1,4 +1,11 @@
-## Handling image uploads in Apollo Client and Server
+## Performance
 
-* https://github.com/jaydenseric/apollo-upload-server
-* https://github.com/jaydenseric/apollo-upload-client
+* Concepts
+  * Monitoring
+  * Caching
+  * Query performance
+  * [Malicious queries](https://dev-blog.apollodata.com/securing-your-graphql-api-from-malicious-queries-16130a324a6b)
+* Tech
+  * Apollo engine
+  * Dataloader
+  * Depth and amount limiting

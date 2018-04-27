@@ -1,10 +1,6 @@
-## Getting started with Apollo server
+## Subscriptions
 
-Implement schema
-
-[Apollo Server](https://www.apollographql.com/server/)
-
-* `makeExecutableSchema`
-* `addMockFunctionsToSchema`?
-* `graphqlExpress`
-* `graphiqlExpress`
+* Learn about GraphQL Subscriptions
+* Implement GraphQL Subscriptions server side
+* Send Subscription query from GraphiQL
+* Update pins using subscriptions in PinApp

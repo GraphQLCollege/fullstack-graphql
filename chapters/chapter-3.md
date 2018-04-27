@@ -1,10 +1,7 @@
-## GraphQL basics
+## Queries
 
-Design schema associated with features implemented client side
-
-* [Queries and Mutations](http://graphql.org/learn/queries/)
-* [Schemas and Types](http://graphql.org/learn/schema/)
-* GraphiQL
-  * Introspection
-  * Documentation
-  * Autocomplete
+* Learn about GraphQL queries
+* Implement PinApp pins query server side
+* Query pins using GraphiQL
+* Query pins in client without any framework
+* Query pins in client using Apollo Client Query component
