@@ -13,16 +13,23 @@ GraphQL is an HTTP specification. This means that it provides several guidelines
 
 It provides a way to design resources. Just like you would represent a dog in your REST API as a `/dogs` resource, you would represent a dog as a `Dog` type in GraphQL. GraphQL provides a way to represent resource properties, just like you do in REST HTTP payloads. Every GraphQL type has fields which represent their properties.
 
-HTTP
-
-```
+<table>
+  <tr>
+    <th>REST</th>
+    <th>GraphQL</th>
+  </tr>
+  <tr>
+    <td>
+      <pre>
 /dogs/:id
-{ "id": 1, "name": "Scooby Doo" }
-```
-
-GraphQL
-
-```graphql
+{
+  "id": 1,
+  "name": "Scooby Doo"
+}
+      </pre>
+    </td>
+    <td>
+      <pre>
 type Dog {
   id: ID,
   name: String
@@ -30,7 +37,10 @@ type Dog {
 type Query {
   dog(id: ID!): Dog
 }
-```
+      </pre>
+    </td>
+  </tr>
+</table>
 
 Developers can expose resources by mapping them to backend functions. In REST you define functions that handle the different routes in your API. GraphQL also allows you to define a function for each field in your types.
 
