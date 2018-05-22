@@ -1,5 +1,7 @@
 ## Data modeling
 
+![Schema](./schema.png)
+
 * Learn about GraphQL schemas and types
 * Design PinApp schema
   * Type definitions

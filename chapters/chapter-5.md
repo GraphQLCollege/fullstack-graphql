@@ -1,9 +1,12 @@
-## Building GraphQL clients
+## GraphQL clients
 
 * Apollo client
   * `ApolloBoost`
   * https://glitch.com/edit/#!/pinapp-initial
   * https://glitch.com/edit/#!/pinapp-apollo-client
+
+### React Apollo
+
 * React Apollo
   * Patterns
     * Context Provider (ApolloProvider)
@@ -18,6 +21,9 @@
     * `update`
     * `refetchQueries`
     * https://glitch.com/edit/#!/pinapp-react-apollo
+
+### Subscriptions
+
 * Subscriptions
   * Apollo Boost Migration
     * https://www.apollographql.com/docs/react/advanced/boost-migration.html
@@ -34,5 +40,8 @@
     * `<Subscription />`
     * `subscribeToMore`
     * https://glitch.com/edit/#!/pinapp-client-subscriptions
+
+### Testing
+
 * Learn how to test in React Apollo using Jest and Enzyme
   * https://glitch.com/edit/#!/pinapp-client-testing

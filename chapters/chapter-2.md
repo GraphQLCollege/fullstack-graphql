@@ -1,6 +1,8 @@
 ## Reading and writing data
 
-In its simplest form, GraphQL is all about asking for specific fields ob objects. In this chapter you will learn how to interact with data using GraphQL's queries and mutations. Queries let you ask for data, whereas Mutations let you write data.
+![Queries and mutations](./queries-and-mutations.png)
+
+In its simplest form, GraphQL is all about asking for specific fields of objects. In this chapter you will learn how to interact with data using GraphQL's queries and mutations. Queries let you ask for data, whereas Mutations let you write data.
 
 You will learn the following features of GraphQL syntax:
 
