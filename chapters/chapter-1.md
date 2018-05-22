@@ -1,139 +1,56 @@
----
-online: true
----
-## Introduction to GraphQL
+## Introduction
 
-GraphQL allows you to architect HTTP APIs. It plays the same role as [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). Even though you can use GraphQL for any use task where you can use REST, this technology shines in mobile apps, application dashboards and public APIs. Another selling point of GraphQL is that it provides a way to push content from servers to clients in real time. Don't worry if all these benefits sound like too much work, you don't have to throw away your APIs and start from scratch because GraphQL provides a gradual adoption path.
+### Why GraphQL?
 
-### Comparing GraphQL to REST
+GraphQL is revolutionizing client-server communication.
 
-GraphQL shares many things with REST. It is also an HTTP specification. It also provides a way to design resources. It allows developers to map resources to backend functions. It provides a way to access those resources from clients.
+1. Improves communication with API consumers. Facilitates team communication by providing an easy way for frontend developers to know all methods that the API exposes. It also enables better communication with 3rd party API consumers because GraphQL services have zero configuration API documentation.
+2. Empowers clients by giving them complete data fetching control. GraphQL lets clients ask for the exact data that they need. Not more, not less. It also lets clients ask for nested resources in the same operation, avoiding the need for REST-style cascading requests. REST tends to push complexity to API clients.
+3. Optimizes network usage by reducing HTTP payloads and number of requests. Reducing data and requests directly maps to a better experience for mobile users.
 
-GraphQL is an HTTP specification. This means that it provides several guidelines which can be used to create HTTP servers and clients in any language. Currently there are GraphQL servers written in [Javascript](https://www.apollographql.com/server), [Ruby](http://graphql-ruby.org/), [Elixir](https://absinthe-graphql.org/) and more. There are also many GraphQL clients and frameworks, the most populars being [Apollo client](https://www.apollographql.com/client) and [Relay](https://facebook.github.io/relay/), but there are many more.
+### What is GraphQL?
 
-It provides a way to design resources. Just like you would represent a dog in your REST API as a `/dogs` resource, you would represent a dog as a `Dog` type in GraphQL. GraphQL provides a way to represent resource properties, just like you do in REST HTTP payloads. Every GraphQL type has fields which represent their properties.
+GraphQL is a domain specific language to design and query data.
 
-<table>
-  <tr>
-    <th>REST</th>
-    <th>GraphQL</th>
-  </tr>
-  <tr>
-    <td>
-      <pre>
-/dogs/:id
-{
-  "id": 1,
-  "name": "Scooby Doo"
-}
-      </pre>
-    </td>
-    <td>
-      <pre>
-type Dog {
-  id: ID,
-  name: String
-}
-type Query {
-  dog(id: ID!): Dog
-}
-      </pre>
-    </td>
-  </tr>
-</table>
+A domain specific language, or DSL, is a language built for a single application domain. They are the opposite of general purpose languages like Javascript, Ruby, Python or C, which are applicable across different domains. There are many popular DSLs in use nowadays, CSS is a DSL for styling and HTML is a DSL for markup. GraphQL is a DSL for data.
 
-Developers can expose resources by mapping them to backend functions. In REST you define functions that handle the different routes in your API. GraphQL also allows you to define a function for each field in your types.
+GraphQL's domain is data. It can be used to design a schema that represents data and also to ask for specific fields on data.
 
-REST
+Developing API servers and clients is the main use case of GraphQL. Backend developers can use GraphQL to model their data, while frontend developers can use GraphQL to write queries to retrieve specific bits of data.
 
-```js
-server.get("/dogs/:id", (req, res) => {
-  res.send({
-    "id": 1,
-    "name": "Scooby Doo"
-  });
-})
-```
+Even though services generally expose GraphQL through their HTTP layer, GraphQL is not tied to HTTP or any other communication protocol.
 
-GraphQL
+GraphQL is a specification. This means that it specifies how it should work, allowing anyone to implement GraphQL in any programming language. There is an official implementation in Javascript called `graphql-js`, but there are also many other incarnations in other programming languages like Ruby, Elixir and more.
 
-```js
-const resolvers = {
-  Query: {
-    dog: () => {
-      return {
-        "id": 1,
-        "name": "Scooby Doo"
-      }
-    }
-  }
-};
-```
+### How to use GraphQL?
 
-GraphQL provides HTTP clients a way to access resources. REST APIs offer routes which clients can use to access the resources they need. In contrast, GraphQL APIs offer a query language which clients can use to access the types they need. Because of this query language, GraphQL APIs present a single route to clients. Offering resources in a single HTTP route means that clients can ask for multiple types in a single HTTP request. Compared to REST APIs, GraphQL APIs are much more network efficient.
+The rest of the book explains you how to use GraphQL. You will learn how to develop a complete GraphQL client-server application from scratch. You will learn how to fetch data from the client, how to design that data in the server, how to develop NodeJS GraphQL servers and finally how to create React GraphQL clients.
 
-HTTP
+The next two chapters will teach you how to fetch data using GraphQL, how to create data and how to design schemas. You will learn these pure GraphQL concepts, without the need of thinking about HTTP servers or clients. GraphQL is an abstraction that allows you to think about data without worrying about transport. You will build a schema, queries and mutations using Javascript and a couple of GraphQL libraries.
 
-```js
-const dog = await fetch("/dogs/1", {}).then(res => res.json())
-console.log(dog)
-// { "id": 1, "name": "Scooby Doo" }
-```
+The final two chapters will focus on building GraphQL servers and clients.
 
-GraphQL
+The chapter about servers will teach you how build GraphQL HTTP servers using NodeJS and Apollo server. You will learn how to expose a GraphQL schema over HTTP, how to test those services, how to connect to a database, how to handle authentication and authorization, how to organize your files and how to provide real time data using Subscriptions.
 
-```js
-const dog = await fetch(
-  "/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: "{ dog(id: 1) { id, name } }" })
-  }).then(res => res.json())
-console.log(dog);
-// { "id": 1, "name": "Scooby Doo" }
-```
+In the last chapter you will learn how to write GraphQL clients using React and Apollo client. You will learn how to ask for and create data using Apollo's `Query` and `Mutation` components, how to handle authentication, authorization and pagination, how to get ask the server for real time updates and how to test GraphQL clients.
 
-REST APIs usually provide fixed HTTP payloads, whereas in GraphQL clients can request only the fields they need. This results in smaller HTTP payloads. We will talk more about GraphQL type system in the next chapter, "Schemas and Types".
+### Sample application
 
-```js
-const dog = await fetch(
-  "/graphql", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: "{ dog(id: 1) { name } }" })
-  }).then(res => res.json())
-console.log(dog);
-// { "name": "Scooby Doo" }
-```
+Through the course of this book you will learn how to build a Pinterest clone called Pinapp using GraphQL, NodeJS, React and Apollo client.
 
-Network efficiency is one of the big selling points of GraphQL. GraphQL clients make fewer network requests than REST clients. They also get smaller HTTP payloads than their REST equivalents. This is a universal benefit. In the next section, we'll analyze specific use cases that showcase GraphQL advantages over REST APIs.
+Pinapp should allow users to:
 
-### Ideal use cases
+* Login with magic links
+* Logout
+* Add pins (a pin is an image that links to a URL)
+* Search pins and users
+* List pins
+* See new pins without refreshing browser
 
-GraphQL is a pleasure for developing any kind of frontend or backend, but it truly shines in certain cases.
+You will build this application in layers. First you will design the data layer, then write the business logic, after that create HTTP transport layer, then connect everything to the database layer and finally build the HTTP client.
 
-Its network efficiency, both in number of requests and request payload size, make it great for developing mobile apps. In fact, [Facebook engineers created GraphQL](https://code.facebook.com/posts/1691455094417024/graphql-a-data-query-language/) because they needed a powerful and simple way to develop APIs. Mobile clients have constrained resources compared to desktop clients, and network is one of the scarcest resources in mobile phones.
+### Development environment
 
-GraphQL allows developers to create efficient, maintainable dashboards. App dashboards have many definitions. In this case we are talking about pages that show a quick glance of several items of interest to the app user. REST clients end up hitting several different endpoints to gather the information they need. This usually ends up in two different scenarios, overfetching or custom endpoints.
+There are no environment requirements to try the examples in this book, other than having a web browser and internet connection. Every step of the application has a live, editable online version hosted at glitch.com. Glitch is an awesome community to build apps created by the folks that developed Stack Overflow and Trello.
 
-One outcome is that the client overfetches information by hitting the different resources endpoints, but only uses a subset of that data. Another possible scenario is that the backend creates a special route which contains the exact information that the client needs, which solves the overfetching on the client but has maintainability issues. GraphQL solves the dashboard overfetching problem by empowering clients to request only the data that they need. Not more, not less. This is achieved using a single GraphQL endpoint.
-
-GraphQL type system allows much better tooling, which is especially beneficial to Public API developers who get API documentation for free. Let's face it, writing documentation for REST APIs has always been difficult. This is why solutions like [Swagger](https://swagger.io/) or [Open API](https://www.openapis.org/) exist.
-
-The problem with REST API documentation solutions is that they are optional, non standard ways of documenting APIs. In contrast, all GraphQL APIs will have a well defined type system, which means that all GraphQL APIs can be documented and explored by many tools. [GraphiQL](https://github.com/graphql/graphiql) is an in browser IDE that provides syntax highlighting, autocompletion and schema browsing.
-
-### Real time
-
-Another big selling point of teh GraphQL specification are GraphQL Subscriptions. Subscriptions provide a way to push data from servers to clients in real time. We'll go deeper into how to implement Subscriptions both on frontends and on backends in the Subscriptions chapter.
-
-### Gradual adoption
-
-Adopting GraphQL and Apollo client brings several benefits. Some of them are: smaller HTTP payloads, less network requests, zero config API documentation and declarative data fetching. Less network usage will benefit your users, and your developers will be more productive with better tooling and clear boundaries between frontend and backend.
-
-But changing your entire stack is a tremendous effort. Fortunately you can gradually adopt GraphQL. [This guide](http://www.graphql.college/gradually-migrating-a-node-and-react-app-from-rest-to-graphql/) will show you how to go from a REST and React stack to a stack with GraphQL and Apollo client.
-
-### Conclusion
-
-To summarize, GraphQL allows you to create well documented, network efficient, real-time HTTP APIs. In this book you will create an HTTP client and server from scratch using NodeJS, React and GraphQL.
-
-You will create a Pinterest clone called PinApp step-by-step. It will allow users to create pins, list them in real time, register, login, logout and show info in a dashboard. Every step will have a live, editable version so you can focus on learning.
+Now let's get started by learning how to write GraphQL queries and mutations.
