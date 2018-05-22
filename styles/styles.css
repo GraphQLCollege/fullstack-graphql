@@ -1,0 +1,325 @@
+@page {
+  margin: 0;
+}
+body {
+  margin: 0;
+}
+/* this stylesheet is used when generating a PDF with PrinceXML or any other tool that understands the CSS used. */
+/* define a page */
+@page {
+  size: 900px 1350px;
+  margin: 70pt 60pt 70pt;
+}
+
+@page:first {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+img:first-of-type {
+  margin: 0 auto;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+p:first-child {
+  margin: 0;
+  padding: 0;
+}
+
+/* styles for the right hand spread
+Bottom left we display the title of the book, bottom right the page using a CSS counter, top right the content of the current chapter */
+@page:right {
+  @bottom-left {
+    margin: 10pt 0 30pt 0;
+    border-top: 0.25pt solid #666;
+    content: string(booktitle);
+    font-size: 9pt;
+    color: #333;
+  }
+  @bottom-right {
+    margin: 10pt 0 30pt 0;
+    border-top: 0.25pt solid #666;
+    content: counter(page);
+    font-size: 9pt;
+  }
+  @top-right {
+    content: string(doctitle);
+    margin: 30pt 0 10pt 0;
+    font-size: 9pt;
+    color: #333;
+  }
+}
+
+/* styles for the left hand spread 
+Bottom right book title, bottom left current page */
+@page:left {
+  @bottom-right {
+    margin: 10pt 0 30pt 0;
+    border-top: 0.25pt solid #666;
+    content: string(booktitle);
+    font-size: 9pt;
+    color: #333;
+  }
+  @bottom-left {
+    margin: 10pt 0 30pt 0;
+    border-top: 0.25pt solid #666;
+    content: counter(page);
+    font-size: 9pt;
+  }
+}
+
+/* first page */
+@page:first {
+  @bottom-right {
+    content: normal;
+    margin: 0;
+  }
+
+  @bottom-left {
+    content: normal;
+    margin: 0;
+  }
+}
+
+/* reset chapter and figure counters on the body */
+body {
+  counter-reset: chapternum figurenum;
+  font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode",
+    "Lucida Sans", Tahoma, sans-serif;
+  line-height: 1.5;
+  font-size: 11pt;
+}
+
+/* Grab the first h1 and set the string booktitle. bookttitle will be used on footers. */
+h1:first-of-type {
+  string-set: booktitle content();
+}
+
+/* get the title of the current chapter - this will be the content of the h1 
+reset figure counter as figures start from 1 in each chapter */
+h2 {
+  string-set: doctitle content();
+  page-break-before: always;
+  counter-reset: figurenum;
+  counter-reset: footnote;
+  line-height: 1.3;
+}
+
+h1 {
+  page-break-before: always;
+}
+
+/* increment chapter counter */
+h1.chapter:before {
+  counter-increment: chapternum;
+  content: counter(chapternum) ". ";
+}
+
+/* increment and display figure counter */
+figcaption:before {
+  counter-increment: figurenum;
+  content: counter(chapternum) "-" counter(figurenum) ". ";
+}
+
+/* footnotes */
+.fn {
+  float: footnote;
+}
+
+.fn {
+  counter-increment: footnote;
+}
+
+.fn::footnote-call {
+  content: counter(footnote);
+  font-size: 9pt;
+  vertical-align: super;
+  line-height: none;
+}
+
+.fn::footnote-marker {
+  font-weight: bold;
+}
+
+@page {
+  @footnotes {
+    border-top: 0.6pt solid black;
+    padding-top: 8pt;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: bold;
+  page-break-after: avoid;
+  page-break-inside: avoid;
+}
+
+h1 + p,
+h2 + p,
+h3 + p {
+  page-break-before: avoid;
+}
+
+table,
+figure {
+  page-break-inside: avoid;
+}
+
+#table-of-contents + ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#table-of-contents + ul li {
+  list-style: none;
+}
+
+/* create page numbers using target-counter in the TOC */
+#table-of-contents + ul a::after {
+  content: leader(".") target-counter(attr(href), page);
+}
+
+#table-of-contents + ul li {
+  line-height: 2;
+}
+
+#table-of-contents + ul li a {
+  text-decoration: none;
+}
+
+a {
+  color: #000;
+}
+
+/* add page number to cross references */
+a.xref:after {
+  content: " (page " target-counter(attr(href, url), page) ")";
+}
+
+.highlight-inline {
+  background: yellow;
+  color: gray;
+}
+.highlight-inline span {
+  background: inherit;
+  color: inherit;
+}
+
+:not(pre) > code {
+  background-color: white;
+  color: #e535ab;
+}
+a > code[class*='language-'] {
+  color: #007acc;
+}
+/* Prisma color scheme based on graphql.org css */
+pre {
+  padding: 7px 14px;
+  margin: 1em -4px;
+  overflow: auto;
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08), inset -1px 0 0 rgba(0, 0, 0, 0.08),
+    inset 4px 0 0 rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+}
+.hljs {
+  font-family: 'Roboto Mono', Menlo, Monaco, monospace;
+  font-weight: 400;
+  color: #202020;
+  font-size: 13px;
+  line-height: 17px;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  -moz-tab-size: 2;
+  -o-tab-size: 2;
+  tab-size: 2;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+  position: relative;
+}
+/* Comment */
+.hljs-comment,
+.cm-comment {
+  color: #999;
+}
+/* Punctuation */
+.hljs-punctuation,
+.cm-punctuation {
+  color: #555;
+}
+/* Keyword */
+.hljs-keyword,
+.cm-keyword {
+  color: #b11a04;
+}
+/* OperationName, FragmentName */
+.hljs-constant,
+.cm-def {
+  color: #d2054e;
+}
+/* FieldName */
+.hljs-attr-name,
+.cm-property {
+  color: #1f61a0;
+}
+/* FieldAlias */
+.cm-qualifier {
+  color: #1c92a9;
+}
+/* ArgumentName and ObjectFieldName */
+.hljs-attr,
+.cm-attribute {
+  color: #8b2bb9;
+}
+/* Number */
+.hljs-number,
+.cm-number {
+  color: #2882f9;
+}
+/* String */
+.hljs-string,
+.cm-string {
+  color: #d64292;
+}
+/* Boolean */
+.hljs-boolean,
+.cm-builtin {
+  color: #d47509;
+}
+/* EnumValue */
+.hljs-enum,
+.cm-string-2 {
+  color: #0b7fc7;
+}
+/* Variable */
+.hljs-variable,
+.cm-variable {
+  color: #397d13;
+}
+/* Directive */
+.hljs-function,
+.cm-meta {
+  color: #b33086;
+}
+/* Type */
+.hljs-type-name,
+.cm-atom {
+  color: #ca9800;
+}
