@@ -1,3 +1,5 @@
 # GraphQL Webapps
 
-Book about fullstack GraphQL development with React and Node.
+Book about full stack GraphQL development with React and Node.
+
+[![Cover](./chapters/cover.png)](https://graphql.college/graphql-webapps)
