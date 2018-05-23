@@ -56,7 +56,7 @@ Remix this example on glitch to run all the queries in this chapter. Remixing me
   <img src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix%402x.png?1513093958726" alt="remix button" aria-label="remix" height="33" />
 </a>
 
-Once you have remixed this project, you can run any of the scripts in the `queries` folder. Try it out by opening the URL of your remixed project. After you open it, open its console by clicking "Logs" and then "Console 📟". Run `node queries/1-query.js` to see the output of the first script.
+Once you have remixed this project, you can run any of the scripts in the `queries` folder. Try it out by opening the URL of your remixed project. After you open it, open its console by clicking "Logs" and then "Console". Run `node queries/1-query.js` to see the output of the first script.
 
 You have everything you need to start learning GraphQL query syntax. Let's start by sending basic queries.
 
