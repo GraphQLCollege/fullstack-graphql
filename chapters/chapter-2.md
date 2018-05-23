@@ -767,4 +767,4 @@ $ node queries/13-mutations.js
 }
 ```
 
-Your last mutation did not generate any data because it goes agains a mocked schema. You will design this schema from scratch and implement a working version of it in the next chapter, called Data modeling.
+Your last mutation did not generate any data because it goes against a mocked schema. You will design this schema from scratch and implement a working version of it in the next chapter, called Data modeling.
