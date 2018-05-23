@@ -2,7 +2,7 @@
 
 ### Why GraphQL?
 
-GraphQL is revolutionizing client-server communication.
+GraphQL is revolutionizing client-server communication. It is a key technology that:
 
 1. Improves communication with API consumers. Facilitates team communication by providing an easy way for frontend developers to know all methods that the API exposes. It also enables better communication with 3rd party API consumers because GraphQL services have zero configuration API documentation.
 2. Empowers clients by giving them complete data fetching control. GraphQL lets clients ask for the exact data that they need. Not more, not less. It also lets clients ask for nested resources in the same operation, avoiding the need for REST-style cascading requests. REST tends to push complexity to API clients.
@@ -10,9 +10,11 @@ GraphQL is revolutionizing client-server communication.
 
 ### What is GraphQL?
 
-GraphQL is a domain specific language to design and query data.
+GraphQL is a domain specific typed language to design and query data.
 
 A domain specific language, or DSL, is a language built for a single application domain. They are the opposite of general purpose languages like Javascript, Ruby, Python or C, which are applicable across different domains. There are many popular DSLs in use nowadays, CSS is a DSL for styling and HTML is a DSL for markup. GraphQL is a DSL for data.
+
+It is a typed language. This means that it uses types to define resources, it adds types to each resource's fields. It also uses types to statically check for errors. Being a typed language is the source of many of GraphQL's biggest assets, like enabling automatic API introspection and documentation.
 
 GraphQL's domain is data. It can be used to design a schema that represents data and also to ask for specific fields on data.
 
