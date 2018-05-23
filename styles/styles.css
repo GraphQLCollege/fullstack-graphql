@@ -90,8 +90,7 @@ Bottom right book title, bottom left current page */
 /* reset chapter and figure counters on the body */
 body {
   counter-reset: chapternum figurenum;
-  font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode",
-    "Lucida Sans", Tahoma, sans-serif;
+  font-family: 'Rubik', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-size: 11pt;
 }
