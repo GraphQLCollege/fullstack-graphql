@@ -1,8 +1,8 @@
 ## Reading and writing data
 
-![Queries and mutations](./queries-and-mutations.png)
-
 In this chapter you will learn how to use GraphQL from a frontend developer's perspective. This chapter explains how to use queries and mutations to read and write data from GraphQL.
+
+![Queries and mutations](./queries-and-mutations.png)
 
 As you continue to learn the ins and outs of GraphQL, you will realize that it is a technology that makes life much easier for frontend developers. It gives them complete control of the data that they want from the server.
 
@@ -12,7 +12,7 @@ Making life easier for clients has been one of the main goals for the team that 
 
 In its simplest form, GraphQL is all about asking for specific fields of objects.
 
-You will learn how to interact with data using GraphQL's queries and mutations. Queries let you ask for data, whereas Mutations let you write data. Queries serve the same purpose as REST's GET requests, and you could think of mutations as analogies to REST's POST, PUT, PATCH and DELETE requests.
+You will learn the GraphQL query language, that defines how to interact with data using GraphQL's queries and mutations. Queries let you ask for data, whereas Mutations let you write data. Queries serve the same purpose as REST's GET requests, and you could think of mutations as analogies to REST's POST, PUT, PATCH and DELETE requests.
 
 The rest of this chapter will teach you the following features of GraphQL syntax:
 
