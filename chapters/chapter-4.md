@@ -1,17 +1,17 @@
-## GraphQL APIs
+## 4. GraphQL APIs
 
 ![API](./api.png)
 
 * `ApolloServer`, `server.listen`
   * https://glitch.com/edit/#!/pinapp-server
 
-### Database
+### 4.1 Database
 
 * Database
   * https://glitch.com/edit/#!/pinapp-database
 * Authentication and Authorization
 
-### Business Logic
+### 4.2 Business Logic
 
 ![Business Logic](./business-logic.png)
 
@@ -20,14 +20,14 @@
   * Authorization in business logic
 * Test GraphQL APIs using Jest
 
-### Testing
+### 4.3 Testing
 
 ![Testing](./testing.png)
 
   * https://glitch.com/edit/#!/pinapp-server-testing
 * Subscriptions
 
-### Subscriptions
+### 4.4 Subscriptions
 
 ![Subscriptions](./subscriptions.png)
 
@@ -36,6 +36,7 @@
   * Send Subscription query from GraphiQL
   * https://glitch.com/edit/#!/pinapp-postgres
   * https://glitch.com/edit/#!/pinapp-subscriptions
-* File organization
+
+### 4.5 File organization
   * https://glitch.com/edit/#!/pinapp-files
 
