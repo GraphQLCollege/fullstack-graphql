@@ -194,7 +194,7 @@ figure {
 }
 
 #table-of-contents + ul li a {
-  text-decoration: none;
+  color: #e535ab;
 }
 
 a {
