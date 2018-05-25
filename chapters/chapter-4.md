@@ -18,7 +18,6 @@
   * Add email based authentication
   * https://glitch.com/edit/#!/pinapp-email-authentication
   * Authorization in business logic
-* Test GraphQL APIs using Jest
 
 ### 4.3 Testing
 
