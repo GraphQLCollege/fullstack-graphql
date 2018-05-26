@@ -4,6 +4,7 @@
 
 * `ApolloServer`, `server.listen`
   * https://glitch.com/edit/#!/pinapp-server
+* GraphQL Playground
 
 ### 4.1 Database
 
