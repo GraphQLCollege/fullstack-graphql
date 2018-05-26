@@ -774,3 +774,4 @@ If you query the list of pins after your last mutation, you will notice that thi
 GraphQL makes frontend development easier by providing powerful querying capabilities. It makes it easy to fetch for multiple, nested resources in a single query. Fetching the minimal set of fields needed from a resource is also a built-in feature.
 
 In the next chapter, called Data Modeling, you will design from scratch the schema you used in this chapter. As opposed to this chapter's schema, the next one will be backed by an in-memory database, it will not have mocked values.
+

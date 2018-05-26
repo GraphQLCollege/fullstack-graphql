@@ -346,3 +346,4 @@ Feel free to learn by modifying the different resolver functions and seeing how 
 You learned how to create GraphQL schemas. You wrote type definitions using SDL, and resolvers using Javascript. The schema you created in this chapter is accessible by scripts using `graphql-js`.
 
 The next chapter will teach you how to create GraphQL HTTP APIs. You will add the different layers that make up a GraphQL server on top of the GraphQL schema from this chapter. This API will have several additional layers, like HTTP, database, authentication, testing and real time.
+

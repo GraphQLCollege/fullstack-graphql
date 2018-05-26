@@ -60,3 +60,4 @@ You will build this application in layers. First you will design the data layer,
 There are no environment requirements to try the examples in this book, other than having a web browser and internet connection. Every step of the application has a live, editable online version hosted at glitch.com. Glitch is an awesome community to build apps created by the folks that developed Stack Overflow and Trello.
 
 ## Table of Contents
+
