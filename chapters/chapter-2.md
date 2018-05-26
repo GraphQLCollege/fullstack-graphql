@@ -318,7 +318,7 @@ In this case, not all fields of `Query` and `Mutation` have a corresponding reso
 
 You can see that most of the logic in the fields of `Query` and `Mutations` come from the functions in `business-logic.js`. The function bodies are mostly data access and calls to methods from the business logic module.
 
-Some of the types in `resolvers.js` have methods named `__resolveType`. This is a method that `makeExecutableSchema` from `graphql-tools` uses. It determines the type of `Union` or `Interface`.
+Some of the types in `resolvers.js` have methods named `__resolveType`. This is a method that `makeExecutableSchema` from `graphql-tools` uses. It determines the type of objects which are of type `Union` or `Interface`.
 
 You can try this example schema by opening your remixed example's console and run `node queries.js`. This script simulates a user who first creates an authentication token, and sends it in order to add a new pin.
 
