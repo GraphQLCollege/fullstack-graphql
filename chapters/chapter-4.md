@@ -1,42 +1,50 @@
-## 4. GraphQL APIs
+## 4. GraphQL clients
 
-![API](./api.png)
+### 4.1 Apollo Client
 
-* `ApolloServer`, `server.listen`
-  * https://glitch.com/edit/#!/pinapp-server
-* GraphQL Playground
+* Apollo client
+  * `ApolloBoost`
+  * https://glitch.com/edit/#!/pinapp-initial
+  * https://glitch.com/edit/#!/pinapp-apollo-client
 
-### 4.1 Database
+### 4.2 React Apollo
 
-* Database
-  * https://glitch.com/edit/#!/pinapp-database
-* Authentication and Authorization
+* React Apollo
+  * Patterns
+    * Context Provider (ApolloProvider)
+    * Functions as children (Query, Mutation and Subscription)
+  * Components
+    * `<ApolloProvider />`
+    * `<Query />`
+    * `gql`
+    * `{ loading, error, data }`
+    * `variables`
+    * `<Mutation />`
+    * `update`
+    * `refetchQueries`
+    * https://glitch.com/edit/#!/pinapp-react-apollo
 
-### 4.2 Business Logic
+### 4.3 Subscriptions
 
-![Business Logic](./business-logic.png)
-
-  * Add email based authentication
-  * https://glitch.com/edit/#!/pinapp-email-authentication
-  * Authorization in business logic
-
-### 4.3 Testing
-
-![Testing](./testing.png)
-
-  * https://glitch.com/edit/#!/pinapp-server-testing
 * Subscriptions
+  * Apollo Boost Migration
+    * https://www.apollographql.com/docs/react/advanced/boost-migration.html
+    * https://www.apollographql.com/docs/react/advanced/subscriptions.html
+    * `ApolloClient`
+    * `InMemoryCache`
+    * `HttpLink`
+    * `ApolloLink`
+    * `split`
+      * https://www.apollographql.com/docs/link/composition.html#directional
+      * https://github.com/Akryum/vue-apollo/issues/144
+  * Subscription APIs
+    * `WebsocketLink`
+    * `<Subscription />`
+    * `subscribeToMore`
+    * https://glitch.com/edit/#!/pinapp-client-subscriptions
 
-### 4.4 Subscriptions
+### 4.4 Testing
 
-![Subscriptions](./subscriptions.png)
-
-  * Learn about GraphQL Subscriptions
-  * Implement GraphQL Subscriptions server side
-  * Send Subscription query from GraphiQL
-  * https://glitch.com/edit/#!/pinapp-postgres
-  * https://glitch.com/edit/#!/pinapp-subscriptions
-
-### 4.5 File organization
-  * https://glitch.com/edit/#!/pinapp-files
+* Learn how to test in React Apollo using Jest and Enzyme
+  * https://glitch.com/edit/#!/pinapp-client-testing
 

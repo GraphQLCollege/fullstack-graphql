@@ -30,15 +30,15 @@ GraphQL is a specification. This means that it specifies how it should work, all
 
 ### Organization of the book
 
-The rest of the book explains you how to use GraphQL. You will learn how to develop a complete GraphQL client-server application from scratch. You will learn how to fetch data from the client, how to design that data in the server, how to develop NodeJS GraphQL servers and finally how to create React GraphQL clients.
+With this book you will learn how to develop a complete GraphQL client-server application from scratch. You will learn how to fetch data from the client, how to design that data in the server, how to develop NodeJS GraphQL servers and finally how to create React GraphQL clients.
 
-The next two chapters will teach you how to fetch data using GraphQL, how to create data and how to design schemas. You will learn these pure GraphQL concepts, without the need of thinking about HTTP servers or clients. GraphQL is an abstraction that allows you to think about data without worrying about transport. You will build a schema, queries and mutations using Javascript and a couple of GraphQL libraries.
+The first two chapters will teach you how to fetch data using GraphQL. The first chapter will teach you how to create data. The second chapter will teach you how to design schemas. You will learn these pure GraphQL concepts, without the need of thinking about HTTP servers or clients. GraphQL is an abstraction that allows you to think about data without worrying about transport. You will build a schema, queries and mutations using Javascript and a couple of GraphQL libraries.
 
 The final two chapters will focus on building GraphQL servers and clients.
 
-The chapter about servers will teach you how build GraphQL HTTP servers using NodeJS and Apollo server. You will learn how to expose a GraphQL schema over HTTP, how to test those services, how to connect to a database, how to handle authentication and authorization, how to organize your files and how to provide real time data using Subscriptions.
+The third chapter, GraphQL APIs, will teach you how build GraphQL HTTP servers using NodeJS and Apollo server. You will learn how to expose a GraphQL schema over HTTP, how to test those services, how to connect to a database, how to handle authentication and authorization, how to organize your files and how to provide real time data using Subscriptions.
 
-In the last chapter you will learn how to write GraphQL clients using React and Apollo client. You will learn how to ask for and create data using Apollo's `Query` and `Mutation` components, how to handle authentication, authorization and pagination, how to get ask the server for real time updates and how to test GraphQL clients.
+In the last chapter, GraphQL Clients, you will learn how to write GraphQL clients using React and Apollo client. You will learn how to ask for and create data using Apollo's `Query` and `Mutation` components, how to handle authentication, authorization and pagination, how to get ask the server for real time updates and how to test GraphQL clients.
 
 ### Sample application
 
