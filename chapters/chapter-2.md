@@ -40,11 +40,11 @@ You create schemas by combining type definitions and resolvers. There is a handy
 Open the file called `schema.js` in the example project you just remixed to see how you can create a schema.
 
 ```js
-const { makeExecutableSchema } = require('graphql-tools');
-const { importSchema } = require('graphql-import');
+const { makeExecutableSchema } = require("graphql-tools");
+const { importSchema } = require("graphql-import");
 
-const typeDefs = importSchema('schema.graphql');
-const resolvers = require('./resolvers');
+const typeDefs = importSchema("schema.graphql");
+const resolvers = require("./resolvers");
 
 const schema = makeExecutableSchema({
   typeDefs,
@@ -65,7 +65,13 @@ In this section you will learn how to write GraphQL types using SDL. A type is j
 This is how you define an object type:
 
 ```graphql
-type Pin { title: String!, link: String!, image: String!, id: String!, user_id: String! }
+type Pin {
+  title: String!
+  link: String!
+  image: String!
+  id: String!
+  user_id: String!
+}
 ```
 
 As you can see, you can define the type of fields after the field name. In the case of `Pin`, all of its fields are of type `String`, and are required because they end with an exclamation mark (!).
@@ -126,8 +132,8 @@ This is how the custom `PinInput` type is defined:
 
 ```graphql
 input PinInput {
-  title: String!,
-  link: String!,
+  title: String!
+  link: String!
   image: String!
 }
 ```
@@ -137,15 +143,30 @@ GraphQL allows you to define `Interface` and `Union` types. They are useful when
 You can use interfaces when you have different types which share fields between them. A common use case would be representing a `User` type.
 
 ```graphql
-interface Person { id: String!, email: String!, pins: [Pin] }
-type User implements Person { id: String!, email: String!, pins: [Pin] }
-type Admin implements Person { id: String!, email: String!, pins: [Pin] }
+interface Person {
+  id: String!
+  email: String!
+  pins: [Pin]
+}
+
+type User implements Person {
+  id: String!
+  email: String!
+  pins: [Pin]
+}
+
+type Admin implements Person {
+  id: String!
+  email: String!
+  pins: [Pin]
+}
 ```
 
 When you want to create a type that represents different types with no shared fields between them, you must use a `Union` type. A typical operation that returns this type is a search:
 
 ```graphql
 union SearchResult = User | Admin | Pin
+
 type Query {
   # ...
   search(text: String): [SearchResult]
@@ -155,16 +176,40 @@ type Query {
 This is what the complete version of `schema.graphql` looks like:
 
 ```graphql
-type Pin { title: String!, link: String!, image: String!, id: String!, user_id: String! }
+type Pin {
+  title: String!
+  link: String!
+  image: String!
+  id: String!
+  user_id: String!
+}
+
 input PinInput {
-  title: String!,
-  link: String!,
+  title: String!
+  link: String!
   image: String!
 }
-interface Person { id: String!, email: String!, pins: [Pin] }
-type User implements Person { id: String!, email: String!, pins: [Pin] }
-type Admin implements Person { id: String!, email: String!, pins: [Pin] }
+
+interface Person {
+  id: String!
+  email: String!
+  pins: [Pin]
+}
+
+type User implements Person {
+  id: String!
+  email: String!
+  pins: [Pin]
+}
+
+type Admin implements Person {
+  id: String!
+  email: String!
+  pins: [Pin]
+}
+
 union SearchResult = User | Admin | Pin
+
 type Query {
   pins: [Pin]
   pinById(id: String!): Pin
@@ -172,6 +217,7 @@ type Query {
   me: User
   search(text: String): [SearchResult]
 }
+
 type Mutation {
   addPin(pin: PinInput!): Pin
   sendShortLivedToken(email: String!): Boolean
@@ -295,4 +341,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 Feel free to learn by modifying the different resolver functions and seeing how that changes the final result. You can also create different queries, now that you know what queries and mutations your schema exposes.
 
-The next chapter will teach you how to create real GraphQL APIs. You will add the different layers that make up a GraphQL server, like HTTP, database, authentication, testing and real time data.
+### 2.5 Conclusion
+
+You learned how to create GraphQL schemas. You wrote type definitions using SDL, and resolvers using Javascript. The schema you created in this chapter is accessible by scripts using `graphql-js`.
+
+The next chapter will teach you how to create GraphQL HTTP APIs. You will add the different layers that make up a GraphQL server on top of the GraphQL schema from this chapter. This API will have several additional layers, like HTTP, database, authentication, testing and real time.

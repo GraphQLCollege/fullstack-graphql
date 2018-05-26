@@ -2,17 +2,19 @@
 
 ![API](./api.png)
 
+### 3.1 Server
+
 * `ApolloServer`, `server.listen`
   * https://glitch.com/edit/#!/pinapp-server
 * GraphQL Playground
 
-### 3.1 Database
+### 3.2 Database
 
 * Database
   * https://glitch.com/edit/#!/pinapp-database
 * Authentication and Authorization
 
-### 3.2 Business Logic
+### 3.3 Authentication
 
 ![Business Logic](./business-logic.png)
 
@@ -20,14 +22,14 @@
   * https://glitch.com/edit/#!/pinapp-email-authentication
   * Authorization in business logic
 
-### 3.3 Testing
+### 3.4 Testing
 
 ![Testing](./testing.png)
 
   * https://glitch.com/edit/#!/pinapp-server-testing
 * Subscriptions
 
-### 3.4 Subscriptions
+### 3.5 Subscriptions
 
 ![Subscriptions](./subscriptions.png)
 
@@ -37,6 +39,8 @@
   * https://glitch.com/edit/#!/pinapp-postgres
   * https://glitch.com/edit/#!/pinapp-subscriptions
 
-### 3.5 File organization
+### 3.6 File organization
   * https://glitch.com/edit/#!/pinapp-files
+
+### 3.7 Conclusion
 

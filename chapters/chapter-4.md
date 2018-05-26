@@ -48,3 +48,5 @@
 * Learn how to test in React Apollo using Jest and Enzyme
   * https://glitch.com/edit/#!/pinapp-client-testing
 
+### 4.5 Conclusion
+

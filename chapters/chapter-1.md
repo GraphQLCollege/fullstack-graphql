@@ -767,4 +767,10 @@ $ node queries/13-mutations.js
 }
 ```
 
-Your last mutation did not generate any data because it goes against a mocked schema. You will design this schema from scratch and implement a working version of it in the next chapter, called Data modeling.
+If you query the list of pins after your last mutation, you will notice that this last mutation did not generate any data. This happens because the queries in this chapter go against a mocked schema.
+
+### 1.15 Conclusion
+
+GraphQL makes frontend development easier by providing powerful querying capabilities. It makes it easy to fetch for multiple, nested resources in a single query. Fetching the minimal set of fields needed from a resource is also a built-in feature.
+
+In the next chapter, called Data Modeling, you will design from scratch the schema you used in this chapter. As opposed to this chapter's schema, the next one will be backed by an in-memory database, it will not have mocked values.
