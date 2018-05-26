@@ -33,7 +33,7 @@ Note that this schema is not exposed over HTTP. It is accessible with scripts us
 
 In the next section you will understand how to create schemas using a function called `makeExecutableSchema`.
 
-### 3.3 Schemas
+### 3.2 Schemas
 
 You create schemas by combining type definitions and resolvers. There is a handy package called [`graphql-tools`](https://github.com/apollographql/graphql-tools) that provides a function called `makeExecutableSchema`. The previous chapter contained a lot of `graphql(query, schema)` calls. All of those examples sent queries agains a schema generated with `makeExecutableSchema`.
 
@@ -56,7 +56,7 @@ module.exports = schema;
 
 As you can see, this file created a schema with types from `schema.graphql` and resolvers from `resolvers.js`. The next two sections will teach you how to create these type definitions and resolvers.
 
-### 3.4 Type definitions
+### 3.3 Type definitions
 
 In this section you will learn how to write GraphQL types using SDL. A type is just a representation of an object in your schema. Objects, as in many other programming languages, can have many fields.
 
@@ -181,7 +181,7 @@ type Mutation {
 
 As you learned in the previous section, a schema is comprised of type definitions and resolvers. Now that you know how type definitions look like, it's time to learn about resolvers.
 
-### 3.5 Resolvers
+### 3.4 Resolvers
 
 Resolvers are the functions that run every time a query requests a field. When a GraphQL implementation receives a query, it runs the resolver for each field. If the resolver returns an `Object` field, then GraphQL runs that field's resolver function. When all resolvers return scalars, the chain ends and the query receives its final JSON result.
 
