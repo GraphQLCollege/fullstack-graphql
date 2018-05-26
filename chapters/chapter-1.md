@@ -769,7 +769,7 @@ $ node queries/13-mutations.js
 
 If you query the list of pins after your last mutation, you will notice that this last mutation did not generate any data. This happens because the queries in this chapter go against a mocked schema.
 
-### 1.15 Conclusion
+### 1.15 Summary
 
 GraphQL makes frontend development easier by providing powerful querying capabilities. It makes it easy to fetch for multiple, nested resources in a single query. Fetching the minimal set of fields needed from a resource is also a built-in feature.
 

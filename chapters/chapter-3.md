@@ -42,5 +42,5 @@
 ### 3.6 File organization
   * https://glitch.com/edit/#!/pinapp-files
 
-### 3.7 Conclusion
+### 3.7 Summary
 

@@ -341,7 +341,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 Feel free to learn by modifying the different resolver functions and seeing how that changes the final result. You can also create different queries, now that you know what queries and mutations your schema exposes.
 
-### 2.5 Conclusion
+### 2.5 Summary
 
 You learned how to create GraphQL schemas. You wrote type definitions using SDL, and resolvers using Javascript. The schema you created in this chapter is accessible by scripts using `graphql-js`.
 
