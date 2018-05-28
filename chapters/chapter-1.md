@@ -2,7 +2,7 @@
 
 In this chapter you will learn how to use GraphQL from a frontend developer's perspective. This chapter explains how to use queries and mutations to read and write data from GraphQL.
 
-![Queries and mutations](./queries-and-mutations.png)
+![Queries and mutations](./graphql-schema.png)
 
 As you continue to learn the ins and outs of GraphQL, you will realize that it is a technology that makes life much easier for frontend developers. It gives them complete control of the data that they want from the server.
 

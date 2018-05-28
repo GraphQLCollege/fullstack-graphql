@@ -1,8 +1,8 @@
 ## 5. Subscriptions
 
-### 5.1 Server side subscriptions
-
 ![Subscriptions](./subscriptions.png)
+
+### 5.1 Server side subscriptions
 
 * Learn about GraphQL Subscriptions
 

@@ -1,5 +1,7 @@
 ## 4. GraphQL clients
 
+![Client](./client.png)
+
 ### 4.1 Simple GraphQL client
 
 ### 4.2 Apollo Client
