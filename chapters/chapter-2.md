@@ -23,9 +23,7 @@ The schema you will create is more than just an example that illustrates how to 
 
 Make your own copy of this example with the following button:
 
-<a href="https://glitch.com/edit/#!/remix/pinapp-schema">
-  <img src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix%402x.png?1513093958726" alt="remix button" aria-label="remix" height="33"/>
-</a>
+[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-schema)
 
 > After remixing, closely follow the instructions in `README.md`. This project's README instructs you to configure environment variables in `.env`.
 

@@ -34,9 +34,7 @@ server.listen().then(({ url }) => {
 
 That's really it! With just a call to `server.listen()` you have a live GraphQL API. Remix the following example project to create your own copy.
 
-<a href="https://glitch.com/edit/#!/remix/pinapp-server">
-  <img src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix%402x.png?1513093958726" alt="remix button" aria-label="remix" height="33" />
-</a>
+[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-server)
 
 Click the Show button, on the top left of the screen, to open a batteries included GraphQL client called [GraphQL Playground](https://github.com/prismagraphql/graphql-playground). It is more than just a GraphQL client, it almost feels like an IDE. It has query autocomplete, it has GraphQL schema documentation and it stores all your queries so you can reuse them later.
 
@@ -203,9 +201,7 @@ type Mutation {
 
 Remix this project so you can follow the implementation of email based auth.
 
-<a href="https://glitch.com/edit/#!/remix/pinapp-email-authentication">
-  <img src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix%402x.png?1513093958726" alt="remix button" aria-label="remix" height="33" />
-</a>
+[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-email-authentication)
 
 Now let's analyze how the email-related resolvers look like.
 
