@@ -52,9 +52,7 @@ In this chapter you will connect PinApp to a SQLite database using a database co
 
 Remix the current iteration of PinApp so you can follow along the contents of this section with your own copy of the project.
 
-<a href="https://glitch.com/edit/#!/remix/pinapp-database">
-  <img src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix%402x.png?1513093958726" alt="remix button" aria-label="remix" height="33" />
-</a>
+[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-database)
 
 > Remember to follow the getting started instructions on the project's README
 

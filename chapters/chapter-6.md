@@ -18,9 +18,7 @@ Which one you choose depends on your use case. It is always a good idea to test 
 
 Create your own copy of the testing project by remixing it:
 
-<a href="https://glitch.com/edit/#!/remix/pinapp-server-testing">
-  <img src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix%402x.png?1513093958726" alt="remix button" aria-label="remix" height="33" />
-</a>
+[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-server-testing)
 
 ### 6.2 GraphQL layer
 
