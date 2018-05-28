@@ -228,8 +228,10 @@ The first one creates a token using the `jsonwebtoken` NPM package's [`sign`](ht
 
 ```js
 const createShortLivedToken = ({ email, id }) => {
-  return jsonwebtoken.sign({ id, email }, process.env.SECRET, { expiresIn: "5m" });
-}
+  return jsonwebtoken.sign({ id, email }, process.env.SECRET, {
+    expiresIn: "5m"
+  });
+};
 ```
 
 The second function, `sendShortLivedToken`, uses a function defined in `email.js` called `sendMail`.
@@ -240,19 +242,21 @@ const sendShortLivedToken = (email, token) => {
     from: '"Julian" <julian@graphql.college>',
     to: email,
     text: `${process.env.APP_URL}/verify?token=${token}`,
-    html: `<a href="${process.env.APP_URL}/verify?token=${token}" target="_blank">Authenticate</a>`,
+    html: `<a href="${
+      process.env.APP_URL
+    }/verify?token=${token}" target="_blank">Authenticate</a>`,
     subject: "Auth token"
   });
-}
+};
 ```
 
 To send mails, you will use the `nodemailer` package. This library allows you to send emails through an SMTP server. The easiest way to create an email server for development purposes is with [Ethereal](https://ethereal.email/messages). This is a fake email service developed by the creators of Nodemailer, and it is a super easy way to create dev SMTP services. Of course, if you want to send actual emails, you should use a real SMTP service. [Sendgrid](https://sendgrid.com/) has a great free plan.
 
 ```js
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
+  host: "smtp.ethereal.email",
   port: 587,
   auth: {
     user: process.env.MAIL_USER,
@@ -287,20 +291,120 @@ The implementation of `createLongLivedToken` is much simpler than `sendShortLive
 const createLongLivedToken = token => {
   try {
     const { id, email } = jsonwebtoken.verify(token, process.env.SECRET);
-    const longLivedToken = jsonwebtoken.sign({ id, email }, process.env.SECRET, { expiresIn: "30 days" });
+    const longLivedToken = jsonwebtoken.sign(
+      { id, email },
+      process.env.SECRET,
+      { expiresIn: "30 days" }
+    );
     return Promise.resolve(longLivedToken);
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     throw error;
   }
-}
+};
 ```
 
 Go ahead and configure your remixed project with your Ethereal account. Once you have setup everything, hop into GraphQL Playground by clicking the "Show" button and authenticate using your email (or any email actually, Ethereal intercepts all of them :D).
 
 ### 3.4 File organization
 
-* https://glitch.com/edit/#!/pinapp-files
+This section will teach you how to use `graphql-import` to organize Node.js GraphQL APIs by features. GraphQL import allows you to import and export type definitions in GraphQL SDL.
+
+Up to this point, all files in the sample repository are organized by role, but this approach does not scale well for large projects. Right now, resolvers are in `resolvers.js`, type definitions are in `schema.graphql` and all business logic is in `business-logic.js`. As the projects grows bigger and bigger, this three files will end up becoming too large and unmanageable.
+
+The project's current file structure looks like this:
+
+```bash
+.
+├── business-logic.js
+├── database.js
+├── email.js
+├── knexfile.js
+├── migrations
+├── package.json
+├── public
+├── queries
+├── README.md
+├── resolvers.js
+├── schema.graphql
+├── schema.js
+└── server.js
+```
+
+You are going to split `schema.graphql`, `resolvers.js` and `business-logic.js` into three features: `authentication`, `pins` and `search`. The final directory structure will be the following:
+
+```bash
+.
+├── authentication
+│   ├── index.js
+│   ├── resolvers.js
+│   └── schema.graphql
+├── database.js
+├── email.js
+├── knexfile.js
+├── migrations
+├── package.json
+├── pins
+│   ├── index.js
+│   ├── resolvers.js
+│   └── schema.graphql
+├── public
+├── queries.js
+├── README.md
+├── resolvers.js
+├── schema.graphql
+├── schema.js
+├── search
+│   ├── resolvers.js
+│   └── schema.graphql
+└── server.js
+```
+
+Remix the project if you want to see how the final version looks like.
+
+[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-files)
+
+The main entry point of the GraphQL schema will still be `schema.graphql`. The difference is that it will not contain any type definitions, it will import all types from the `schema.graphql` of every feature folder. The main schema will import the rest of the schemas using the `import` statement that `graphql-import` provides. Its syntax is `# import * from "module-name.graphql"`.
+
+```graphql
+# import * from "authentication/schema.graphql"
+# import * from "pins/schema.graphql"
+# import * from "search/schema.graphql"
+```
+
+This way of importing GraphQL SDL is possible because `schema.js` loads `schema.graphql` with the following snippet:
+
+```js
+const { importSchema } = require("graphql-import");
+
+const typeDefs = importSchema("schema.graphql");
+// ...
+```
+
+Similarly to the schema, the main entry point for all resolvers will remain the same. It will still be `resolvers.js`. NodeJS already provides a way to import and export files using `require`, so you don't need any additional library. Even though this file does not need any additional library to import modules, it uses a library to merge the resolvers it imports. You could use pure Javascript to achieve this, but `lodash.merge` is a nice way to merge many Javascript objects.
+
+```js
+const merge = require("lodash.merge");
+
+const searchResolvers = require("./search/resolvers.js");
+const authenticationResolvers = require("./authentication/resolvers.js");
+const pinsResolvers = require("./pins/resolvers.js");
+
+const resolvers = merge(
+  searchResolvers,
+  authenticationResolvers,
+  pinsResolvers
+);
+
+module.exports = resolvers;
+```
+
+To finish the file structure changes, split `business-logic.js`, `resolvers.js` and `schema.graphql`. Split `business-logic.js` into `authentication/index.js` and `pins/index.js`. Split `resolvers.js` into `authentication/resolvers.js`, `pins/resolvers.js` and `search/resolvers.js`. Finally split `schema.graphql` into the three new folders.
+
+That's it! Using a feature based file structure is a scalable way of organizing code. It may be overkill for small projects, but it pays off in big ones.
 
 ### 3.5 Summary
 
+You learned how to create a GraphQL API using Apollo Server. Starting from just a GraphQL schema, you learned how to wrap that schema with an HTTP layer using `ApolloServer`. You added a database layer using Knex, email based authentication with Nodemailer. In the last step, you organized your project by features using GraphQL Import.
+
+The next chapter will teach you how to create GraphQL clients using Apollo Client. You will learn how to implement a frontend in React that communicates with the GraphQL API you just created.
