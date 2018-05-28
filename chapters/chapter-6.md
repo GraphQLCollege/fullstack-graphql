@@ -1,6 +1,6 @@
 ## 6. Testing
 
-### 6.1 API Testing approaches
+### 6.1 API testing approaches
 
 This section will teach you how to test GraphQL APIs using two approaches. The first one tests that the HTTP layer works by mimicking a client by sending queries and mutations against a server. The second approach tests the GraphQL layer by sending queries and mutations directly against the app's schema. Both methods will use [Jest](http://facebook.github.io/jest/), a Javascript testing library.
 
@@ -41,7 +41,7 @@ describe("Data layer", () => {
 
 This approach is inspired by an awesome open source project called [Spectrum](https://spectrum.chat/). It has an extensive testing suite that uses Jest snapshots to test their GraphQL schema. Check out [Spectrum's github repository](https://github.com/withspectrum/spectrum/tree/e603e77bbb965bbbc7c678d9e9295e976c9381e0/api/test) to see this approach in a production codebase.
 
-### 6.3 API HTTP Layer
+### 6.3 HTTP Layer
 
 ### 6.4 Subscriptions endpoints
 
