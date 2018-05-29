@@ -1,6 +1,6 @@
 ## 5. Subscriptions
 
-![Subscriptions](../images/subscriptions.png)
+![Subscriptions](images/subscriptions.png)
 
 ### 5.1 Server side subscriptions
 

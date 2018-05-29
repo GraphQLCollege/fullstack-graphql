@@ -6,11 +6,11 @@ This section will teach you how to test GraphQL APIs using two approaches.
 
 The first one tests that the HTTP layer works by mimicking a client by sending queries and mutations against a server.
 
-![Testing GraphQL layer](../images/graphql-schema.png "Testing GraphQL layer")
+![Testing GraphQL layer](images/graphql-schema.png "Testing GraphQL layer")
 
 The second approach tests the GraphQL layer by sending queries and mutations directly against the app's schema. Both methods will use [Jest](http://facebook.github.io/jest/), a Javascript testing library.
 
-![Testing HTTP layer](../images/client-server.png "Testing HTTP layer")
+![Testing HTTP layer](images/client-server.png "Testing HTTP layer")
 
 Both methodologies have benefits. Testing the HTTP layer is a great way to verify that your API works from the point of view of HTTP clients, which are the end users of an API. The other approach, testing the GraphQL layer, is faster and simpler because it does not add any HTTP-related overhead.
 
@@ -18,7 +18,7 @@ Which one you choose depends on your use case. It is always a good idea to test 
 
 Create your own copy of the testing project by remixing it:
 
-[!["Remix image"](../images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-server-testing)
+[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-server-testing)
 
 ### 6.2 GraphQL layer
 

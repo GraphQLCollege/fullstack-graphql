@@ -10,7 +10,7 @@ Remember the Pinterest clone we talked about in the introduction? After learning
 
 GraphQL servers expose their schema in order to let clients know which queries and mutations are available. To define what a schema looks like, you need to define the types of all fields. To define how a schema behaves, you need to define a function that the server will run when a client asks for a field, this function is called resolver. A schema needs both type definitions and resolvers.
 
-![Types and resolvers](../images/types-resolvers.png)
+![Types and resolvers](images/types-resolvers.png)
 
 Because GraphQL is a specification implemented in many languages, it provides its own language to design schemas, called SDL. You write type definitions in SDL, but you can create resolvers in any language that implements the GraphQL specification. This book focuses on the Javascript GraphQL ecosystem, so you will write all resolvers in this language.
 
@@ -23,7 +23,7 @@ The schema you will create is more than just an example that illustrates how to 
 
 Make your own copy of this example with the following button:
 
-[!["Remix image"](../images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-schema)
+[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-schema)
 
 > After remixing, closely follow the instructions in `README.md`. This project's README instructs you to configure environment variables in `.env`.
 
