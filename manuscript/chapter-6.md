@@ -53,6 +53,9 @@ This approach is inspired by an awesome open source project called [Spectrum](ht
 
 * Learn how to test in React Apollo using Jest and Enzyme
   * https://glitch.com/edit/#!/pinapp-client-testing
+* Testing strategies
+  * Mocking individual query responses
+  * Using schema introspection and mocking that schema
 
 ## 6.6 Summary
 
