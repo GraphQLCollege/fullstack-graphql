@@ -1,6 +1,6 @@
 ## 4. GraphQL clients
 
-![Client](./client.png)
+![Client](../images/client.png)
 
 ### 4.1 Simple GraphQL client
 

@@ -2,11 +2,11 @@
 
 The most common way of exposing a GraphQL schema is with an HTTP server. Building GraphQL APIs is much more than just designing schemas. This chapter will teach you how to create robust, layered GraphQL APIs.
 
-![Server](./server.png)
+![Server](../images/server.png)
 
 You will learn how to expose GraphQL schemas using Apollo Server. How to connect your resolvers to a database. You will add email based authentication to your API. Finally you will learn how to organize your source code based on features.
 
-![Server layers](./server-layers.png)
+![Server layers](../images/server-layers.png)
 
 All stages in this chapter have a corresponding project, which you can remix to learn by practice.
 
@@ -16,7 +16,7 @@ Let's start by learning how to create an API using Apollo Server.
 
 Apollo Server is an open source, spec-compliant GraphQL server. It is a production-ready, easy to setup way of exposing GraphQL schemas, so HTTP clients can consume them.
 
-![HTTP](./http.png)
+![HTTP](../images/http.png)
 
 You already created a schema using `graphql-tools` in the previous chapter, so exposing it with Apollo Server is really straightforward.
 
@@ -34,11 +34,11 @@ server.listen().then(({ url }) => {
 
 That's really it! With just a call to `server.listen()` you have a live GraphQL API. Remix the following example project to create your own copy.
 
-[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-server)
+[!["Remix image"](../images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-server)
 
 Click the Show button, on the top left of the screen, to open a batteries included GraphQL client called [GraphQL Playground](https://github.com/prismagraphql/graphql-playground). It is more than just a GraphQL client, it almost feels like an IDE. It has query autocomplete, it has GraphQL schema documentation and it stores all your queries so you can reuse them later.
 
-![GraphQL Playground](./graphql-playground.png)
+![GraphQL Playground](../images/graphql-playground.png)
 
 Now that you have deployed your GraphQL API, it's time to add persistence using a database.
 
@@ -46,13 +46,13 @@ Now that you have deployed your GraphQL API, it's time to add persistence using 
 
 GraphQL APIs can be backed up by any data source. They can use SQL databases, NoSQL, in-memory databases or even use HTTP endpoints.
 
-![Database](./database.png)
+![Database](../images/database.png)
 
 In this chapter you will connect PinApp to a SQLite database using a database connector called [Knex](http://knexjs.org). Knex is a SQL query builder that can communicate with many SQL databases, like SQLite3, MySQL, Postgres and more.
 
 Remix the current iteration of PinApp so you can follow along the contents of this section with your own copy of the project.
 
-[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-database)
+[!["Remix image"](../images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-database)
 
 > Remember to follow the getting started instructions on the project's README
 
@@ -163,7 +163,7 @@ Teaching SQL is outside of the scope of this book, it needs a book on its own if
 
 A common question when building GraphQL APIs is "Where to put authentication and authorization?". Should it be in the GraphQL layer? Database layer? Business logic? Even though the answer depends on the context of what API you are building, a common way to solve this problem is to put authentication and authorization in the business layer. Putting auth related code in the business layer is [Facebook's approach](https://dev-blog.apollodata.com/graphql-at-facebook-by-dan-schafer-38d65ef075af).
 
-![Business Logic](./business-logic.png)
+![Business Logic](../images/business-logic.png)
 
 You can implement auth in several ways, that is entirely up to your needs. This section will teach you how to add email based authentication to PinApp.
 
@@ -199,7 +199,7 @@ type Mutation {
 
 Remix this project so you can follow the implementation of email based auth.
 
-[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-email-authentication)
+[!["Remix image"](../images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-email-authentication)
 
 Now let's analyze how the email-related resolvers look like.
 
@@ -362,7 +362,7 @@ You are going to split `schema.graphql`, `resolvers.js` and `business-logic.js` 
 
 Remix the project if you want to see how the final version looks like.
 
-[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-files)
+[!["Remix image"](../images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-files)
 
 The main entry point of the GraphQL schema will still be `schema.graphql`. The difference is that it will not contain any type definitions, it will import all types from the `schema.graphql` of every feature folder. The main schema will import the rest of the schemas using the `import` statement that `graphql-import` provides. Its syntax is `# import * from "module-name.graphql"`.
 

@@ -1,4 +1,4 @@
-![Cover](./cover.png)
+![Cover](../images/cover.png)
 
 # GraphQL Webapps
 

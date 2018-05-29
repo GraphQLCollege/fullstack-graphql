@@ -2,7 +2,7 @@
 
 In this chapter you will learn how to use GraphQL from a frontend developer's perspective. This chapter explains how to use queries and mutations to read and write data from GraphQL.
 
-![Queries and mutations](./graphql-schema.png)
+![Queries and mutations](../images/graphql-schema.png)
 
 As you continue to learn the ins and outs of GraphQL, you will realize that it is a technology that makes life much easier for frontend developers. It gives them complete control of the data that they want from the server.
 
@@ -52,7 +52,7 @@ graphql(schema, query).then(result =>
 
 Remix this example on glitch to run all the queries in this chapter. Remixing means creating your own copy of a project. This will give you complete freedom over the project. You can modify it at will, run scripts using a console, and even export it to github.
 
-[!["Remix image"](./remix.png)](https://glitch.com/edit/#!/remix/pinapp-queries-mutations)
+[!["Remix image"](../images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-queries-mutations)
 
 Once you have remixed this project, you can run any of the scripts in the `queries` folder. Try it out by opening the URL of your remixed project. After you open it, open its console by clicking "Logs" and then "Console". Run `node queries/1-query.js` to see the output of the first script.
 
