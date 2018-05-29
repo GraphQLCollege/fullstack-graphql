@@ -1,7 +1,7 @@
 {
-  "name": "graphql-webapps",
+  "name": "fullstack-graphql",
   "description": "Book about fullstack GraphQL development with React and Node",
-  "homepage": "http://graphql.college/graphql-webapps",
+  "homepage": "http://graphql.college/fullstack-graphql",
   "author": {
     "email": "mayorga.julian@gmail.com",
     "name": "Julian Mayorga"

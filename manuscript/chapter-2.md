@@ -329,8 +329,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "addPin": {
       "id": "f5220ee1-bfeb-48a0-be9f-c63d055b8139",
       "title": "Hello world",
-      "link": "http://graphql.college/graphql-webapps",
-      "image": "http://graphql.college/graphql-webapps",
+      "link": "http://graphql.college/fullstack-graphql",
+      "image": "http://graphql.college/fullstack-graphql",
       "user_id": "75c16079-b3ef-43f0-a352-ae03f2488baa"
     }
   }
