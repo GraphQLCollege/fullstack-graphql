@@ -1,6 +1,6 @@
-## 6. Testing
+# 6. Testing
 
-### 6.1 API testing approaches
+## 6.1 API testing approaches
 
 This section will teach you how to test GraphQL APIs using two approaches.
 
@@ -20,7 +20,7 @@ Create your own copy of the testing project by remixing it:
 
 [!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-server-testing)
 
-### 6.2 GraphQL layer
+## 6.2 GraphQL layer
 
 Testing the data layer is as simple as using the `graphql` function from `graphql-js` against your schema. You will recognize this pattern, because it is the approach you used to learn queries and mutations in Chapter 1.
 
@@ -45,14 +45,14 @@ describe("Data layer", () => {
 
 This approach is inspired by an awesome open source project called [Spectrum](https://spectrum.chat/). It has an extensive testing suite that uses Jest snapshots to test their GraphQL schema. Check out [Spectrum's github repository](https://github.com/withspectrum/spectrum/tree/e603e77bbb965bbbc7c678d9e9295e976c9381e0/api/test) to see this approach in a production codebase.
 
-### 6.3 HTTP Layer
+## 6.3 HTTP Layer
 
-### 6.4 Subscriptions endpoints
+## 6.4 Subscriptions endpoints
 
-### 6.5 Apollo GraphQL clients
+## 6.5 Apollo GraphQL clients
 
 * Learn how to test in React Apollo using Jest and Enzyme
   * https://glitch.com/edit/#!/pinapp-client-testing
 
-### 6.6 Summary
+## 6.6 Summary
 

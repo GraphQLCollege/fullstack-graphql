@@ -1,8 +1,4 @@
-![Cover](images/cover.png)
-
-# GraphQL Webapps
-
-## PREFACE
+# PREFACE
 
 GraphQL is revolutionizing client-server communication. It is a technology that enables better documented APIs, easier data management in HTTP clients, and optimized network usage.
 
@@ -12,7 +8,7 @@ It empowers clients by giving them complete data fetching control. GraphQL lets 
 
 Another benefit of GraphQL is that it optimizes network usage by reducing HTTP payloads and number of requests. Reducing data and requests directly maps to a better experience for mobile users.
 
-### So, what is GraphQL?
+## So, what is GraphQL?
 
 GraphQL is a domain specific typed language to design and query data.
 
@@ -28,7 +24,7 @@ Even though services generally expose GraphQL through their HTTP layer, GraphQL 
 
 GraphQL is a specification. This means that it specifies how it should work, allowing anyone to implement GraphQL in any programming language. There is an official implementation in Javascript called `graphql-js`, but there are also many other incarnations in other programming languages like Ruby, Elixir and more.
 
-### Organization of the book
+## Organization of the book
 
 With this book you will learn how to develop a complete GraphQL client-server application from scratch. You will learn how to fetch data from the client, how to design that data in the server, how to develop NodeJS GraphQL servers and finally how to create React GraphQL clients.
 
@@ -44,7 +40,7 @@ The fifth chapter will teach you how to add real time functionality to your Grap
 
 You will learn how to test GraphQL APIs and clients in the sixth chapter.
 
-### Sample application
+## Sample application
 
 Through the course of this book you will learn how to build a Pinterest clone called Pinapp using GraphQL, NodeJS, React and Apollo client.
 
@@ -59,9 +55,7 @@ Pinapp should allow users to:
 
 You will build this application in layers. First you will design the data layer, then write the business logic, after that create HTTP transport layer, then connect everything to the database layer and finally build the HTTP client.
 
-### Development environment
+## Development environment
 
 There are no environment requirements to try the examples in this book, other than having a web browser and internet connection. Every step of the application has a live, editable online version hosted at glitch.com. Glitch is an awesome community to build apps created by the folks that developed Stack Overflow and Trello.
-
-## Table of Contents
 

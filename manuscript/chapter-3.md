@@ -1,4 +1,4 @@
-## 3. GraphQL APIs
+# 3. GraphQL APIs
 
 The most common way of exposing a GraphQL schema is with an HTTP server. Building GraphQL APIs is much more than just designing schemas. This chapter will teach you how to create robust, layered GraphQL APIs.
 
@@ -12,7 +12,7 @@ All stages in this chapter have a corresponding project, which you can remix to 
 
 Let's start by learning how to create an API using Apollo Server.
 
-### 3.1 Server
+## 3.1 Server
 
 Apollo Server is an open source, spec-compliant GraphQL server. It is a production-ready, easy to setup way of exposing GraphQL schemas, so HTTP clients can consume them.
 
@@ -42,7 +42,7 @@ Click the Show button, on the top left of the screen, to open a batteries includ
 
 Now that you have deployed your GraphQL API, it's time to add persistence using a database.
 
-### 3.2 Database
+## 3.2 Database
 
 GraphQL APIs can be backed up by any data source. They can use SQL databases, NoSQL, in-memory databases or even use HTTP endpoints.
 
@@ -159,7 +159,7 @@ Running `npm run setup-db` will apply all database migrations. This script is de
 
 Teaching SQL is outside of the scope of this book, it needs a book on its own if you want to properly learn it. Knex does a great job at interacting with SQL databases for Javascript users, and it has great [documentation](http://knexjs.org). Refer to it if you want to learn more about it.
 
-### 3.3 Authentication
+## 3.3 Authentication
 
 A common question when building GraphQL APIs is "Where to put authentication and authorization?". Should it be in the GraphQL layer? Database layer? Business logic? Even though the answer depends on the context of what API you are building, a common way to solve this problem is to put authentication and authorization in the business layer. Putting auth related code in the business layer is [Facebook's approach](https://dev-blog.apollodata.com/graphql-at-facebook-by-dan-schafer-38d65ef075af).
 
@@ -306,7 +306,7 @@ const createLongLivedToken = token => {
 
 Go ahead and configure your remixed project with your Ethereal account. Once you have setup everything, hop into GraphQL Playground by clicking the "Show" button and authenticate using your email (or any email actually, Ethereal intercepts all of them :D).
 
-### 3.4 File organization
+## 3.4 File organization
 
 This section will teach you how to use `graphql-import` to organize Node.js GraphQL APIs by features. GraphQL import allows you to import and export type definitions in GraphQL SDL.
 
@@ -403,7 +403,7 @@ To finish the file structure changes, split `business-logic.js`, `resolvers.js` 
 
 That's it! Using a feature based file structure is a scalable way of organizing code. It may be overkill for small projects, but it pays off in big ones.
 
-### 3.5 Summary
+## 3.5 Summary
 
 You learned how to create a GraphQL API using Apollo Server. Starting from just a GraphQL schema, you learned how to wrap that schema with an HTTP layer using `ApolloServer`. You added a database layer using Knex, email based authentication with Nodemailer. In the last step, you organized your project by features using GraphQL Import.
 

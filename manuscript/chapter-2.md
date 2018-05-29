@@ -1,4 +1,4 @@
-## 2. Data modeling
+# 2. Data modeling
 
 In the previous chapter you learned how to read and write data by sending queries against a schema using the GraphQL query language. In this chapter you will learn how to model the data behind the queries using schemas and types. To create this schema you will use the GraphQL Schema Definition Language (also called SDL, not to be confused with LSD).
 
@@ -6,7 +6,7 @@ Whereas the previous chapter focused on how clients interact with servers using 
 
 Remember the Pinterest clone we talked about in the introduction? After learning the concepts behind GraphQL schemas and types, you will design its data model at the end of this chapter.
 
-### 2.1 Schema, types and resolvers
+## 2.1 Schema, types and resolvers
 
 GraphQL servers expose their schema in order to let clients know which queries and mutations are available. To define what a schema looks like, you need to define the types of all fields. To define how a schema behaves, you need to define a function that the server will run when a client asks for a field, this function is called resolver. A schema needs both type definitions and resolvers.
 
@@ -31,7 +31,7 @@ Note that this schema is not exposed over HTTP. It is accessible with scripts us
 
 In the next section you will understand how to create schemas using a function called `makeExecutableSchema`.
 
-### 2.2 Schemas
+## 2.2 Schemas
 
 You create schemas by combining type definitions and resolvers. There is a handy package called [`graphql-tools`](https://github.com/apollographql/graphql-tools) that provides a function called `makeExecutableSchema`. The previous chapter contained a lot of `graphql(query, schema)` calls. All of those examples sent queries agains a schema generated with `makeExecutableSchema`.
 
@@ -54,7 +54,7 @@ module.exports = schema;
 
 As you can see, this file created a schema with types from `schema.graphql` and resolvers from `resolvers.js`. The next two sections will teach you how to create these type definitions and resolvers.
 
-### 2.3 Type definitions
+## 2.3 Type definitions
 
 In this section you will learn how to write GraphQL types using SDL. A type is just a representation of an object in your schema. Objects, as in many other programming languages, can have many fields.
 
@@ -225,7 +225,7 @@ type Mutation {
 
 As you learned in the previous section, a schema is comprised of type definitions and resolvers. Now that you know how type definitions look like, it's time to learn about resolvers.
 
-### 2.4 Resolvers
+## 2.4 Resolvers
 
 Resolvers are the functions that run every time a query requests a field. When a GraphQL implementation receives a query, it runs the resolver for each field. If the resolver returns an `Object` field, then GraphQL runs that field's resolver function. When all resolvers return scalars, the chain ends and the query receives its final JSON result.
 
@@ -339,7 +339,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 Feel free to learn by modifying the different resolver functions and seeing how that changes the final result. You can also create different queries, now that you know what queries and mutations your schema exposes.
 
-### 2.5 Summary
+## 2.5 Summary
 
 You learned how to create GraphQL schemas. You wrote type definitions using SDL, and resolvers using Javascript. The schema you created in this chapter is accessible by scripts using `graphql-js`.
 

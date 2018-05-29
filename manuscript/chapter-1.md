@@ -1,4 +1,4 @@
-## 1. Reading and writing data
+# 1. Reading and writing data
 
 In this chapter you will learn how to use GraphQL from a frontend developer's perspective. This chapter explains how to use queries and mutations to read and write data from GraphQL.
 
@@ -8,7 +8,7 @@ As you continue to learn the ins and outs of GraphQL, you will realize that it i
 
 Making life easier for clients has been one of the main goals for the team that created GraphQL. The evolution of the language has been the result of [Client-Driven development](https://youtu.be/vQkGO5q52uE).
 
-### 1.1 Queries and Mutations
+## 1.1 Queries and Mutations
 
 In its simplest form, GraphQL is all about asking for specific fields of objects.
 
@@ -58,7 +58,7 @@ Once you have remixed this project, you can run any of the scripts in the `queri
 
 You have everything you need to start learning GraphQL query syntax. Let's start by sending basic queries.
 
-### 1.2 Query
+## 1.2 Query
 
 As we said at the start of this chapter, GraphQL is all about asking for specific fields of objects. A query defines which fields the GraphQL JSON response will have. The syntax for achieving this looks similar to writing a JSON object with just the keys, excluding the values. For example, if you wanted to get a list of users, each one with an email field, you could write the following query:
 
@@ -110,7 +110,7 @@ $ node queries/1-query.js
 }
 ```
 
-### 1.3 Nested Fields
+## 1.3 Nested Fields
 
 You can query nested fields using GraphQL. One of the great advantages of GraphQL over REST is fetching nested resources in a single query. You can ask for a resource, for example users, and a list of nested resources, for example pins, in a single query. In order to do that with REST, you would have to get users and pins in separate HTTP requests.
 
@@ -171,7 +171,7 @@ $ node queries/2-fields.js
 }
 ```
 
-### 1.4 Multiple fields
+## 1.4 Multiple fields
 
 GraphQL allows you to query for multiple fields in a single query. You saw in the previous example that you can query nested resources, well you can also query for totally unrelated resources in the same operation.
 
@@ -222,7 +222,7 @@ $ node queries/3-multiple-fields.js
 }
 ```
 
-### 1.5 Operation name
+## 1.5 Operation name
 
 Up until this point, you were using the short hand syntax of GraphQL queries, but there is also a longer syntax that gives you more options. The longer syntax includes the `query` keyword, and the operation name. Many times you will need to use this syntax because it allows you to specify variables, or use different operations like mutations or subscriptions, which we will cover in the rest of the book.
 
@@ -283,7 +283,7 @@ $ node queries/4-operation-name.js
 }
 ```
 
-### 1.6 Arguments
+## 1.6 Arguments
 
 All fields can have arguments, which you can use the same way you would use function arguments. You could think of GraphQL fields as functions, more so than properties. Picturing them as functions provides a clearer picture regarding what you can do by passing arguments to them.
 
@@ -320,7 +320,7 @@ $ node queries/5-arguments.js
 }
 ```
 
-### 1.7 Aliases
+## 1.7 Aliases
 
 What happens if you want to query the same field twice in a single query? Well you can achieve that using aliases. Aliases let you associate a name to a field, so that the response will have the alias you specified instead of the key name.
 
@@ -365,7 +365,7 @@ $ node queries/6-aliases.js
 }
 ```
 
-### 1.8 Fragments
+## 1.8 Fragments
 
 GraphQL syntax provides a way to reuse a set of fields with the `fragment` keyword. This is a language designed for querying fields, so it seems natural to have a way to reuse fields in different parts of the query.
 
@@ -444,7 +444,7 @@ $ node queries/7-fragments.js
 }
 ```
 
-### 1.9 Variables
+## 1.9 Variables
 
 Just like fragments lets you reuse field sets, variables let you reuse queries. Using variables you can specify which parts of the query are configurable, so that you can use the query multiple times by changing the variable values. Using variables you can construct dynamic queries.
 
@@ -485,7 +485,7 @@ $ node queries/8-variables.js
 }
 ```
 
-### 1.10 Directives
+## 1.10 Directives
 
 Just as variables let you create dynamic queries by changing arguments, directives allow you to construct dynamic queries that modify the structure and shape of their result.
 
@@ -550,7 +550,7 @@ $ node queries/9-directives.js
 }
 ```
 
-### 1.11 Default variables
+## 1.11 Default variables
 
 GraphQL syntax lets you define default values to variables. You can achieve this by adding an equals sign (=) after the variable's type.
 
@@ -611,7 +611,7 @@ $ node queries/10-default-variables.js
 }
 ```
 
-### 1.12 Inline fragments
+## 1.12 Inline fragments
 
 Inline fragments provide a way to specify a list of fields inline. As opposed to regular fragments, which must be defined using the `fragment` keyword, inline fragments don't need to be defined anywhere.
 
@@ -660,7 +660,7 @@ $ node queries/11-inline-fragments.js
 }
 ```
 
-### 1.13 Meta fields
+## 1.13 Meta fields
 
 Queries can request meta fields, which are special fields that contain information about a schema.
 
@@ -714,7 +714,7 @@ $ node queries/12-meta-fields.js
 }
 ```
 
-### 1.14 Mutations
+## 1.14 Mutations
 
 GraphQL syntax provides a way to create data with the `mutation` keyword. It works similarly to the `query` keyword. It supports variables, you can ask for specific fields in the response, and all the other features that we have talked about. As opposed to queries, mutations don't have shorthand forms, this means that they always start with the `mutation` keyword.
 
@@ -767,7 +767,7 @@ $ node queries/13-mutations.js
 
 If you query the list of pins after your last mutation, you will notice that this last mutation did not generate any data. This happens because the queries in this chapter go against a mocked schema.
 
-### 1.15 Summary
+## 1.15 Summary
 
 GraphQL makes frontend development easier by providing powerful querying capabilities. It makes it easy to fetch for multiple, nested resources in a single query. Fetching the minimal set of fields needed from a resource is also a built-in feature.
 
