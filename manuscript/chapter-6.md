@@ -18,7 +18,7 @@ Which one you choose depends on your use case. It is always a good idea to test 
 
 Create your own copy of the testing project by remixing it:
 
-[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-server-testing)
+[Remix server testing example](https://glitch.com/edit/#!/remix/pinapp-server-testing)
 
 ## 6.2 GraphQL layer
 

@@ -23,7 +23,7 @@ The schema you will create is more than just an example that illustrates how to 
 
 Make your own copy of this example with the following button:
 
-[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-schema)
+[Remix schema example](https://glitch.com/edit/#!/remix/pinapp-schema)
 
 > After remixing, closely follow the instructions in `README.md`. This project's README instructs you to configure environment variables in `.env`.
 

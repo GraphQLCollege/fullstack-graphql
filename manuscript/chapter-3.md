@@ -34,7 +34,7 @@ server.listen().then(({ url }) => {
 
 That's really it! With just a call to `server.listen()` you have a live GraphQL API. Remix the following example project to create your own copy.
 
-[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-server)
+[Remix server example](https://glitch.com/edit/#!/remix/pinapp-server)
 
 Click the Show button, on the top left of the screen, to open a batteries included GraphQL client called [GraphQL Playground](https://github.com/prismagraphql/graphql-playground). It is more than just a GraphQL client, it almost feels like an IDE. It has query autocomplete, it has GraphQL schema documentation and it stores all your queries so you can reuse them later.
 
@@ -52,7 +52,7 @@ In this chapter you will connect PinApp to a SQLite database using a database co
 
 Remix the current iteration of PinApp so you can follow along the contents of this section with your own copy of the project.
 
-[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-database)
+[Remix database example](https://glitch.com/edit/#!/remix/pinapp-database)
 
 > Remember to follow the getting started instructions on the project's README
 
@@ -199,7 +199,7 @@ type Mutation {
 
 Remix this project so you can follow the implementation of email based auth.
 
-[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-email-authentication)
+[Remix email authentication example](https://glitch.com/edit/#!/remix/pinapp-email-authentication)
 
 Now let's analyze how the email-related resolvers look like.
 
@@ -362,7 +362,7 @@ You are going to split `schema.graphql`, `resolvers.js` and `business-logic.js` 
 
 Remix the project if you want to see how the final version looks like.
 
-[!["Remix image"](images/remix.png)](https://glitch.com/edit/#!/remix/pinapp-files)
+[Remix file organization example](https://glitch.com/edit/#!/remix/pinapp-files)
 
 The main entry point of the GraphQL schema will still be `schema.graphql`. The difference is that it will not contain any type definitions, it will import all types from the `schema.graphql` of every feature folder. The main schema will import the rest of the schemas using the `import` statement that `graphql-import` provides. Its syntax is `# import * from "module-name.graphql"`.
 
