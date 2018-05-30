@@ -314,51 +314,11 @@ Up to this point, all files in the sample repository are organized by role, but 
 
 The project's current file structure looks like this:
 
-```bash
-.
-├── business-logic.js
-├── database.js
-├── email.js
-├── knexfile.js
-├── migrations
-├── package.json
-├── public
-├── queries
-├── README.md
-├── resolvers.js
-├── schema.graphql
-├── schema.js
-└── server.js
-```
+![File structure before](images/file-structure-before.png)
 
 You are going to split `schema.graphql`, `resolvers.js` and `business-logic.js` into three features: `authentication`, `pins` and `search`. The final directory structure will be the following:
 
-```bash
-.
-├── authentication
-│   ├── index.js
-│   ├── resolvers.js
-│   └── schema.graphql
-├── database.js
-├── email.js
-├── knexfile.js
-├── migrations
-├── package.json
-├── pins
-│   ├── index.js
-│   ├── resolvers.js
-│   └── schema.graphql
-├── public
-├── queries.js
-├── README.md
-├── resolvers.js
-├── schema.graphql
-├── schema.js
-├── search
-│   ├── resolvers.js
-│   └── schema.graphql
-└── server.js
-```
+![File structure after](images/file-structure-after.png)
 
 Remix the project if you want to see how the final version looks like.
 
