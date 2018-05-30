@@ -314,11 +314,11 @@ Up to this point, all files in the sample repository are organized by role, but 
 
 The project's current file structure looks like this:
 
-![Current file structure](images/file-structure-before.png)
+![Current file structure](images/current-file-structure.png)
 
 You are going to split `schema.graphql`, `resolvers.js` and `business-logic.js` into three features: `authentication`, `pins` and `search`. The final directory structure will be the following:
 
-![Final file structure](images/file-structure-after.png)
+![Final file structure](images/final-file-structure.png)
 
 Remix the project if you want to see how the final version looks like.
 
