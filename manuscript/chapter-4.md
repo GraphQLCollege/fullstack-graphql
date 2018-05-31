@@ -536,3 +536,4 @@ export default class App extends React.Component {
 You created a version of PinApp using only local state, learned how to use Apollo Client and React Apollo to connect this app with a GraphQL API. You achieved this using React Apollo's `Query` and `Mutation` to easily send queries and mutations.
 
 The next chapter will teach you how to add real time functionality to apps using GraphQL Subscriptions, which let GraphQL APIs push data to clients.
+

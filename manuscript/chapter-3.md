@@ -368,3 +368,4 @@ That's it! Using a feature based file structure is a scalable way of organizing 
 You learned how to create a GraphQL API using Apollo Server. Starting from just a GraphQL schema, you learned how to wrap that schema with an HTTP layer using `ApolloServer`. You added a database layer using Knex, email based authentication with Nodemailer. In the last step, you organized your project by features using GraphQL Import.
 
 The next chapter will teach you how to create GraphQL clients using Apollo Client. You will learn how to implement a frontend in React that communicates with the GraphQL API you just created.
+
