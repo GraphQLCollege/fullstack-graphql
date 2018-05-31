@@ -114,7 +114,9 @@ pubsub.publish("pinAdded", { pinAdded: createdPin });
 This is what the new Subscription resolver from `pins/resolvers.js` looks like:
 
 ```js
-const { PostgresPubSub } = require("graphql-postgres-subscriptions");
+const {
+  PostgresPubSub
+} = require("graphql-postgres-subscriptions");
 
 const { addPin } = require("./index");
 const { verify, authorize } = require("../authentication");
@@ -130,7 +132,10 @@ const resolvers = {
   Mutation: {
     addPin: async (_, { pin }, { token, database }) => {
       const [user] = await authorize(database, token);
-      const { user: updatedUser, pin: createdPin } = await addPin(user, pin);
+      const {
+        user: updatedUser,
+        pin: createdPin
+      } = await addPin(user, pin);
       await database("pins").insert(createdPin);
       pubsub.publish("pinAdded", { pinAdded: createdPin });
       return createdPin;
@@ -229,7 +234,9 @@ const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
   request: operation => {
     if (this.state.token) {
-      operation.setContext({ headers: { Authorization: this.state.token } });
+      operation.setContext({
+        headers: { Authorization: this.state.token }
+      });
     }
   }
 });
@@ -276,7 +283,8 @@ onError(({ graphQLErrors, networkError }) => {
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
     );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkError)
+    console.log(`[Network error]: ${networkError}`);
 });
 ```
 
@@ -348,7 +356,8 @@ const client = new ApolloClient({
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
           )
         );
-      if (networkError) console.log(`[Network error]: ${networkError}`);
+      if (networkError)
+        console.log(`[Network error]: ${networkError}`);
     }),
     // Enable dynamic request interceptors
     new ApolloLink((operation, forward) => {
@@ -399,9 +408,9 @@ The first step is adding to Apollo Client the ability to determine whether an op
 Replace the third element of the `ApolloLink.from` array in `src/App.js` with a `split` call that redirects subscriptions to `WebSocketLink`:
 
 ```js
-import { ApolloLink, Observable, split } from 'apollo-link';
+import { ApolloLink, Observable, split } from "apollo-link";
 import { WebSocketLink } from "apollo-link-ws";
-import { getMainDefinition } from 'apollo-utilities';
+import { getMainDefinition } from "apollo-utilities";
 
 // ...
 
@@ -412,18 +421,26 @@ const client = new ApolloClient({
     split(
       // split based on operation type
       ({ query }) => {
-        const { kind, operation } = getMainDefinition(query);
-        return kind === 'OperationDefinition' && operation === 'subscription';
+        const { kind, operation } = getMainDefinition(
+          query
+        );
+        return (
+          kind === "OperationDefinition" &&
+          operation === "subscription"
+        );
       },
       new WebSocketLink({
-        uri: process.env.REACT_APP_API_URL.replace("https://", "wss://"),
+        uri: process.env.REACT_APP_API_URL.replace(
+          "https://",
+          "wss://"
+        ),
         options: {
           reconnect: true
         }
       }),
       new HttpLink({
         uri: process.env.REACT_APP_API_URL,
-        credentials: 'same-origin'
+        credentials: "same-origin"
       })
     )
   ]),
@@ -466,9 +483,14 @@ You will create a new component that will send it the `subscribeToMore` function
 
 ```js
 export default () => (
-  <PinListQuery>{({ pins, subscribeToMore }) =>
-    <PinListPageContainer pins={pins} subscribeToMore={subscribeToMore} />
-  }</PinListQuery>
+  <PinListQuery>
+    {({ pins, subscribeToMore }) => (
+      <PinListPageContainer
+        pins={pins}
+        subscribeToMore={subscribeToMore}
+      />
+    )}
+  </PinListQuery>
 );
 ```
 
@@ -484,30 +506,44 @@ You are going to create a function that checks whether the new data contains a `
 class PinListQuery extends React.Component {
   render() {
     return (
-      <Query query={LIST_PINS}>{({ loading, error, data, subscribeToMore }) => {
-        if (loading) {
-          return <Spinner accessibilityLabel="Loading pins" show />;
-        }
-        if (error) {
-          return <div>Error</div>;
-        }
-        const subscribeToMorePins = () => {
-          return subscribeToMore({
-            document: PINS_SUBSCRIPTION,
-            updateQuery: (prev, { subscriptionData }) => {
-              if (!subscriptionData.data || !subscriptionData.data.pinAdded) {
-                return prev;
-              }
-              const newPinAdded = subscriptionData.data.pinAdded;
+      <Query query={LIST_PINS}>
+        {({ loading, error, data, subscribeToMore }) => {
+          if (loading) {
+            return (
+              <Spinner
+                accessibilityLabel="Loading pins"
+                show
+              />
+            );
+          }
+          if (error) {
+            return <div>Error</div>;
+          }
+          const subscribeToMorePins = () => {
+            return subscribeToMore({
+              document: PINS_SUBSCRIPTION,
+              updateQuery: (prev, { subscriptionData }) => {
+                if (
+                  !subscriptionData.data ||
+                  !subscriptionData.data.pinAdded
+                ) {
+                  return prev;
+                }
+                const newPinAdded =
+                  subscriptionData.data.pinAdded;
 
-              return Object.assign({}, prev, {
-                pins: [...prev.pins, newPinAdded]
-              });
-            }
+                return Object.assign({}, prev, {
+                  pins: [...prev.pins, newPinAdded]
+                });
+              }
+            });
+          };
+          return this.props.children({
+            pins: data.pins,
+            subscribeToMore: subscribeToMorePins
           });
-        };
-        return this.props.children({ pins: data.pins, subscribeToMore: subscribeToMorePins });
-      }}</Query>
+        }}
+      </Query>
     );
   }
 }

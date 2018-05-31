@@ -235,7 +235,7 @@ You can organize resolvers in any way you want, depending on your needs. The exa
 
 This is what `resolvers.js` looks like:
 
-```graphql
+```js
 const {
   addPin,
   createShortLivedToken,
@@ -255,33 +255,42 @@ const resolvers = {
     users: () => Object.values(database.users),
     search: (_, { text }) => {
       return [
-        ...Object.values(database.pins).filter(pin => pin.title.includes(text)),
-        ...Object.values(database.users).filter(user => user.email.includes(text))
-      ]
+        ...Object.values(database.pins).filter(pin =>
+          pin.title.includes(text)
+        ),
+        ...Object.values(database.users).filter(user =>
+          user.email.includes(text)
+        )
+      ];
     }
   },
   Mutation: {
     addPin: async (_, { pin }, { user }) => {
-      const { user: updatedUser, pin: createdPin } = await addPin(user, pin);
+      const {
+        user: updatedUser,
+        pin: createdPin
+      } = await addPin(user, pin);
       database.pins[createdPin.id] = createdPin;
       database.users[user.id] = updatedUser;
       return createdPin;
     },
     sendShortLivedToken: (_, { email }) => {
       let user;
-      const userExists = Object.values(database.users).find(u => u.email === user.email);
+      const userExists = Object.values(database.users).find(
+        u => u.email === user.email
+      );
       if (userExists) {
         user = userExists;
       } else {
         user = createUser(email);
         database.users[user.id] = user;
       }
-      const token= createShortLivedToken(user);
+      const token = createShortLivedToken(user);
       return sendShortLivedToken(email, token);
     },
     createLongLivedToken: (_, { token }) => {
       return createLongLivedToken(token);
-    },
+    }
   },
   Person: {
     __resolveType: person => {
@@ -293,7 +302,9 @@ const resolvers = {
   },
   User: {
     pins({ id }) {
-      return Object.values(database.pins).filter(pin => pin.user_id === id);
+      return Object.values(database.pins).filter(
+        pin => pin.user_id === id
+      );
     }
   },
   SearchResult: {

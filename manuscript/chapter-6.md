@@ -35,10 +35,11 @@ describe("Data layer", () => {
   });
   afterAll(() => database.destroy());
   it("should search pins by title", () => {
-    return graphql(schema, search, undefined, undefined, { text: "First" })
-      .then(result => {
-        expect(result.data.search).toMatchSnapshot();
-      });
+    return graphql(schema, search, undefined, undefined, {
+      text: "First"
+    }).then(result => {
+      expect(result.data.search).toMatchSnapshot();
+    });
   });
 });
 ```

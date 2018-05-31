@@ -228,9 +228,13 @@ The first one creates a token using the `jsonwebtoken` NPM package's [`sign`](ht
 
 ```js
 const createShortLivedToken = ({ email, id }) => {
-  return jsonwebtoken.sign({ id, email }, process.env.SECRET, {
-    expiresIn: "5m"
-  });
+  return jsonwebtoken.sign(
+    { id, email },
+    process.env.SECRET,
+    {
+      expiresIn: "5m"
+    }
+  );
 };
 ```
 
@@ -290,7 +294,10 @@ The implementation of `createLongLivedToken` is much simpler than `sendShortLive
 ```js
 const createLongLivedToken = token => {
   try {
-    const { id, email } = jsonwebtoken.verify(token, process.env.SECRET);
+    const { id, email } = jsonwebtoken.verify(
+      token,
+      process.env.SECRET
+    );
     const longLivedToken = jsonwebtoken.sign(
       { id, email },
       process.env.SECRET,

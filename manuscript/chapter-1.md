@@ -469,7 +469,9 @@ const query = `
 
 graphql(schema, query, undefined, undefined, {
   id: "1"
-}).then(result => console.log(JSON.stringify(result, null, 1)));
+}).then(result =>
+  console.log(JSON.stringify(result, null, 1))
+);
 ```
 
 The result of running `node queries/8-variables.js` is pretty straightforward.
@@ -513,7 +515,9 @@ const query = `
 
 graphql(schema, query, undefined, undefined, {
   withPins: true
-}).then(result => console.log(JSON.stringify(result, null, 1)));
+}).then(result =>
+  console.log(JSON.stringify(result, null, 1))
+);
 ```
 
 Go ahead and run the previous example with `node queries/9-directives.js`. Change `withPins` to false and see how the result's structure changes.
@@ -639,7 +643,9 @@ const query = `
 
 graphql(schema, query, undefined, undefined, {
   text: "Hello world"
-}).then(result => console.log(JSON.stringify(result, null, 1)));
+}).then(result =>
+  console.log(JSON.stringify(result, null, 1))
+);
 ```
 
 Run the previous example with `node queries/11-inline-fragments.js`.
@@ -691,7 +697,9 @@ const query = `
 
 graphql(schema, query, undefined, undefined, {
   text: "Hello world"
-}).then(result => console.log(JSON.stringify(result, null, 1)));
+}).then(result =>
+  console.log(JSON.stringify(result, null, 1))
+);
 ```
 
 Run the previous script by entering `node queries/12-meta-fields.js` into the console. You will see that the response contains a `__typename` field in each object.
@@ -746,7 +754,9 @@ graphql(schema, query, undefined, undefined, {
     link: "Hello world",
     image: "Hello world"
   }
-}).then(result => console.log(JSON.stringify(result, null, 1)));
+}).then(result =>
+  console.log(JSON.stringify(result, null, 1))
+);
 ```
 
 Run this mutation example by entering `node queries/13-mutations.js` in the console. Remember that our schema works with mocked data, it does not have a real implementation underneath, so don't expect any data changes caused by this mutation.

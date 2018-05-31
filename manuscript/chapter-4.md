@@ -83,7 +83,9 @@ import {
 export default class App extends React.Component {
   state = { pins: [], authenticated: false, user: null };
   addPin = pin => {
-    this.setState(({ pins }) => ({ pins: pins.concat([pin]) }));
+    this.setState(({ pins }) => ({
+      pins: pins.concat([pin])
+    }));
   };
   verify = () => {
     return success().then(token =>
@@ -222,15 +224,22 @@ import { LIST_PINS } from "./queries";
 class PinListPageContainer extends React.Component {
   render() {
     return (
-      <Query query={LIST_PINS}>{({ loading, error, data }) => {
-        if (loading) {
-          return <Spinner accessibilityLabel="Loading pins" show />;
-        }
-        if (error) {
-          return <div>Error</div>;
-        }
-        return <PinListPage pins={data.pins} />
-      }}</Query>
+      <Query query={LIST_PINS}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return (
+              <Spinner
+                accessibilityLabel="Loading pins"
+                show
+              />
+            );
+          }
+          if (error) {
+            return <div>Error</div>;
+          }
+          return <PinListPage pins={data.pins} />;
+        }}
+      </Query>
     );
   }
 }
@@ -244,45 +253,45 @@ You may have noticed that `PinListPage.js` references `LIST_PINS` from `queries`
 import gql from "graphql-tag";
 
 export const ADD_PIN = gql`
-mutation AddPin($pin: PinInput!) {
-  addPin(pin: $pin) {
-    title
-    link
-    image
+  mutation AddPin($pin: PinInput!) {
+    addPin(pin: $pin) {
+      title
+      link
+      image
+    }
   }
-}
 `;
 
 export const LIST_PINS = gql`
-{
-  pins {
-    id
-    title
-    link
-    image
-    user_id
+  {
+    pins {
+      id
+      title
+      link
+      image
+      user_id
+    }
   }
-}
 `;
 
 export const CREATE_LONG_LIVED_TOKEN = gql`
-mutation CreateLongLivedToken($token: String!) {
-  createLongLivedToken(token: $token)
-}
+  mutation CreateLongLivedToken($token: String!) {
+    createLongLivedToken(token: $token)
+  }
 `;
 
 export const CREATE_SHORT_LIVED_TOKEN = gql`
-mutation CreateShortLivedToken($email: String!) {
-  sendShortLivedToken(email: $email)
-}
+  mutation CreateShortLivedToken($email: String!) {
+    sendShortLivedToken(email: $email)
+  }
 `;
 
 export const ME = gql`
-{
-  me {
-    email
+  {
+    me {
+      email
+    }
   }
-}
 `;
 ```
 
@@ -337,10 +346,17 @@ import { CREATE_SHORT_LIVED_TOKEN } from "./queries";
 class LoginPageContainer extends React.Component {
   render() {
     return (
-      <Mutation mutation={CREATE_SHORT_LIVED_TOKEN}>{
-        (createShortLivedToken) =>
-          <LoginPage authenticate={email => createShortLivedToken({ variables: { email } })} />
-      }</Mutation>
+      <Mutation mutation={CREATE_SHORT_LIVED_TOKEN}>
+        {createShortLivedToken => (
+          <LoginPage
+            authenticate={email =>
+              createShortLivedToken({
+                variables: { email }
+              })
+            }
+          />
+        )}
+      </Mutation>
     );
   }
 }
@@ -364,16 +380,19 @@ import { ADD_PIN, LIST_PINS } from "./queries";
 class AddPinPageContainer extends React.Component {
   render() {
     return (
-      <Mutation mutation={ADD_PIN}>{
-        (addPin) =>
+      <Mutation mutation={ADD_PIN}>
+        {addPin => (
           <AddPinPage
             authenticated={this.props.authenticated}
-            addPin={pin => addPin({
-                      variables: { pin },
-                      refetchQueries: [{ query: LIST_PINS }]
-                    })}
+            addPin={pin =>
+              addPin({
+                variables: { pin },
+                refetchQueries: [{ query: LIST_PINS }]
+              })
+            }
           />
-      }</Mutation>
+        )}
+      </Mutation>
     );
   }
 }
@@ -402,19 +421,20 @@ class VerifyPageContainer extends React.Component {
             this.props.onToken(data.createLongLivedToken);
           }
         }}
-      >{
-        (createLongLivedToken) =>
+      >
+        {createLongLivedToken => (
           <VerifyPage
             verify={shortLivedToken =>
-                      createLongLivedToken({
-                        variables: {
-                          token: shortLivedToken
-                        },
-                        refetchQueries: [{ query: ME }]
-                      })
-                    }
+              createLongLivedToken({
+                variables: {
+                  token: shortLivedToken
+                },
+                refetchQueries: [{ query: ME }]
+              })
+            }
           />
-      }</Mutation>
+        )}
+      </Mutation>
     );
   }
 }
@@ -425,10 +445,12 @@ export default VerifyPageContainer;
 The `App` component will use `onToken` to update its state with the authentication token.
 
 ```js
-<VerifyPage onToken={token => {
-  localStorage.setItem("token", token);
-  this.setState({ token })
-}} />
+<VerifyPage
+  onToken={token => {
+    localStorage.setItem("token", token);
+    this.setState({ token });
+  }}
+/>
 ```
 
 The final file you need to create is `src/ProfilePage.js`. This file does not contain any new API that you need to know. It uses `Query`, just like `PinListPage`. It uses the `ME` query from `queries.js`. This is what this file looks like:
@@ -452,15 +474,20 @@ class ProfilePageContainer extends React.Component {
       );
     }
     return (
-      <Query query={ME}>{({ loading, error, data }) => {
-        return (
-          <ProfilePage
-            authenticated={this.props.authenticated}
-            logout={this.props.logout}
-            user={{ email: data && data.me ? data.me.email : null }}
-          />
-        );
-      }}</Query>
+      <Query query={ME}>
+        {({ loading, error, data }) => {
+          return (
+            <ProfilePage
+              authenticated={this.props.authenticated}
+              logout={this.props.logout}
+              user={{
+                email:
+                  data && data.me ? data.me.email : null
+              }}
+            />
+          );
+        }}
+      </Query>
     );
   }
 }
@@ -486,7 +513,9 @@ const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
   request: operation => {
     if (this.state.token) {
-      operation.setContext({ headers: { Authorization: this.state.token } })
+      operation.setContext({
+        headers: { Authorization: this.state.token }
+      });
     }
   }
 });
@@ -494,7 +523,7 @@ const client = new ApolloClient({
 export default class App extends React.Component {
   state = {
     token: null
-  }
+  };
   componentDidMount() {
     const token = localStorage.getItem("token");
     if (token) {
@@ -504,7 +533,7 @@ export default class App extends React.Component {
   logout = () => {
     localStorage.removeItem("token");
     this.setState({ token: null });
-  }
+  };
   render() {
     return (
       <ApolloProvider client={client}>
@@ -512,10 +541,12 @@ export default class App extends React.Component {
           <PinListPage />
           <AddPinPage authenticated={!!this.state.token} />
           <LoginPage />
-          <VerifyPage onToken={token => {
-            localStorage.setItem("token", token);
-            this.setState({ token })
-          }} />
+          <VerifyPage
+            onToken={token => {
+              localStorage.setItem("token", token);
+              this.setState({ token });
+            }}
+          />
           <ProfilePage
             authenticated={!!this.state.token}
             logout={this.logout}
