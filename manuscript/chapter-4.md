@@ -196,7 +196,7 @@ componentDidMount() {
 }
 ```
 
-You can click ![here](https://glitch.com/edit/#!/remix/pinapp-apollo-client) to remix this step's version of PinApp. Remember to edit `REACT_APP_API_URL` in `.env`.
+You can click [here](https://glitch.com/edit/#!/remix/pinapp-apollo-client) to remix this step's version of PinApp. Remember to edit `REACT_APP_API_URL` in `.env`.
 
 As you can see, it's really easy to use Apollo Client to communicate with GraphQL APIs. But Apollo Client provides an even better way of connecting your React application with a GraphQL API. It provides a library called React Apollo, which lets you collocate components with data by placing queries alongside your components. The next section will teach you how to setup React Apollo to interact with PinApp's API.
 
