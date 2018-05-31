@@ -493,7 +493,6 @@ const client = new ApolloClient({
 
 export default class App extends React.Component {
   state = {
-    pins: [],
     token: null
   }
   componentDidMount() {
