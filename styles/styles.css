@@ -8,7 +8,7 @@ body {
 /* define a page */
 @page {
   size: 900px 1350px;
-  margin: 70pt 60pt 70pt;
+  margin: 100pt 70pt 100pt;
 }
 
 @page:first {
@@ -22,8 +22,6 @@ img {
 img:first-of-type {
   margin: 0 auto;
   display: block;
-  width: 100vw;
-  height: 100vh;
   object-fit: cover;
 }
 
@@ -195,6 +193,11 @@ figure {
 
 #table-of-contents + ul li a {
   color: #e535ab;
+}
+
+#table-of-contents + ul li a::after {
+  /* Does not work because weasyprint does not support page */
+  content: leader('.') target-counter(attr(href), page);
 }
 
 a {
