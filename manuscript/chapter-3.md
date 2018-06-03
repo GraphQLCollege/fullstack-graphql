@@ -90,7 +90,7 @@ addPin: async (_, { pin }, { token }) => {
 },
 ```
 
-The file called `database.js` instantiates an instance of knex and exports it as a module. It is a simple file that creates a knex instance with configuration values from a file called `knexfile.js`.
+The file called `database.js` creates an instance of knex and exports it as a module. It is a simple file that creates a knex instance with configuration values from a file called `knexfile.js`.
 
 ```js
 const database = require("knex")(require("./knexfile"));
