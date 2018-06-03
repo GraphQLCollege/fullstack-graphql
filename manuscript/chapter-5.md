@@ -120,6 +120,7 @@ const {
 
 const { addPin } = require("./index");
 const { verify, authorize } = require("../authentication");
+const database = require("../database");
 
 const pubsub = new PostgresPubSub({
   connectionString: `${process.env.DATABASE_URL}?ssl=true`
@@ -127,10 +128,10 @@ const pubsub = new PostgresPubSub({
 
 const resolvers = {
   Query: {
-    pins: (_, __, { database }) => database("pins").select()
+    pins: () => database("pins").select()
   },
   Mutation: {
-    addPin: async (_, { pin }, { token, database }) => {
+    addPin: async (_, { pin }, { token }) => {
       const [user] = await authorize(database, token);
       const {
         user: updatedUser,
@@ -151,6 +152,30 @@ const resolvers = {
 };
 
 module.exports = resolvers;
+```
+
+The final changes you need to make are in `src/server.js`. You need to add `subscriptions: true` to the Apollo Server constructor. You also need to check for the existence of `req` and `req.headers`, because subscriptions don't send a `req` object.
+
+```js
+const { ApolloServer } = require('apollo-server');
+
+const schema = require('./schema');
+
+const server = new ApolloServer({
+  schema,
+  context: async ({ req }) => {
+    const context = {};
+    if (req && req.headers && req.headers.authorization) {
+      context.token = req.headers.authorization;
+    }
+    return context;
+  },
+  subscriptions: true
+});
+
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
 ```
 
 [Remix](https://glitch.com/edit/#!/remix/pinapp-subscriptions) if you need a working version of the subscriptions example.
