@@ -711,6 +711,6 @@ This is the final step in testing PinApp's API. The next sections will teach you
 
 ## 6.8 Client queries and mutations
 
-## 6.9 Client subscriptions
+## 6.9 Client subscriptions
 
 ## 6.10 Summary
