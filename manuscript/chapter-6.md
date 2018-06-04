@@ -702,15 +702,553 @@ function authenticateAndAddPin(serverUrl) {
 
 This is the final step in testing PinApp's API. The next sections will teach you how to test GraphQL clients, more specifically how to test Apollo GraphQL clients.
 
-## 6.7 How to test Apollo GraphQL clients
+## 6.7 How to test React Apollo GraphQL clients
 
-* Learn how to test in React Apollo using Jest and Enzyme
-  * https://glitch.com/edit/#!/pinapp-client-testing
-* Testing strategies
-  * Mocking individual query responses
+In this chapter you will learn how to test React Apollo clients. To do this, you will use [Jest](https://facebook.github.io/jest/) as a test runner, [Enzyme](https://github.com/airbnb/enzyme/) because it provides testing tools for React, and React Apollo's testing utilities.
 
-## 6.8 Client queries and mutations
+To test the network layers, you are going to take advantage of the fact that Apollo GraphQL's network layer is configurable using [Apollo Link](https://www.apollographql.com/docs/react/advanced/network-layer.html). The strategy is swapping the Provider defined in `src/App.js` with a `MockedProvider`. This Provider is useful for testing purposes because it does not communicate with any server, instead it receives an array of mocks that it uses for sending GraphQL responses. If `MockedProvider` has a mock that corresponds to a request, it sends the mock's response. If no mock matches a request, it throws an error.
+
+As with all steps, you have the chance to [remix the current example](https://glitch.com/edit/#!/remix/pinapp-client-testing) in case you need any help.
+
+Let's write a basic test. You may have seen this test a bunch of times if you are used to bootstrapping apps using [`create-react-app`](https://github.com/facebook/create-react-app). This test verifies that the app renders without crashing. To stop the app from making network requests, you will use Jest to replace `ApolloProvider` with a dummy component. You will also wrap the app with React Router's `MemoryRouter`, because Jest runs in Node, not in the browser.
+
+Create a file called `src/App.test.js` with the following contents:
+
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+import { MockedProvider } from "react-apollo/test-utils";
+import * as ReactRouter from "react-router";
+import * as ReactApollo from "react-apollo";
+
+const MemoryRouter = ReactRouter.MemoryRouter;
+
+ReactApollo.ApolloProvider = jest.fn(({ children }) => <div>{children}</div>);
+
+import App from "./App";
+
+it("renders without crashing", () => {
+  const div = document.createElement("div");
+  ReactDOM.render(
+    <MemoryRouter>
+      <MockedProvider mocks={[]}>
+        <App />
+      </MockedProvider>
+    </MemoryRouter>,
+    div
+  );
+  ReactDOM.unmountComponentAtNode(div);
+});
+```
+
+You also need to pass a property called `noRouter` to `pinapp-component`'s `Container`. Otherwise it will try to use a Router implementation which depends on the browser's history API, which is not available in Node. Pass `noRouter={process.env.NODE_ENV === "test"}` to `Container` in `src/App.js`
+
+```js
+// ...
+export default class App extends React.Component {
+  // ...
+  render() {
+    return (
+      <ApolloProvider client={this.state.client}>
+        <Container noRouter={process.env.NODE_ENV === "test"}>
+          {/* */}
+        </Container>
+      </ApolloProvider>
+    );
+  }
+```
+
+Finally install `react-router` by adding it to `package.json`. Note that the previous test will work whether or not you install `react-router`. This happens because `pinapp-components` already has React Router as a dependency. But now React Router is also a dependency of your app, because you use `MemoryRouter` in your tests.
+
+You also need to install `jest-cli` if you are following the examples on glitch. This is a temporary workaround because of a bug in `pnpm`, which is the package manager that Glitch uses. It is similar to NPM or Yarn, but much more disk efficient because it uses symlinks instead of installing duplicated packages. You normally don't need to install Jest if you are using `react-scripts` with Yarn or NPM, so skip `jest-cli` if you are developing outside of Glitch.
+
+```json
+{
+  "dependencies": {
+    // ...
+    "jest-cli": "23.0.1",
+    "react-router": "^4.2.0"
+  }
+}
+```
+
+Run the test suite by opening the console and running `npm test`.
+
+Now let's write a test based on a use case of the app. You are going to verify that the app shows the text "There are no pins yet" initially.
+
+Instead of using React to render the App, you will use Enzyme's `mount` function. It performs a full DOM rendering. just like calling `ReactDOM.render`, the difference is that choosing `mount` allows you to use Enzyme's querying and expectations capabilities.
+
+You will pass a mock list instead of an empty array to `MockedProvider`. Mocks are object with two keys, `request` and `result`. `request` is an object that has a `query` key and can have a `variables` key. `result` contains a Javascript object that simulates the server's response. In this case mocks will consist of two elements, the first simulates a `LIST_PINS` query with a list of empty pins as response, and the second simulates a `PINS_SUBSCRIPTION` query with no pin as a response. These are the two requests that App sends when it starts.
+
+```js
+// ...
+import {
+  LIST_PINS,
+  PINS_SUBSCRIPTION,
+  CREATE_SHORT_LIVED_TOKEN,
+  CREATE_LONG_LIVED_TOKEN,
+  ME,
+  ADD_PIN
+} from "./queries";
+
+it("shows 'There are no pins yet' initially", async () => {
+  const mocks = [
+    {
+      request: { query: LIST_PINS },
+      result: {
+        data: {
+          pins: []
+        }
+      }
+    },
+    {
+      request: {
+        query: PINS_SUBSCRIPTION
+      },
+      result: { data: { pinAdded: null } }
+    }
+  ];
+  const wrapper = mount(
+    <MemoryRouter>
+      <MockedProvider mocks={mocks}>
+        <App />
+      </MockedProvider>
+    </MemoryRouter>
+  );
+  // Wait for async pins query
+  await wait();
+  // Manually update enzyme wrapper
+  // https://github.com/airbnb/enzyme/blob/master/docs/guides/migration-from-2-to-3.md#for-mount-updates-are-sometimes-required-when-they-werent-before)
+  wrapper.update();
+  expect(
+    wrapper.contains(node => node.text() === "There are no pins yet.")
+  ).toBe(true);
+  wrapper.unmount();
+});
+```
+
+Another useful test would be verifying that the app shows a list of pins when it receives a non empty pins response. The test structure for doing this is very similar to the previous test, with the difference that the `LIST_PINS` query will contain a list of pins in the response. This test will verify that there is an element with class pins that has three elements with class pin.
+
+```js
+it("should show a list of pins", async () => {
+  const pins = [
+    {
+      id: "1",
+      title: "Modern",
+      link: "https://pinterest.com/pin/637540890973869441/",
+      image:
+        "https://i.pinimg.com/564x/5a/22/2c/5a222c93833379f00777671442df7cd2.jpg"
+    },
+    {
+      id: "2",
+      title: "Broadcast Clean Titles",
+      link: "https://pinterest.com/pin/487585097141051238/",
+      image:
+        "https://i.pinimg.com/564x/85/ce/28/85ce286cba63daf522464a7d680795ba.jpg"
+    },
+    {
+      id: "3",
+      title: "Drawing",
+      link: "https://pinterest.com/pin/618611698790230574/",
+      image:
+        "https://i.pinimg.com/564x/00/7a/2e/007a2ededa8b0ce87e048c60fa6f847b.jpg"
+    }
+  ];
+  const mocks = [
+    {
+      request: { query: LIST_PINS },
+      result: {
+        data: {
+          pins
+        }
+      }
+    },
+    {
+      request: {
+        query: PINS_SUBSCRIPTION
+      },
+      result: { data: { pinAdded: null } }
+    }
+  ];
+  const wrapper = mount(
+    <MemoryRouter>
+      <MockedProvider mocks={mocks}>
+        <App />
+      </MockedProvider>
+    </MemoryRouter>
+  );
+  await wait();
+  wrapper.update();
+  expect(wrapper.find(".pins .pin").length).toBe(3);
+  wrapper.unmount();
+});
+```
+
+## 6.8 Testing client-side authentication
+
+The login flow consists of two steps. The first is when the user clicks login, and then fill the email input with an email address, clicking submit afterwards. The second step happens when the user clicks the link in the received email, going to `/verify?token=123456`, which will authenticate the user if the token is valid.
+
+To test the first step, let's write a test that simulates the action that the user needs to take in order to receive a magic link in its email address. The first action is clicking the login button in the app's footer, which will redirect the user to the login page.
+
+```js
+wrapper.find('a[href="/login"]').simulate("click", { button: 0 });
+```
+
+To simulate user's actions, you will use an Enzyme function called `prop`. This function allows you to access properties from React components. In this case, it will be useful to access the `onChange` function from the email input, and the `onSubmit` function from the email form.
+
+The app will need a mock that will handle the API call when the user sends a `CREATE_SHORT_LIVED_TOKEN` mutation, so you will add this mock to the list. If you don't add this mock, the test will fail.
+
+Finally this test will verify that the app shows a an "Email sent" message.
+
+```js
+it("should allow users to login", async () => {
+  const email = "name@example.com";
+  const mocks = [
+    {
+      request: { query: LIST_PINS },
+      result: {
+        data: {
+          pins: []
+        }
+      }
+    },
+    {
+      request: {
+        query: PINS_SUBSCRIPTION
+      },
+      result: { data: { pinAdded: null } }
+    },
+    {
+      request: {
+        query: CREATE_SHORT_LIVED_TOKEN,
+        variables: {
+          email
+        }
+      },
+      result: {
+        data: {
+          sendShortLivedToken: true
+        }
+      }
+    }
+  ];
+  const wrapper = mount(
+    <MemoryRouter>
+      <MockedProvider mocks={mocks}>
+        <App />
+      </MockedProvider>
+    </MemoryRouter>
+  );
+  await wait();
+  wrapper.update();
+  expect(wrapper.find(".auth-banner").length).toBe(1);
+  expect(wrapper.find('a[href="/profile"]').length).toBe(0);
+  wrapper.find('a[href="/login"]').simulate("click", { button: 0 }); // Add { button: 0 } because of React Router bug https://github.com/airbnb/enzyme/issues/516
+  wrapper
+    .find("#email")
+    .first()
+    .prop("onChange")({ value: email });
+  await wait();
+  wrapper.update();
+  wrapper.find("form").prop("onSubmit")({ preventDefault: () => {} });
+  await wait();
+  wrapper.update();
+  expect(
+    wrapper.contains(
+      node =>
+        node.text() === `We sent an email to ${email}. Please check your inbox.`
+    )
+  ).toBe(true);
+  wrapper.unmount();
+});
+```
+
+To test that the app authenticates users who enter the verify page, you will use a property from `MemoryRouter` called `initialEntries`. This property receives an array of URLs, so passing it `['/verify?token=${token}']` will start the app on the Verify page.
+
+The list of mocks will need a response for the `CREATE_LONG_LIVED_TOKEN` query, containing a string that represents the auth token.
+
+To verify that the authentication works, you will simulate a user who enters to the Profile page after a successful authentication. This is why you will add a response to the `ME` query to the list of mocks. Checking that the app shows the user's email is enough to verify that this test works.
+
+```js
+it("should authenticate users who enter verify page", async () => {
+  const email = "name@example.com";
+  const token = "5minutes";
+  const mocks = [
+    {
+      request: { query: LIST_PINS },
+      result: {
+        data: {
+          pins: []
+        }
+      }
+    },
+    {
+      request: {
+        query: PINS_SUBSCRIPTION
+      },
+      result: { data: { pinAdded: null } }
+    },
+    {
+      request: {
+        query: CREATE_LONG_LIVED_TOKEN,
+        variables: {
+          token
+        }
+      },
+      result: {
+        data: {
+          createLongLivedToken: "30days"
+        }
+      }
+    },
+    {
+      request: { query: ME },
+      result: {
+        data: {
+          me: { email }
+        }
+      }
+    }
+  ];
+  const initialEntries = [`/verify?token=${token}`];
+  const wrapper = mount(
+    <MemoryRouter initialEntries={initialEntries}>
+      <MockedProvider mocks={mocks}>
+        <App />
+      </MockedProvider>
+    </MemoryRouter>
+  );
+  await wait();
+  wrapper.update();
+  // Verify Page shows "Success!" for 1 second (1000 ms), then redirects to "/"
+  await wait(1000);
+  wrapper.update();
+  wrapper.find('a[href="/profile"]').simulate("click", { button: 0 });
+  await wait();
+  wrapper.update();
+  expect(
+    wrapper.find(".profile-page").contains(node => node.text() === email)
+  ).toBe(true);
+  wrapper.unmount();
+});
+```
+
+In the next step you will learn how to test client side subscriptions by creating a test that verifies that users can add pins.
 
 ## 6.9 Client subscriptions
 
-## 6.10 Summary
+MockedProvider is perfect for mocking request/response pairs, but it does not provide a way of testing server sent events, like subscriptions. Fortunately, React Apollo provides the tools you need to mock server sent events with `MockSubscriptionLink`.
+
+To simulate subscription results, you can create an instance of `MockSubscriptionLink` and use a function called `simulateResult`.
+
+```js
+subscriptionsLink.simulateResult({
+  result: {
+    data: {
+      pinAdded: {
+        title,
+        link,
+        image,
+        id: "1"
+      }
+    }
+  }
+});
+```
+
+The strategy for testing subscriptions will be creating a custom MockContainer, and accessing `subscriptionsLink` by exposing it as a class property. This allows you to call `simulateResult` anywhere in the test.
+
+This MockContainer will have the same API and implementation as React Apollo's `MockProvider`. It will receive a list of mocks and create a `MockLink` using this list. It will merge this link with an instance of `MockSubscriptionLink` using `split`. To determine which link `MockSubscriptionsProvider` uses, you are going to define the same logic that you used to decide between `HttpLink` and `WebsocketLink` in `src/App.js`.
+
+Import the new dependencies and define a class called `MockSubscriptionLink` at the end of `src/App.test.js`.
+
+```js
+// ...
+import {
+  MockedProvider,
+  MockLink,
+  MockSubscriptionLink
+} from "react-apollo/test-utils";
+import { InMemoryCache as Cache } from "apollo-cache-inmemory";
+import { getMainDefinition } from "apollo-utilities";
+import { split } from "apollo-link";
+import ApolloClient from "apollo-client";
+
+const ApolloProvider = ReactApollo.ApolloProvider;
+const MemoryRouter = ReactRouter.MemoryRouter;
+
+ReactRouter.Router = jest.fn(({ children }) => <div>{children}</div>);
+ReactApollo.ApolloProvider = jest.fn(({ children }) => <div>{children}</div>);
+
+// ...
+
+it("should allow logged in users to add pins", async () => { /* */ });
+
+class MockedSubscriptionsProvider extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    const subscriptionsLink = new MockSubscriptionLink();
+    const addTypename = false;
+    const mocksLink = new MockLink(props.mocks, addTypename);
+    const link = split(
+      // split based on operation type
+      ({ query }) => {
+        const { kind, operation } = getMainDefinition(query);
+        return kind === "OperationDefinition" && operation === "subscription";
+      },
+      subscriptionsLink,
+      mocksLink
+    );
+    const client = new ApolloClient({
+      link,
+      cache: new Cache({ addTypename })
+    });
+    this.client = client;
+    this.subscriptionsLink = subscriptionsLink;
+  }
+  render() {
+    return (
+      <ApolloProvider client={this.client}>
+        {this.props.children}
+      </ApolloProvider>
+    );
+  }
+}
+```
+
+Now it's time to verify that logged in users can create pins, and the new pins appear in the list. This test will perform the same initial steps as the previous authentication tests. It will differ with those tests once it authenticates a user, because it will navigate to the add pin page instead of the profile.
+
+Once the user is in the add pin page, it will simulate the user filling out the new pin form and clicking "Add". For this to complete successfully. you will add a mock for the `ADD_PIN` query to the mocks list.
+
+After this, the test will simulate a new subscription result by accessing the `subscriptionsLink` from the `MockedSubscriptionsProvider` instance and calling `simulateResult` with a new pin.
+
+The test will check that this new pin appears in the pins list by using `expect(wrapper.find(".pins .pin").length).toBe(1);`.
+
+```js
+it("should allow logged in users to add pins", async () => {
+  const title = "GraphQL College";
+  const link = "http://graphql.college";
+  const image = "http://www.graphql.college/fullstack-graphql";
+  const email = "name@example.com";
+  const token = "5minutes";
+  const mocks = [
+    {
+      request: { query: LIST_PINS },
+      result: {
+        data: {
+          pins: []
+        }
+      }
+    },
+    {
+      request: {
+        query: PINS_SUBSCRIPTION
+      },
+      result: { data: { pinAdded: null } }
+    },
+    {
+      request: {
+        query: CREATE_LONG_LIVED_TOKEN,
+        variables: {
+          token
+        }
+      },
+      result: {
+        data: {
+          createLongLivedToken: "30days"
+        }
+      }
+    },
+    {
+      request: { query: ME },
+      result: {
+        data: {
+          me: { email }
+        }
+      }
+    },
+    {
+      request: {
+        query: ADD_PIN,
+        variables: {
+          pin: {
+            title,
+            link,
+            image
+          }
+        }
+      },
+      result: {
+        data: {
+          addPin: {
+            title,
+            link,
+            image
+          }
+        }
+      }
+    }
+  ];
+  const initialEntries = [`/verify?token=${token}`];
+  const wrapper = mount(
+    <MemoryRouter initialEntries={initialEntries}>
+      <MockedSubscriptionsProvider mocks={mocks}>
+        <App />
+      </MockedSubscriptionsProvider>
+    </MemoryRouter>
+  );
+  await wait();
+  wrapper.update();
+  await wait(1000);
+  wrapper.update();
+  wrapper
+    .find('a[href="/upload-pin"]')
+    .first()
+    .simulate("click", { button: 0 });
+  wrapper.update();
+  wrapper
+    .find('[placeholder="Title"]')
+    .first()
+    .prop("onChange")({ target: { value: title } });
+  wrapper
+    .find('[placeholder="URL"]')
+    .first()
+    .prop("onChange")({ target: { value: link } });
+  wrapper
+    .find('[placeholder="Image URL"]')
+    .first()
+    .prop("onChange")({ target: { value: image } });
+  wrapper.update();
+  wrapper.find("form").prop("onSubmit")({ preventDefault: () => {} });
+  const subscriptionsLink = wrapper.find(MockedSubscriptionsProvider).instance()
+    .subscriptionsLink;
+  subscriptionsLink.simulateResult({
+    result: {
+      data: {
+        pinAdded: {
+          title,
+          link,
+          image,
+          id: "1"
+        }
+      }
+    }
+  });
+  await wait(1000);
+  wrapper.update();
+  expect(wrapper.find(".pins .pin").length).toBe(1);
+  wrapper.unmount();
+});
+```
+
+Testing subscriptions is very straightforward once you can simulate results using `MockSubscriptionLink`.
+
+## 6.9 Summary
+
+In this chapter you learned how to test GraphQL APIs and React Apollo clients.
+
+You used two different strategies to write API tests, once that tests the GraphQL layer and another that tests the HTTP layer. To write expectations, you used Jest snapshots in some cases and manual expectations in other occasions.
+
+You tested queries and mutations in React Apollo clients using `MockedProvider`. You also learned how to test subscriptions by using `MockSubscriptionLink` to simulate server sent events.
+
+Now you are ready to apply this techniques to verify the correct behavior of your GraphQL Applications.
