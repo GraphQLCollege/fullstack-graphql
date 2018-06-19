@@ -24,7 +24,7 @@ All types of contributions are welcome! Here is a little guide on how to contrib
 
 ### Bugs/Typos
 
-If you see a bug or typo please open a github issue.
+If you see a bug or typo please open a GitHub issue.
 
 ### Fixes
 
@@ -36,7 +36,7 @@ Please file an issue to suggest new chapters. Chapter suggestions are always wel
 
 ### Questions
 
-If you have any questions regarding the book, or GraphQL in general, please create a new conversation in https://spectrum.chat/graphql instead of a Github issue.
+If you have any questions regarding the book, or GraphQL in general, please create a new conversation in https://spectrum.chat/graphql instead of a GitHub issue.
 
 ## License
 
