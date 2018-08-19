@@ -8,6 +8,8 @@ An open source book about full stack GraphQL development with React and Node.
   <img src="manuscript/images/title_page.png" width="400px" alt="Cover" />
 </a>
 
+[![Brought to you by GraphCMS](./graphcms.svg)](https://graphcms.com/?ref=graphqlcollege)
+
 ## Structure
 
 Each chapter is written in a markdown file in the `manuscript` folder.
