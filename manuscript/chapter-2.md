@@ -33,7 +33,7 @@ In the next section you will understand how to create schemas using a function c
 
 ## 2.2 Schemas
 
-You create schemas by combining type definitions and resolvers. There is a handy package called [`graphql-tools`](https://github.com/apollographql/graphql-tools) that provides a function called `makeExecutableSchema`. The previous chapter contained a lot of `graphql(query, schema)` calls. All of those examples sent queries agains a schema generated with `makeExecutableSchema`.
+You create schemas by combining type definitions and resolvers. There is a handy package called [`graphql-tools`](https://github.com/apollographql/graphql-tools) that provides a function called `makeExecutableSchema`. The previous chapter contained a lot of `graphql(query, schema)` calls. All of those examples sent queries against a schema generated with `makeExecutableSchema`.
 
 Open the file called `schema.js` in the example project you just remixed to see how you can create a schema.
 
