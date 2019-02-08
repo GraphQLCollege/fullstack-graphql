@@ -409,7 +409,7 @@ function sendMail({ from, to, subject, text, html }) {
 }
 
 function deleteEmails() {
-  while(emails.length > 0) {
+  while (emails.length > 0) {
       emails.pop();
   }
 }
