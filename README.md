@@ -1,5 +1,7 @@
 # Fullstack GraphQL
 
+> New! Make GraphQL Apps in minutes with [GraphQLApps](https://graphqlapps.com)
+
 An open source book about full stack GraphQL development with React and Node.
 
 <a href="https://graphql.college/fullstack-graphql">https://graphql.college/fullstack-graphql</a>.
@@ -7,8 +9,6 @@ An open source book about full stack GraphQL development with React and Node.
 <a href="https://graphql.college/fullstack-graphql">
   <img src="manuscript/images/title_page.png" width="400px" alt="Cover" />
 </a>
-
-[![Brought to you by GraphCMS](./graphcms.svg)](https://graphcms.com/?ref=graphqlcollege)
 
 ## Structure
 
