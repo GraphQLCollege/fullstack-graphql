@@ -1,5 +1,7 @@
 # 5. Subscriptions
 
+[https://www.graphqladmin.com/books/fullstack-graphql/05-subscriptions](https://www.graphqladmin.com/books/fullstack-graphql/05-subscriptions)
+
 GraphQL servers can provide a way for clients to fetch data in response to server-sent events. This enables GraphQL powered applications to push data to users in response to events.
 
 For example, you could use Subscriptions to send notifications to users when another user creates new pins.
@@ -46,7 +48,7 @@ let connection = process.env.DATABASE_URL;
 
 module.exports = {
   client: "pg",
-  connection
+  connection,
 };
 ```
 
@@ -101,7 +103,7 @@ After adding this new dependency, create a new instance of it and assign it to a
 
 ```js
 const pubsub = new PostgresPubSub({
-  connectionString: `${process.env.DATABASE_URL}?ssl=true`
+  connectionString: `${process.env.DATABASE_URL}?ssl=true`,
 });
 ```
 
@@ -114,41 +116,36 @@ pubsub.publish("pinAdded", { pinAdded: createdPin });
 This is what the new Subscription resolver from `pins/resolvers.js` looks like:
 
 ```js
-const {
-  PostgresPubSub
-} = require("graphql-postgres-subscriptions");
+const { PostgresPubSub } = require("graphql-postgres-subscriptions");
 
 const { addPin } = require("./index");
 const { verify, authorize } = require("../authentication");
 const database = require("../database");
 
 const pubsub = new PostgresPubSub({
-  connectionString: `${process.env.DATABASE_URL}?ssl=true`
+  connectionString: `${process.env.DATABASE_URL}?ssl=true`,
 });
 
 const resolvers = {
   Query: {
-    pins: () => database("pins").select()
+    pins: () => database("pins").select(),
   },
   Mutation: {
     addPin: async (_, { pin }, { token }) => {
       const [user] = await authorize(database, token);
-      const {
-        user: updatedUser,
-        pin: createdPin
-      } = await addPin(user, pin);
+      const { user: updatedUser, pin: createdPin } = await addPin(user, pin);
       await database("pins").insert(createdPin);
       pubsub.publish("pinAdded", { pinAdded: createdPin });
       return createdPin;
-    }
+    },
   },
   Subscription: {
     pinAdded: {
       subscribe: () => {
         return pubsub.asyncIterator("pinAdded");
-      }
-    }
-  }
+      },
+    },
+  },
 };
 
 module.exports = resolvers;
@@ -157,9 +154,9 @@ module.exports = resolvers;
 The final changes you need to make are in `src/server.js`. You need to add `subscriptions: true` to the Apollo Server constructor. You also need to check for the existence of `req` and `req.headers`, because subscriptions don't send a `req` object.
 
 ```js
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require("apollo-server");
 
-const schema = require('./schema');
+const schema = require("./schema");
 
 const server = new ApolloServer({
   schema,
@@ -170,7 +167,7 @@ const server = new ApolloServer({
     }
     return context;
   },
-  subscriptions: true
+  subscriptions: true,
 });
 
 server.listen().then(({ url }) => {
@@ -257,13 +254,13 @@ This is what client initialization looks like with Apollo Boost.
 ```js
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
-  request: operation => {
+  request: (operation) => {
     if (this.state.token) {
       operation.setContext({
-        headers: { Authorization: this.state.token }
+        headers: { Authorization: this.state.token },
       });
     }
-  }
+  },
 });
 ```
 
@@ -292,7 +289,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 // ...
 
 const client = new ApolloClient({
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 ```
 
@@ -308,8 +305,7 @@ onError(({ graphQLErrors, networkError }) => {
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       )
     );
-  if (networkError)
-    console.log(`[Network error]: ${networkError}`);
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 ```
 
@@ -321,22 +317,22 @@ This is how you create an `ApolloLink` that intercepts every request:
 
 ```js
 new ApolloLink((operation, forward) => {
-  const request = async operation => {
+  const request = async (operation) => {
     if (this.state.token) {
       operation.setContext({
-        headers: { Authorization: this.state.token }
+        headers: { Authorization: this.state.token },
       });
     }
   };
-  return new Observable(observer => {
+  return new Observable((observer) => {
     let handle;
     Promise.resolve(operation)
-      .then(oper => request(oper))
+      .then((oper) => request(oper))
       .then(() => {
         handle = forward(operation).subscribe({
           next: observer.next.bind(observer),
           error: observer.error.bind(observer),
-          complete: observer.complete.bind(observer)
+          complete: observer.complete.bind(observer),
         });
       })
       .catch(observer.error.bind(observer));
@@ -353,7 +349,7 @@ Luckily, to add the third link, `HttpLink`, you just need to create a new instan
 ```js
 new HttpLink({
   uri: process.env.REACT_APP_API_URL,
-  credentials: "same-origin"
+  credentials: "same-origin",
 });
 ```
 
@@ -381,27 +377,26 @@ const client = new ApolloClient({
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
           )
         );
-      if (networkError)
-        console.log(`[Network error]: ${networkError}`);
+      if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
     // Enable dynamic request interceptors
     new ApolloLink((operation, forward) => {
-      const request = async operation => {
+      const request = async (operation) => {
         if (this.state.token) {
           operation.setContext({
-            headers: { Authorization: this.state.token }
+            headers: { Authorization: this.state.token },
           });
         }
       };
-      return new Observable(observer => {
+      return new Observable((observer) => {
         let handle;
         Promise.resolve(operation)
-          .then(oper => request(oper))
+          .then((oper) => request(oper))
           .then(() => {
             handle = forward(operation).subscribe({
               next: observer.next.bind(observer),
               error: observer.error.bind(observer),
-              complete: observer.complete.bind(observer)
+              complete: observer.complete.bind(observer),
             });
           })
           .catch(observer.error.bind(observer));
@@ -413,10 +408,10 @@ const client = new ApolloClient({
     }),
     new HttpLink({
       uri: process.env.REACT_APP_API_URL,
-      credentials: "same-origin"
-    })
+      credentials: "same-origin",
+    }),
   ]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 ```
 
@@ -446,30 +441,22 @@ const client = new ApolloClient({
     split(
       // split based on operation type
       ({ query }) => {
-        const { kind, operation } = getMainDefinition(
-          query
-        );
-        return (
-          kind === "OperationDefinition" &&
-          operation === "subscription"
-        );
+        const { kind, operation } = getMainDefinition(query);
+        return kind === "OperationDefinition" && operation === "subscription";
       },
       new WebSocketLink({
-        uri: process.env.REACT_APP_API_URL.replace(
-          "https://",
-          "wss://"
-        ),
+        uri: process.env.REACT_APP_API_URL.replace("https://", "wss://"),
         options: {
-          reconnect: true
-        }
+          reconnect: true,
+        },
       }),
       new HttpLink({
         uri: process.env.REACT_APP_API_URL,
-        credentials: "same-origin"
+        credentials: "same-origin",
       })
-    )
+    ),
   ]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 ```
 
@@ -510,10 +497,7 @@ You will create a new component that will send it the `subscribeToMore` function
 export default () => (
   <PinListQuery>
     {({ pins, subscribeToMore }) => (
-      <PinListPageContainer
-        pins={pins}
-        subscribeToMore={subscribeToMore}
-      />
+      <PinListPageContainer pins={pins} subscribeToMore={subscribeToMore} />
     )}
   </PinListQuery>
 );
@@ -534,12 +518,7 @@ class PinListQuery extends React.Component {
       <Query query={LIST_PINS}>
         {({ loading, error, data, subscribeToMore }) => {
           if (loading) {
-            return (
-              <Spinner
-                accessibilityLabel="Loading pins"
-                show
-              />
-            );
+            return <Spinner accessibilityLabel="Loading pins" show />;
           }
           if (error) {
             return <div>Error</div>;
@@ -548,24 +527,20 @@ class PinListQuery extends React.Component {
             return subscribeToMore({
               document: PINS_SUBSCRIPTION,
               updateQuery: (prev, { subscriptionData }) => {
-                if (
-                  !subscriptionData.data ||
-                  !subscriptionData.data.pinAdded
-                ) {
+                if (!subscriptionData.data || !subscriptionData.data.pinAdded) {
                   return prev;
                 }
-                const newPinAdded =
-                  subscriptionData.data.pinAdded;
+                const newPinAdded = subscriptionData.data.pinAdded;
 
                 return Object.assign({}, prev, {
-                  pins: [...prev.pins, newPinAdded]
+                  pins: [...prev.pins, newPinAdded],
                 });
-              }
+              },
             });
           };
           return this.props.children({
             pins: data.pins,
-            subscribeToMore: subscribeToMorePins
+            subscribeToMore: subscribeToMorePins,
           });
         }}
       </Query>
@@ -583,4 +558,3 @@ That's it! Now not only you will be able to see the pins you add in the list of 
 You learned what subscriptions are, how to add them both to the backend and frontend. Before adding subscriptions to your backend, you migrated your database from SQLite3 to Postgres, because it also serves as a PubSub system. You also migrated your frontend from Apollo Boost to Apollo Client before adding subscriptions.
 
 At this point, PinApp has several complex features, so adding a comprehensive test suite makes sense. The next chapter will teach you how to test your backend and frontend using different testing strategies.
-

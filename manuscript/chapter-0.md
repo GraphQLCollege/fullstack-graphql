@@ -1,5 +1,7 @@
 # PREFACE
 
+[https://www.graphqladmin.com/books/fullstack-graphql/00-preface](https://www.graphqladmin.com/books/fullstack-graphql/00-preface)
+
 GraphQL is revolutionizing client-server communication. It is a technology that enables better documented APIs, easier data management in HTTP clients, and optimized network usage.
 
 One of the main benefits of GraphQL is that improves communication between APIs and API consumers. Facilitates team communication by providing an easy way for frontend developers to know all methods that the API exposes. It also enables better communication with 3rd party API consumers because GraphQL services have zero configuration API documentation.
@@ -46,16 +48,15 @@ Through the course of this book you will learn how to build a Pinterest clone ca
 
 Pinapp should allow users to:
 
-* Login with magic links
-* Logout
-* Add pins (a pin is an image that links to a URL)
-* Search pins and users
-* List pins
-* See new pins without refreshing browser
+- Login with magic links
+- Logout
+- Add pins (a pin is an image that links to a URL)
+- Search pins and users
+- List pins
+- See new pins without refreshing browser
 
 You will build this application in layers. First you will design the data layer, then write the business logic, after that create HTTP transport layer, then connect everything to the database layer and finally build the HTTP client.
 
 ## Development environment
 
 There are no environment requirements to try the examples in this book, other than having a web browser and internet connection. Every step of the application has a live, editable online version hosted at glitch.com. Glitch is an awesome community to build apps created by the folks that developed Stack Overflow and Trello.
-

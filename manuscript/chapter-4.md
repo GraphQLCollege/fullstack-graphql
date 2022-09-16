@@ -1,5 +1,7 @@
 # 4. GraphQL clients
 
+[https://www.graphqladmin.com/books/fullstack-graphql/04-graphql-clients](https://www.graphqladmin.com/books/fullstack-graphql/04-graphql-clients)
+
 In this chapter you will learn how to build a GraphQL client using React and Apollo GraphQL.
 
 ![Client](images/client.png)
@@ -77,21 +79,21 @@ import {
   AddPinPage,
   LoginPage,
   VerifyPage,
-  ProfilePage
+  ProfilePage,
 } from "pinapp-components";
 
 export default class App extends React.Component {
   state = { pins: [], authenticated: false, user: null };
-  addPin = pin => {
+  addPin = (pin) => {
     this.setState(({ pins }) => ({
-      pins: pins.concat([pin])
+      pins: pins.concat([pin]),
     }));
   };
   verify = () => {
-    return success().then(token =>
+    return success().then((token) =>
       this.setState({
         authenticated: true,
-        user: { email: "name@example.com" }
+        user: { email: "name@example.com" },
       })
     );
   };
@@ -166,7 +168,7 @@ import ApolloClient from "apollo-boost";
 import gql from "graphql-tag";
 
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_API_URL
+  uri: process.env.REACT_APP_API_URL,
 });
 ```
 
@@ -227,12 +229,7 @@ class PinListPageContainer extends React.Component {
       <Query query={LIST_PINS}>
         {({ loading, error, data }) => {
           if (loading) {
-            return (
-              <Spinner
-                accessibilityLabel="Loading pins"
-                show
-              />
-            );
+            return <Spinner accessibilityLabel="Loading pins" show />;
           }
           if (error) {
             return <div>Error</div>;
@@ -347,11 +344,11 @@ class LoginPageContainer extends React.Component {
   render() {
     return (
       <Mutation mutation={CREATE_SHORT_LIVED_TOKEN}>
-        {createShortLivedToken => (
+        {(createShortLivedToken) => (
           <LoginPage
-            authenticate={email =>
+            authenticate={(email) =>
               createShortLivedToken({
-                variables: { email }
+                variables: { email },
               })
             }
           />
@@ -381,13 +378,13 @@ class AddPinPageContainer extends React.Component {
   render() {
     return (
       <Mutation mutation={ADD_PIN}>
-        {addPin => (
+        {(addPin) => (
           <AddPinPage
             authenticated={this.props.authenticated}
-            addPin={pin =>
+            addPin={(pin) =>
               addPin({
                 variables: { pin },
-                refetchQueries: [{ query: LIST_PINS }]
+                refetchQueries: [{ query: LIST_PINS }],
               })
             }
           />
@@ -422,14 +419,14 @@ class VerifyPageContainer extends React.Component {
           }
         }}
       >
-        {createLongLivedToken => (
+        {(createLongLivedToken) => (
           <VerifyPage
-            verify={shortLivedToken =>
+            verify={(shortLivedToken) =>
               createLongLivedToken({
                 variables: {
-                  token: shortLivedToken
+                  token: shortLivedToken,
                 },
-                refetchQueries: [{ query: ME }]
+                refetchQueries: [{ query: ME }],
               })
             }
           />
@@ -446,7 +443,7 @@ The `App` component will use `onToken` to update its state with the authenticati
 
 ```js
 <VerifyPage
-  onToken={token => {
+  onToken={(token) => {
     localStorage.setItem("token", token);
     this.setState({ token });
   }}
@@ -481,8 +478,7 @@ class ProfilePageContainer extends React.Component {
               authenticated={this.props.authenticated}
               logout={this.props.logout}
               user={{
-                email:
-                  data && data.me ? data.me.email : null
+                email: data && data.me ? data.me.email : null,
               }}
             />
           );
@@ -511,18 +507,18 @@ import ProfilePage from "./ProfilePage";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
-  request: operation => {
+  request: (operation) => {
     if (this.state.token) {
       operation.setContext({
-        headers: { Authorization: this.state.token }
+        headers: { Authorization: this.state.token },
       });
     }
-  }
+  },
 });
 
 export default class App extends React.Component {
   state = {
-    token: null
+    token: null,
   };
   componentDidMount() {
     const token = localStorage.getItem("token");
@@ -542,7 +538,7 @@ export default class App extends React.Component {
           <AddPinPage authenticated={!!this.state.token} />
           <LoginPage />
           <VerifyPage
-            onToken={token => {
+            onToken={(token) => {
               localStorage.setItem("token", token);
               this.setState({ token });
             }}
@@ -566,4 +562,3 @@ export default class App extends React.Component {
 You created a version of PinApp using only local state, learned how to use Apollo Client and React Apollo to connect this app with a GraphQL API. You achieved this using React Apollo's `Query` and `Mutation` to easily send queries and mutations.
 
 The next chapter will teach you how to add real time functionality to apps using GraphQL Subscriptions, which let GraphQL APIs push data to clients.
-

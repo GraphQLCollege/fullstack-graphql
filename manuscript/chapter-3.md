@@ -1,5 +1,7 @@
 # 3. GraphQL APIs
 
+[https://www.graphqladmin.com/books/fullstack-graphql/03-graphql-apis](https://www.graphqladmin.com/books/fullstack-graphql/03-graphql-apis)
+
 The most common way of exposing a GraphQL schema is with an HTTP server. Building GraphQL APIs is much more than just designing schemas. This chapter will teach you how to create robust, layered GraphQL APIs.
 
 ![Server](images/server.png)
@@ -69,12 +71,8 @@ You can chain together Knex functions. For example you can filter results from a
 ```js
 search: (_, { text }) => {
   return Promise.all([
-    database("users")
-      .select()
-      .where("email", "like", `%${text}%`),
-    database("pins")
-      .select()
-      .where("title", "like", `%${text}%`)
+    database("users").select().where("email", "like", `%${text}%`),
+    database("pins").select().where("title", "like", `%${text}%`),
   ]);
 };
 ```
@@ -104,8 +102,8 @@ Knex provides a CLI which provides several utilities for creating migrations, se
 module.exports = {
   client: "sqlite3",
   connection: {
-    filename: ".data/database.sqlite"
-  }
+    filename: ".data/database.sqlite",
+  },
 };
 ```
 
@@ -116,14 +114,14 @@ The final step you need in order to use a SQL file is to generate your database 
 Running `npx knex migrate:make create_users_table` creates a file called `[date]_create_users_table.js` inside the `.migrations` folder. This file exports two methods, `up` and `down`. These files are placeholders, which you need to fill in with your specific needs. In this case, the user table needs to have two fields, `id` and `email`. Both will have type `string`. The `id` field will be a primary key.
 
 ```js
-exports.up = function(knex) {
-  return knex.schema.createTable("users", function(table) {
+exports.up = function (knex) {
+  return knex.schema.createTable("users", function (table) {
     table.string("id").primary();
     table.string("email");
   });
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTable("users");
 };
 ```
@@ -131,8 +129,8 @@ exports.down = function(knex) {
 There is another migration in the project you remixed, called `[date]_create_pins_migration`. It defines five `string` fields: `id`, `title`, `link`, `image` and `pin_id`.
 
 ```js
-exports.up = function(knex) {
-  return knex.schema.createTable("pins", function(table) {
+exports.up = function (knex) {
+  return knex.schema.createTable("pins", function (table) {
     table.string("id").primary();
     table.string("title");
     table.string("link");
@@ -146,7 +144,7 @@ exports.up = function(knex) {
   });
 };
 
-exports.down = function(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTable("pins");
 };
 ```
@@ -208,9 +206,7 @@ The resolver for `sendShortLivedToken` should check if the user that corresponds
 ```js
 sendShortLivedToken: async (_, { email }) => {
   let user;
-  const userExists = await database("users")
-    .select()
-    .where({ email });
+  const userExists = await database("users").select().where({ email });
   if (userExists.length) {
     user = userExists[0];
   } else {
@@ -228,13 +224,9 @@ The first one creates a token using the `jsonwebtoken` NPM package's [`sign`](ht
 
 ```js
 const createShortLivedToken = ({ email, id }) => {
-  return jsonwebtoken.sign(
-    { id, email },
-    process.env.SECRET,
-    {
-      expiresIn: "5m"
-    }
-  );
+  return jsonwebtoken.sign({ id, email }, process.env.SECRET, {
+    expiresIn: "5m",
+  });
 };
 ```
 
@@ -246,10 +238,8 @@ const sendShortLivedToken = (email, token) => {
     from: '"Julian" <julian@graphql.college>',
     to: email,
     text: `${process.env.APP_URL}/verify?token=${token}`,
-    html: `<a href="${
-      process.env.APP_URL
-    }/verify?token=${token}" target="_blank">Authenticate</a>`,
-    subject: "Auth token"
+    html: `<a href="${process.env.APP_URL}/verify?token=${token}" target="_blank">Authenticate</a>`,
+    subject: "Auth token",
   });
 };
 ```
@@ -264,8 +254,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   auth: {
     user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASSWORD
-  }
+    pass: process.env.MAIL_PASSWORD,
+  },
 });
 
 function sendMail({ from, to, subject, text, html }) {
@@ -274,7 +264,7 @@ function sendMail({ from, to, subject, text, html }) {
     to,
     subject,
     text,
-    html
+    html,
   };
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {
@@ -292,12 +282,9 @@ module.exports = sendMail;
 The implementation of `createLongLivedToken` is much simpler than `sendShortLivedToken`. It uses a function from `business-logic.js` that verifies the token it receives as argument. If that token is valid, it creates a token with an expiration date of thirty days.
 
 ```js
-const createLongLivedToken = token => {
+const createLongLivedToken = (token) => {
   try {
-    const { id, email } = jsonwebtoken.verify(
-      token,
-      process.env.SECRET
-    );
+    const { id, email } = jsonwebtoken.verify(token, process.env.SECRET);
     const longLivedToken = jsonwebtoken.sign(
       { id, email },
       process.env.SECRET,
@@ -375,4 +362,3 @@ That's it! Using a feature based file structure is a scalable way of organizing 
 You learned how to create a GraphQL API using Apollo Server. Starting from just a GraphQL schema, you learned how to wrap that schema with an HTTP layer using `ApolloServer`. You added a database layer using Knex, email based authentication with Nodemailer. In the last step, you organized your project by features using GraphQL Import.
 
 The next chapter will teach you how to create GraphQL clients using Apollo Client. You will learn how to implement a frontend in React that communicates with the GraphQL API you just created.
-

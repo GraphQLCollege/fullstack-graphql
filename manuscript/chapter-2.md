@@ -1,5 +1,7 @@
 # 2. Data modeling
 
+[https://www.graphqladmin.com/books/fullstack-graphql/02-data-modeling](https://www.graphqladmin.com/books/fullstack-graphql/02-data-modeling)
+
 In the previous chapter you learned how to read and write data by sending queries against a schema using the GraphQL query language. In this chapter you will learn how to model the data behind the queries using schemas and types. To create this schema you will use the GraphQL Schema Definition Language (also called SDL, not to be confused with LSD).
 
 Whereas the previous chapter focused on how clients interact with servers using GraphQL, this chapter will tackle how to expose a data model that clients can consume.
@@ -16,10 +18,10 @@ Because GraphQL is a specification implemented in many languages, it provides it
 
 The schema you will create is more than just an example that illustrates how to write SDL. It is the initial step of building PinApp, the sample application of this book. It allows most of the features in the final app:
 
-* Login with magic links
-* Allow authenticated users to add pins
-* Search pins and users
-* List pins
+- Login with magic links
+- Allow authenticated users to add pins
+- Search pins and users
+- List pins
 
 Make your own copy of this example with the following button:
 
@@ -46,7 +48,7 @@ const resolvers = require("./resolvers");
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 module.exports = schema;
@@ -104,11 +106,11 @@ Notice that `addPin` has a `pin` argument of type `PinInput`, and the other two 
 
 Scalar types can't have nested fields, they represent the leaves of a schema. These are the built-in scalar types in GraphQL:
 
-* `Int`
-* `Float`
-* `String`
-* `Boolean`
-* `ID`
+- `Int`
+- `Float`
+- `String`
+- `Boolean`
+- `ID`
 
 Some GraphQL implementations allow you to define custom scalar types. This means that you could create custom scalars such as `Date` or `JSON`.
 
@@ -241,12 +243,12 @@ const {
   createShortLivedToken,
   sendShortLivedToken,
   createLongLivedToken,
-  createUser
+  createUser,
 } = require("./business-logic");
 
 const database = {
   users: {},
-  pins: {}
+  pins: {},
 };
 
 const resolvers = {
@@ -255,21 +257,18 @@ const resolvers = {
     users: () => Object.values(database.users),
     search: (_, { text }) => {
       return [
-        ...Object.values(database.pins).filter(pin =>
+        ...Object.values(database.pins).filter((pin) =>
           pin.title.includes(text)
         ),
-        ...Object.values(database.users).filter(user =>
+        ...Object.values(database.users).filter((user) =>
           user.email.includes(text)
-        )
+        ),
       ];
-    }
+    },
   },
   Mutation: {
     addPin: async (_, { pin }, { user }) => {
-      const {
-        user: updatedUser,
-        pin: createdPin
-      } = await addPin(user, pin);
+      const { user: updatedUser, pin: createdPin } = await addPin(user, pin);
       database.pins[createdPin.id] = createdPin;
       database.users[user.id] = updatedUser;
       return createdPin;
@@ -277,7 +276,7 @@ const resolvers = {
     sendShortLivedToken: (_, { email }) => {
       let user;
       const userExists = Object.values(database.users).find(
-        u => u.email === user.email
+        (u) => u.email === user.email
       );
       if (userExists) {
         user = userExists;
@@ -290,25 +289,23 @@ const resolvers = {
     },
     createLongLivedToken: (_, { token }) => {
       return createLongLivedToken(token);
-    }
+    },
   },
   Person: {
-    __resolveType: person => {
+    __resolveType: (person) => {
       if (person.admin) {
         return "Admin";
       }
       return "User";
-    }
+    },
   },
   User: {
     pins({ id }) {
-      return Object.values(database.pins).filter(
-        pin => pin.user_id === id
-      );
-    }
+      return Object.values(database.pins).filter((pin) => pin.user_id === id);
+    },
   },
   SearchResult: {
-    __resolveType: searchResult => {
+    __resolveType: (searchResult) => {
       if (searchResult.admin) {
         return "Admin";
       }
@@ -316,8 +313,8 @@ const resolvers = {
         return "User";
       }
       return "Pin";
-    }
-  }
+    },
+  },
 };
 
 module.exports = resolvers;
@@ -355,4 +352,3 @@ Feel free to learn by modifying the different resolver functions and seeing how 
 You learned how to create GraphQL schemas. You wrote type definitions using SDL, and resolvers using Javascript. The schema you created in this chapter is accessible by scripts using `graphql-js`.
 
 The next chapter will teach you how to create GraphQL HTTP APIs. You will add the different layers that make up a GraphQL server on top of the GraphQL schema from this chapter. This API will have several additional layers, like HTTP, database and authentication.
-

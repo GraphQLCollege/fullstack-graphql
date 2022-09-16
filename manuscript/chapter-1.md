@@ -1,5 +1,7 @@
 # 1. Reading and writing data
 
+[https://www.graphqladmin.com/books/fullstack-graphql/01-reading-and-writing-data](https://www.graphqladmin.com/books/fullstack-graphql/01-reading-and-writing-data)
+
 In this chapter you will learn how to use GraphQL from a frontend developer's perspective. This chapter explains how to use queries and mutations to read and write data from GraphQL.
 
 ![Queries and mutations](images/graphql-schema.png)
@@ -16,19 +18,19 @@ The GraphQL query language defines how to interact with data using GraphQL's que
 
 The rest of this chapter will teach you the following features of GraphQL syntax:
 
-* Basic query
-* Query nested fields
-* Query multiple fields
-* Operation name
-* Arguments
-* Aliases
-* Fragments
-* Variables
-* Directives
-* Default variables
-* Mutations
-* Inline fragments
-* Meta fields
+- Basic query
+- Query nested fields
+- Query multiple fields
+- Operation name
+- Arguments
+- Aliases
+- Fragments
+- Variables
+- Directives
+- Default variables
+- Mutations
+- Inline fragments
+- Meta fields
 
 All concepts that you will learn have a runnable example, implemented using [`graphql-js`](https://github.com/graphql/graphql-js). GraphQL JS is the reference implementation of GraphQL, built with Javascript. This library exports a function called `graphql` which lets us send a query to a GraphQL schema.
 
@@ -45,7 +47,7 @@ const schema = require("../schema");
 
 const query = ``;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -87,7 +89,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -132,7 +134,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -191,7 +193,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -244,7 +246,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -302,7 +304,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -344,7 +346,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -397,7 +399,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -468,10 +470,8 @@ const query = `
 `;
 
 graphql(schema, query, undefined, undefined, {
-  id: "1"
-}).then(result =>
-  console.log(JSON.stringify(result, null, 1))
-);
+  id: "1",
+}).then((result) => console.log(JSON.stringify(result, null, 1)));
 ```
 
 The result of running `node queries/8-variables.js` is pretty straightforward.
@@ -514,10 +514,8 @@ const query = `
 `;
 
 graphql(schema, query, undefined, undefined, {
-  withPins: true
-}).then(result =>
-  console.log(JSON.stringify(result, null, 1))
-);
+  withPins: true,
+}).then((result) => console.log(JSON.stringify(result, null, 1)));
 ```
 
 Go ahead and run the previous example with `node queries/9-directives.js`. Change `withPins` to false and see how the result's structure changes.
@@ -576,7 +574,7 @@ const query = `
   }
 `;
 
-graphql(schema, query).then(result =>
+graphql(schema, query).then((result) =>
   console.log(JSON.stringify(result, null, 1))
 );
 ```
@@ -642,10 +640,8 @@ const query = `
 `;
 
 graphql(schema, query, undefined, undefined, {
-  text: "Hello world"
-}).then(result =>
-  console.log(JSON.stringify(result, null, 1))
-);
+  text: "Hello world",
+}).then((result) => console.log(JSON.stringify(result, null, 1)));
 ```
 
 Run the previous example with `node queries/11-inline-fragments.js`.
@@ -696,10 +692,8 @@ const query = `
 `;
 
 graphql(schema, query, undefined, undefined, {
-  text: "Hello world"
-}).then(result =>
-  console.log(JSON.stringify(result, null, 1))
-);
+  text: "Hello world",
+}).then((result) => console.log(JSON.stringify(result, null, 1)));
 ```
 
 Run the previous script by entering `node queries/12-meta-fields.js` into the console. You will see that the response contains a `__typename` field in each object.
@@ -752,11 +746,9 @@ graphql(schema, query, undefined, undefined, {
   pin: {
     title: "Hello world",
     link: "Hello world",
-    image: "Hello world"
-  }
-}).then(result =>
-  console.log(JSON.stringify(result, null, 1))
-);
+    image: "Hello world",
+  },
+}).then((result) => console.log(JSON.stringify(result, null, 1)));
 ```
 
 Run this mutation example by entering `node queries/13-mutations.js` in the console. Remember that our schema works with mocked data, it does not have a real implementation underneath, so don't expect any data changes caused by this mutation.
@@ -782,4 +774,3 @@ If you query the list of pins after your last mutation, you will notice that thi
 GraphQL makes frontend development easier by providing powerful querying capabilities. It makes it easy to fetch for multiple, nested resources in a single query. Fetching the minimal set of fields needed from a resource is also a built-in feature.
 
 In the next chapter, called Data Modeling, you will design from scratch the schema you used in this chapter. As opposed to this chapter's schema, the next one will be backed by an in-memory database, it will not have mocked values.
-

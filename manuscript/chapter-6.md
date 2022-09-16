@@ -1,5 +1,7 @@
 # 6. Testing
 
+[https://www.graphqladmin.com/books/fullstack-graphql/06-testing](https://www.graphqladmin.com/books/fullstack-graphql/06-testing)
+
 Testing is key when producing solid software. A solid testing suite improves development speed because it provides confidence that all features keep working after adding new functionality.
 
 This chapter will teach you how to test GraphQL APIs and clients. You will write tests that verify the behavior of all features you added in this book.
@@ -54,24 +56,25 @@ Initialize database and pubsub in server's constructor. At this point, database 
 Also create a `stop` function in the `Server` class. It will clean up the main database client and the pubsub database client. This is very important, because if you don't clear up database connections after each test run, you will have to manually stop your test suite because you will quickly run out of available database connections.
 
 ```js
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require("apollo-server");
 const { PostgresPubSub } = require("graphql-postgres-subscriptions");
 const { Client } = require("pg");
 
-const schema = require('./schema');
-const createDatabase = require('./database');
+const schema = require("./schema");
+const createDatabase = require("./database");
 
 class Server extends ApolloServer {
   constructor() {
     const database = createDatabase();
     const client = new Client({
-      connectionString: process.env.NODE_ENV === "test" ?
-        `${process.env.TEST_DATABASE_URL}?ssl=true` :
-        `${process.env.DATABASE_URL}?ssl=true`
+      connectionString:
+        process.env.NODE_ENV === "test"
+          ? `${process.env.TEST_DATABASE_URL}?ssl=true`
+          : `${process.env.DATABASE_URL}?ssl=true`,
     });
     client.connect();
     const pubsub = new PostgresPubSub({
-      client
+      client,
     });
     super({
       schema,
@@ -81,7 +84,7 @@ class Server extends ApolloServer {
           context.token = req.headers.authorization;
         }
         return context;
-      }
+      },
     });
     this.database = database;
     this.pubsub = pubsub;
@@ -90,7 +93,7 @@ class Server extends ApolloServer {
     return Promise.all([
       super.stop(),
       this.database.destroy(),
-      this.pubsub.client.end()
+      this.pubsub.client.end(),
     ]);
   }
 }
@@ -129,16 +132,20 @@ const { verify, authorize } = require("../authentication");
 
 const resolvers = {
   Query: {
-    pins: (_ , __ , { database }) => database("pins").select(),
+    pins: (_, __, { database }) => database("pins").select(),
   },
   Mutation: {
-    addPin: async (_, { pin }, { token, database, pubsub }) => { /* */ }
+    addPin: async (_, { pin }, { token, database, pubsub }) => {
+      /* */
+    },
   },
   Subscription: {
     pinAdded: {
-      subscribe: (_, __, { pubsub }) => { /* */ }
-    }
-  }
+      subscribe: (_, __, { pubsub }) => {
+        /* */
+      },
+    },
+  },
 };
 
 module.exports = resolvers;
@@ -149,11 +156,15 @@ Modify `search/resolvers.js`:
 ```js
 const resolvers = {
   Query: {
-    search: async (_, { text }, { database }) => { /* */ }
+    search: async (_, { text }, { database }) => {
+      /* */
+    },
   },
   SearchResult: {
-    __resolveType: searchResult => { /* */ }
-  }
+    __resolveType: (searchResult) => {
+      /* */
+    },
+  },
 };
 
 module.exports = resolvers;
@@ -162,7 +173,7 @@ module.exports = resolvers;
 Also modify `database.js` so that it exports an initialization function, instead of initializing the database and exporting its instance.
 
 ```js
-module.exports = () => require('knex')(require("./knexfile"));
+module.exports = () => require("knex")(require("./knexfile"));
 ```
 
 The final thing you need before you start writing tests is adding Jest to the `"devDependencies"` in `package.json` and also adding a `"test"` script. This script will run `jest --watchAll --runInBand`. `watchAll` reruns the test suite whenever a file changes, and `runInBand` runs all tests serially instead of concurrently. This behavior is necessary because all tests share a single database, and running all of them at the same time would result in data corruption.
@@ -198,7 +209,7 @@ You are going to use this technique to test the data layer of PinApp's. Create a
 const { graphql } = require("graphql");
 
 const createDatabase = require("./database");
-const schema = require('./schema');
+const schema = require("./schema");
 const { search } = require("./queries");
 
 describe("GraphQL layer", () => {
@@ -221,10 +232,9 @@ describe("GraphQL layer", () => {
     }
   }  
   `;
-    return graphql(schema, query, undefined, { database })
-      .then(result => {
-        expect(result.data.users).toMatchSnapshot();
-      });
+    return graphql(schema, query, undefined, { database }).then((result) => {
+      expect(result.data.users).toMatchSnapshot();
+    });
   });
 
   it("should list all pins", () => {
@@ -239,17 +249,21 @@ describe("GraphQL layer", () => {
     }
   }
   `;
-    return graphql(schema, query, undefined, { database })
-      .then(result => {
-        expect(result.data.pins).toMatchSnapshot();
-      });
+    return graphql(schema, query, undefined, { database }).then((result) => {
+      expect(result.data.pins).toMatchSnapshot();
+    });
   });
 
   it("should search pins by title", () => {
-    return graphql(schema, search, undefined, { database }, { text: "First" })
-      .then(result => {
-        expect(result.data.search).toMatchSnapshot();
-      });
+    return graphql(
+      schema,
+      search,
+      undefined,
+      { database },
+      { text: "First" }
+    ).then((result) => {
+      expect(result.data.search).toMatchSnapshot();
+    });
   });
 });
 ```
@@ -266,12 +280,14 @@ To test the HTTP layer, you are going to create an instance of `Server` before e
 const { graphql } = require("graphql");
 
 const createDatabase = require("./database");
-const schema = require('./schema');
+const schema = require("./schema");
 const { search } = require("./queries");
 const Server = require("./server");
 const { deleteEmails } = require("./email");
 
-describe("GraphQL layer", () => { /* */ });
+describe("GraphQL layer", () => {
+  /* */
+});
 
 describe("HTTP layer", () => {
   let server;
@@ -286,7 +302,7 @@ describe("HTTP layer", () => {
     server.pubsub.ee.on("error", () => {});
     await Promise.all([
       server.database("users").del(),
-      server.database("pins").del()
+      server.database("pins").del(),
     ]);
     serverInfo = await server.listen({ http: { port: 3001 } });
     deleteEmails();
@@ -295,7 +311,6 @@ describe("HTTP layer", () => {
   afterEach(() => server.stop());
 
   // Tests
-
 });
 ```
 
@@ -346,22 +361,22 @@ Up until this point, you have been using an SMTP server like [`Ethereal`](https:
 Modify `email.js` by setting JSON transport in tests:
 
 ```js
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 let transporter;
 
 if (process.env.NODE_ENV === "test") {
   transporter = nodemailer.createTransport({
-    jsonTransport: true
+    jsonTransport: true,
   });
 } else {
   transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: "smtp.ethereal.email",
     port: 587,
     auth: {
       user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASSWORD
-    }
+      pass: process.env.MAIL_PASSWORD,
+    },
   });
 }
 
@@ -371,7 +386,7 @@ function sendMail({ from, to, subject, text, html }) {
     to,
     subject,
     text,
-    html
+    html,
   };
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {
@@ -384,14 +399,14 @@ function sendMail({ from, to, subject, text, html }) {
 }
 
 module.exports = {
-  sendMail
+  sendMail,
 };
 ```
 
 In order to test email authentication, you are going to need to access the list of emails sent. You can keep an array of emails sent in `email.js` and expose them. You are also going to need a way to clean up this list of emails, so you are also going to expose a function called `deleteEmails`.
 
 ```js
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 let transporter;
 var emails = [];
@@ -403,21 +418,25 @@ if (process.env.NODE_ENV === "test") {
 }
 
 function sendMail({ from, to, subject, text, html }) {
-  const mailOptions = { /* */ };
+  const mailOptions = {
+    /* */
+  };
   emails.push(mailOptions);
-  return new Promise((resolve, reject) => { /* */ });
+  return new Promise((resolve, reject) => {
+    /* */
+  });
 }
 
 function deleteEmails() {
-  while(emails.length > 0) {
-      emails.pop();
+  while (emails.length > 0) {
+    emails.pop();
   }
 }
 
 module.exports = {
   emails,
   sendMail,
-  deleteEmails
+  deleteEmails,
 };
 ```
 
@@ -428,20 +447,21 @@ const { graphql } = require("graphql");
 const fetch = require("isomorphic-unfetch");
 
 // ... Previous imports
-const {
-  search,
-  createShortLivedToken,
-} = require("./queries");
+const { search, createShortLivedToken } = require("./queries");
 const Server = require("./server");
 const { deleteEmails, emails } = require("./email");
 
-describe("GraphQL layer", () => { /* */ });
+describe("GraphQL layer", () => {
+  /* */
+});
 
 describe("HTTP layer", () => {
   let server;
   let serverInfo;
 
-  beforeEach(async () => { /* */ });
+  beforeEach(async () => {
+    /* */
+  });
 
   afterEach(() => server.stop());
 
@@ -450,17 +470,17 @@ describe("HTTP layer", () => {
   it("should allow users to create short lived tokens", () => {
     const email = "name@example.com";
     const variables = {
-      email
+      email,
     };
     return fetch(serverInfo.url, {
       body: JSON.stringify({ query: createShortLivedToken, variables }),
       headers: { "Content-Type": "application/json" },
-      method: "POST"
+      method: "POST",
     })
-    .then(response => response.json())
-    .then(response => {
-      expect(emails[emails.length - 1].to).toEqual(email)
-    });
+      .then((response) => response.json())
+      .then((response) => {
+        expect(emails[emails.length - 1].to).toEqual(email);
+      });
   });
 });
 ```
@@ -486,13 +506,17 @@ const Server = require("./server");
 const { deleteEmails, emails } = require("./email");
 const { verify } = require("./authentication");
 
-describe("GraphQL layer", () => { /* */ });
+describe("GraphQL layer", () => {
+  /* */
+});
 
 describe("HTTP layer", () => {
   let server;
   let serverInfo;
 
-  beforeEach(async () => { /* */ });
+  beforeEach(async () => {
+    /* */
+  });
 
   afterEach(() => server.stop());
 
@@ -501,26 +525,30 @@ describe("HTTP layer", () => {
   it("should allow users to create long lived tokens", () => {
     const email = "name@example.com";
     const variables = {
-      email
+      email,
     };
     return fetch(serverInfo.url, {
       body: JSON.stringify({ query: createShortLivedToken, variables }),
       headers: { "Content-Type": "application/json" },
-      method: "POST"
+      method: "POST",
     })
-    .then(response => response.json())
-    .then(response => {
-      const token = url.parse(emails[emails.length - 1].text, true).query.token;
-      return fetch(serverInfo.url, {
-        body: JSON.stringify({ query: createLongLivedToken, variables: { token } }),
-        headers: { "Content-Type": "application/json" },
-        method: "POST"
+      .then((response) => response.json())
+      .then((response) => {
+        const token = url.parse(emails[emails.length - 1].text, true).query
+          .token;
+        return fetch(serverInfo.url, {
+          body: JSON.stringify({
+            query: createLongLivedToken,
+            variables: { token },
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        });
       })
-    })
-    .then(response => response.json())
-    .then(response => {
-      expect(verify(response.data.createLongLivedToken).email).toEqual(email);
-    });
+      .then((response) => response.json())
+      .then((response) => {
+        expect(verify(response.data.createLongLivedToken).email).toEqual(email);
+      });
   });
 });
 ```
@@ -531,79 +559,85 @@ Testing that the app returns the current authenticated user consists of checking
 it("should return authenticated user", () => {
   const email = "name@example.com";
   const variables = {
-    email
+    email,
   };
   let token;
   return fetch(serverInfo.url, {
     body: JSON.stringify({ query: createShortLivedToken, variables }),
     headers: { "Content-Type": "application/json" },
-    method: "POST"
+    method: "POST",
   })
-  .then(response => response.json())
-  .then(response => {
-    token = url.parse(emails[emails.length - 1].text, true).query.token;
-    return fetch(serverInfo.url, {
-      body: JSON.stringify({ query: createLongLivedToken, variables: { token } }),
-      headers: { "Content-Type": "application/json" },
-      method: "POST"
+    .then((response) => response.json())
+    .then((response) => {
+      token = url.parse(emails[emails.length - 1].text, true).query.token;
+      return fetch(serverInfo.url, {
+        body: JSON.stringify({
+          query: createLongLivedToken,
+          variables: { token },
+        }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      });
     })
-  })
-  .then(response => response.json())
-  .then(response => {
-    return fetch(serverInfo.url, {
-      body: JSON.stringify({ query: me }),
-      headers: { "Content-Type": "application/json", Authorization: token },
-      method: "POST"
+    .then((response) => response.json())
+    .then((response) => {
+      return fetch(serverInfo.url, {
+        body: JSON.stringify({ query: me }),
+        headers: { "Content-Type": "application/json", Authorization: token },
+        method: "POST",
+      });
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      expect(response.data).toMatchSnapshot();
     });
-  })
-  .then(response => response.json())
-  .then(response => {
-    expect(response.data).toMatchSnapshot();
-  });
 });
 ```
 
 Another test that needs a complete login flow is checking that authenticated users can create pins. To test this, complete a login flow and send a long lived token, along with the `addPin` query to the server.
 
 ```js
-  it("should allow authenticated users to create pins", () => {
-    const email = "name@example.com";
-    const variables = {
-      email
-    };
-    let token;
-    return fetch(serverInfo.url, {
-      body: JSON.stringify({ query: createShortLivedToken, variables }),
-      headers: { "Content-Type": "application/json" },
-      method: "POST"
-    })
-    .then(response => response.json())
-    .then(response => {
+it("should allow authenticated users to create pins", () => {
+  const email = "name@example.com";
+  const variables = {
+    email,
+  };
+  let token;
+  return fetch(serverInfo.url, {
+    body: JSON.stringify({ query: createShortLivedToken, variables }),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  })
+    .then((response) => response.json())
+    .then((response) => {
       token = url.parse(emails[emails.length - 1].text, true).query.token;
       return fetch(serverInfo.url, {
-        body: JSON.stringify({ query: createLongLivedToken, variables: { token } }),
+        body: JSON.stringify({
+          query: createLongLivedToken,
+          variables: { token },
+        }),
         headers: { "Content-Type": "application/json" },
-        method: "POST"
-      })
+        method: "POST",
+      });
     })
-    .then(response => response.json())
-    .then(response => {
+    .then((response) => response.json())
+    .then((response) => {
       const pin = {
         title: "Example",
         link: "http://example.com",
-        image: "http://example.com"
+        image: "http://example.com",
       };
       return fetch(serverInfo.url, {
         body: JSON.stringify({ query: addPin, variables: { pin } }),
         headers: { "Content-Type": "application/json", Authorization: token },
-        method: "POST"
+        method: "POST",
       });
     })
-    .then(response => response.json())
-    .then(response => {
+    .then((response) => response.json())
+    .then((response) => {
       expect(response.data).toMatchSnapshot();
     });
-  });
+});
 ```
 
 This test completes all authentication related tests. The following section will teach you how to verify that subscriptions work in your API.
@@ -637,29 +671,29 @@ const { SubscriptionClient } = require("subscriptions-transport-ws");
 
 describe("HTTP layer", () => {
   // ...
-  it("should subscribe to pins", done => {
+  it("should subscribe to pins", (done) => {
     const subscriptionClient = new SubscriptionClient(
       serverInfo.url.replace("http://", "ws://"),
       {
         reconnect: true,
-        connectionCallback: error => {
+        connectionCallback: (error) => {
           if (error) {
             done(error);
           }
-        }
+        },
       }
     );
     subscriptionClient.on("connected", () => {
       subscriptionClient
         .request({
-          query: pinsSubscription
+          query: pinsSubscription,
         })
         .subscribe({
-          next: result => {
+          next: (result) => {
             expect(result).toMatchSnapshot();
             done();
           },
-          error: done
+          error: done,
         });
       authenticateAndAddPin(serverInfo.url);
     });
@@ -670,33 +704,32 @@ describe("HTTP layer", () => {
 function authenticateAndAddPin(serverUrl) {
   const email = "name@example.com";
   const variables = {
-    email
+    email,
   };
   let token;
   return fetch(serverUrl, {
     body: JSON.stringify({ query: createShortLivedToken, variables }),
     headers: { "Content-Type": "application/json" },
-    method: "POST"
+    method: "POST",
   })
-  .then(response => {
-    token = url.parse(emails[emails.length - 1].text, true).query.token;
-    const pin = {
-      title: "Example",
-      link: "http://example.com",
-      image: "http://example.com"
-    };
-    return fetch(serverUrl, {
-      body: JSON.stringify({ query: addPin, variables: { pin } }),
-      headers: { "Content-Type": "application/json", Authorization: token },
-      method: "POST"
+    .then((response) => {
+      token = url.parse(emails[emails.length - 1].text, true).query.token;
+      const pin = {
+        title: "Example",
+        link: "http://example.com",
+        image: "http://example.com",
+      };
+      return fetch(serverUrl, {
+        body: JSON.stringify({ query: addPin, variables: { pin } }),
+        headers: { "Content-Type": "application/json", Authorization: token },
+        method: "POST",
+      }).then((response) => response.json());
     })
-    .then(response => response.json());
-  })
-  .then(response => {
-    if (response.errors) {
-      throw new Error(response.errors[0].message);
-    }
-  })
+    .then((response) => {
+      if (response.errors) {
+        throw new Error(response.errors[0].message);
+      }
+    });
 }
 ```
 
@@ -788,7 +821,7 @@ import {
   CREATE_SHORT_LIVED_TOKEN,
   CREATE_LONG_LIVED_TOKEN,
   ME,
-  ADD_PIN
+  ADD_PIN,
 } from "./queries";
 
 it("shows 'There are no pins yet' initially", async () => {
@@ -797,16 +830,16 @@ it("shows 'There are no pins yet' initially", async () => {
       request: { query: LIST_PINS },
       result: {
         data: {
-          pins: []
-        }
-      }
+          pins: [],
+        },
+      },
     },
     {
       request: {
-        query: PINS_SUBSCRIPTION
+        query: PINS_SUBSCRIPTION,
       },
-      result: { data: { pinAdded: null } }
-    }
+      result: { data: { pinAdded: null } },
+    },
   ];
   const wrapper = mount(
     <MemoryRouter>
@@ -821,7 +854,7 @@ it("shows 'There are no pins yet' initially", async () => {
   // https://github.com/airbnb/enzyme/blob/master/docs/guides/migration-from-2-to-3.md#for-mount-updates-are-sometimes-required-when-they-werent-before)
   wrapper.update();
   expect(
-    wrapper.contains(node => node.text() === "There are no pins yet.")
+    wrapper.contains((node) => node.text() === "There are no pins yet.")
   ).toBe(true);
   wrapper.unmount();
 });
@@ -837,38 +870,38 @@ it("should show a list of pins", async () => {
       title: "Modern",
       link: "https://pinterest.com/pin/637540890973869441/",
       image:
-        "https://i.pinimg.com/564x/5a/22/2c/5a222c93833379f00777671442df7cd2.jpg"
+        "https://i.pinimg.com/564x/5a/22/2c/5a222c93833379f00777671442df7cd2.jpg",
     },
     {
       id: "2",
       title: "Broadcast Clean Titles",
       link: "https://pinterest.com/pin/487585097141051238/",
       image:
-        "https://i.pinimg.com/564x/85/ce/28/85ce286cba63daf522464a7d680795ba.jpg"
+        "https://i.pinimg.com/564x/85/ce/28/85ce286cba63daf522464a7d680795ba.jpg",
     },
     {
       id: "3",
       title: "Drawing",
       link: "https://pinterest.com/pin/618611698790230574/",
       image:
-        "https://i.pinimg.com/564x/00/7a/2e/007a2ededa8b0ce87e048c60fa6f847b.jpg"
-    }
+        "https://i.pinimg.com/564x/00/7a/2e/007a2ededa8b0ce87e048c60fa6f847b.jpg",
+    },
   ];
   const mocks = [
     {
       request: { query: LIST_PINS },
       result: {
         data: {
-          pins
-        }
-      }
+          pins,
+        },
+      },
     },
     {
       request: {
-        query: PINS_SUBSCRIPTION
+        query: PINS_SUBSCRIPTION,
       },
-      result: { data: { pinAdded: null } }
-    }
+      result: { data: { pinAdded: null } },
+    },
   ];
   const wrapper = mount(
     <MemoryRouter>
@@ -908,29 +941,29 @@ it("should allow users to login", async () => {
       request: { query: LIST_PINS },
       result: {
         data: {
-          pins: []
-        }
-      }
+          pins: [],
+        },
+      },
     },
     {
       request: {
-        query: PINS_SUBSCRIPTION
+        query: PINS_SUBSCRIPTION,
       },
-      result: { data: { pinAdded: null } }
+      result: { data: { pinAdded: null } },
     },
     {
       request: {
         query: CREATE_SHORT_LIVED_TOKEN,
         variables: {
-          email
-        }
+          email,
+        },
       },
       result: {
         data: {
-          sendShortLivedToken: true
-        }
-      }
-    }
+          sendShortLivedToken: true,
+        },
+      },
+    },
   ];
   const wrapper = mount(
     <MemoryRouter>
@@ -944,10 +977,7 @@ it("should allow users to login", async () => {
   expect(wrapper.find(".auth-banner").length).toBe(1);
   expect(wrapper.find('a[href="/profile"]').length).toBe(0);
   wrapper.find('a[href="/login"]').simulate("click", { button: 0 }); // Add { button: 0 } because of React Router bug https://github.com/airbnb/enzyme/issues/516
-  wrapper
-    .find("#email")
-    .first()
-    .prop("onChange")({ value: email });
+  wrapper.find("#email").first().prop("onChange")({ value: email });
   await wait();
   wrapper.update();
   wrapper.find("form").prop("onSubmit")({ preventDefault: () => {} });
@@ -955,7 +985,7 @@ it("should allow users to login", async () => {
   wrapper.update();
   expect(
     wrapper.contains(
-      node =>
+      (node) =>
         node.text() === `We sent an email to ${email}. Please check your inbox.`
     )
   ).toBe(true);
@@ -978,37 +1008,37 @@ it("should authenticate users who enter verify page", async () => {
       request: { query: LIST_PINS },
       result: {
         data: {
-          pins: []
-        }
-      }
+          pins: [],
+        },
+      },
     },
     {
       request: {
-        query: PINS_SUBSCRIPTION
+        query: PINS_SUBSCRIPTION,
       },
-      result: { data: { pinAdded: null } }
+      result: { data: { pinAdded: null } },
     },
     {
       request: {
         query: CREATE_LONG_LIVED_TOKEN,
         variables: {
-          token
-        }
+          token,
+        },
       },
       result: {
         data: {
-          createLongLivedToken: "30days"
-        }
-      }
+          createLongLivedToken: "30days",
+        },
+      },
     },
     {
       request: { query: ME },
       result: {
         data: {
-          me: { email }
-        }
-      }
-    }
+          me: { email },
+        },
+      },
+    },
   ];
   const initialEntries = [`/verify?token=${token}`];
   const wrapper = mount(
@@ -1027,7 +1057,7 @@ it("should authenticate users who enter verify page", async () => {
   await wait();
   wrapper.update();
   expect(
-    wrapper.find(".profile-page").contains(node => node.text() === email)
+    wrapper.find(".profile-page").contains((node) => node.text() === email)
   ).toBe(true);
   wrapper.unmount();
 });
@@ -1049,10 +1079,10 @@ subscriptionsLink.simulateResult({
         title,
         link,
         image,
-        id: "1"
-      }
-    }
-  }
+        id: "1",
+      },
+    },
+  },
 });
 ```
 
@@ -1067,7 +1097,7 @@ Import the new dependencies and define a class called `MockSubscriptionLink` at 
 import {
   MockedProvider,
   MockLink,
-  MockSubscriptionLink
+  MockSubscriptionLink,
 } from "react-apollo/test-utils";
 import { InMemoryCache as Cache } from "apollo-cache-inmemory";
 import { getMainDefinition } from "apollo-utilities";
@@ -1082,7 +1112,9 @@ ReactApollo.ApolloProvider = jest.fn(({ children }) => <div>{children}</div>);
 
 // ...
 
-it("should allow logged in users to add pins", async () => { /* */ });
+it("should allow logged in users to add pins", async () => {
+  /* */
+});
 
 class MockedSubscriptionsProvider extends React.Component {
   constructor(props, context) {
@@ -1101,7 +1133,7 @@ class MockedSubscriptionsProvider extends React.Component {
     );
     const client = new ApolloClient({
       link,
-      cache: new Cache({ addTypename })
+      cache: new Cache({ addTypename }),
     });
     this.client = client;
     this.subscriptionsLink = subscriptionsLink;
@@ -1136,36 +1168,36 @@ it("should allow logged in users to add pins", async () => {
       request: { query: LIST_PINS },
       result: {
         data: {
-          pins: []
-        }
-      }
+          pins: [],
+        },
+      },
     },
     {
       request: {
-        query: PINS_SUBSCRIPTION
+        query: PINS_SUBSCRIPTION,
       },
-      result: { data: { pinAdded: null } }
+      result: { data: { pinAdded: null } },
     },
     {
       request: {
         query: CREATE_LONG_LIVED_TOKEN,
         variables: {
-          token
-        }
+          token,
+        },
       },
       result: {
         data: {
-          createLongLivedToken: "30days"
-        }
-      }
+          createLongLivedToken: "30days",
+        },
+      },
     },
     {
       request: { query: ME },
       result: {
         data: {
-          me: { email }
-        }
-      }
+          me: { email },
+        },
+      },
     },
     {
       request: {
@@ -1174,20 +1206,20 @@ it("should allow logged in users to add pins", async () => {
           pin: {
             title,
             link,
-            image
-          }
-        }
+            image,
+          },
+        },
       },
       result: {
         data: {
           addPin: {
             title,
             link,
-            image
-          }
-        }
-      }
-    }
+            image,
+          },
+        },
+      },
+    },
   ];
   const initialEntries = [`/verify?token=${token}`];
   const wrapper = mount(
@@ -1206,22 +1238,20 @@ it("should allow logged in users to add pins", async () => {
     .first()
     .simulate("click", { button: 0 });
   wrapper.update();
-  wrapper
-    .find('[placeholder="Title"]')
-    .first()
-    .prop("onChange")({ target: { value: title } });
-  wrapper
-    .find('[placeholder="URL"]')
-    .first()
-    .prop("onChange")({ target: { value: link } });
-  wrapper
-    .find('[placeholder="Image URL"]')
-    .first()
-    .prop("onChange")({ target: { value: image } });
+  wrapper.find('[placeholder="Title"]').first().prop("onChange")({
+    target: { value: title },
+  });
+  wrapper.find('[placeholder="URL"]').first().prop("onChange")({
+    target: { value: link },
+  });
+  wrapper.find('[placeholder="Image URL"]').first().prop("onChange")({
+    target: { value: image },
+  });
   wrapper.update();
   wrapper.find("form").prop("onSubmit")({ preventDefault: () => {} });
-  const subscriptionsLink = wrapper.find(MockedSubscriptionsProvider).instance()
-    .subscriptionsLink;
+  const subscriptionsLink = wrapper
+    .find(MockedSubscriptionsProvider)
+    .instance().subscriptionsLink;
   subscriptionsLink.simulateResult({
     result: {
       data: {
@@ -1229,10 +1259,10 @@ it("should allow logged in users to add pins", async () => {
           title,
           link,
           image,
-          id: "1"
-        }
-      }
-    }
+          id: "1",
+        },
+      },
+    },
   });
   await wait(1000);
   wrapper.update();
