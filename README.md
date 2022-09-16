@@ -1,12 +1,12 @@
 # Fullstack GraphQL
 
-> New! Make GraphQL Apps in minutes with [GraphQLApps](https://graphqlapps.com)
+> New! Test your GraphQL APIs with [GraphQL Admin](https://www.graphqladmin.com)
 
 An open source book about full stack GraphQL development with React and Node.
 
-<a href="https://graphql.college/fullstack-graphql">https://graphql.college/fullstack-graphql</a>.
+<a href="https://www.graphqladmin.com/books/fullstack-graphql">https://www.graphqladmin.com/books/fullstack-graphql</a>.
 
-<a href="https://graphql.college/fullstack-graphql">
+<a href="https://www.graphqladmin.com/books/fullstack-graphql">
   <img src="manuscript/images/title_page.png" width="400px" alt="Cover" />
 </a>
 
