@@ -1,6 +1,6 @@
 # Fullstack GraphQL
 
-> New! Test your GraphQL APIs with [GraphQL Admin](https://www.graphqladmin.com)
+> New! Build, test, and document your APIs with [GraphQL Admin](https://www.graphqladmin.com)
 
 An open source book about full stack GraphQL development with React and Node.
 
