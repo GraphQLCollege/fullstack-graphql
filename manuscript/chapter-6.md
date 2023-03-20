@@ -314,7 +314,7 @@ describe("HTTP layer", () => {
 });
 ```
 
-Most of the time, the tests you can write against the HTTP layer are very similar to the tests you can write agains the GraphQL layer. For example, testing that unauthorized users cannot add pins consists of creating a query, and sending it either against an HTTP server or agains the schema directly. In this case, we are going to write it against the HTTP server, but it is a matter of choice.
+Most of the time, the tests you can write against the HTTP layer are very similar to the tests you can write agains the GraphQL layer. For example, testing that unauthorized users cannot add pins consists of creating a query, and sending it either against an HTTP server or against the schema directly. In this case, we are going to write it against the HTTP server, but it is a matter of choice.
 
 ```js
 const { graphql } = require("graphql");
@@ -440,7 +440,7 @@ module.exports = {
 };
 ```
 
-To test that users can create short lived tokens, you can send a `createShortLivedToken` query agains the server, and check that it sent an email containing the user's address.
+To test that users can create short lived tokens, you can send a `createShortLivedToken` query against the server, and check that it sent an email containing the user's address.
 
 ```js
 const { graphql } = require("graphql");
