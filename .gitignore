@@ -4,3 +4,4 @@ scripts/hello-graphql/hello-graphql.sh
 *-error.log
 node_modules
 **/.DS_Store
+book

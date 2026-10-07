@@ -1,7 +1,5 @@
 # 2. Data modeling
 
-[https://www.graphqladmin.com/books/fullstack-graphql/02-data-modeling](https://www.graphqladmin.com/books/fullstack-graphql/02-data-modeling)
-
 In the previous chapter you learned how to read and write data by sending queries against a schema using the GraphQL query language. In this chapter you will learn how to model the data behind the queries using schemas and types. To create this schema you will use the GraphQL Schema Definition Language (also called SDL, not to be confused with LSD).
 
 Whereas the previous chapter focused on how clients interact with servers using GraphQL, this chapter will tackle how to expose a data model that clients can consume.
@@ -337,8 +335,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "addPin": {
       "id": "f5220ee1-bfeb-48a0-be9f-c63d055b8139",
       "title": "Hello world",
-      "link": "http://graphql.college/fullstack-graphql",
-      "image": "http://graphql.college/fullstack-graphql",
+      "link": "https://example.com/fullstack-graphql",
+      "image": "https://example.com/fullstack-graphql",
       "user_id": "75c16079-b3ef-43f0-a352-ae03f2488baa"
     }
   }

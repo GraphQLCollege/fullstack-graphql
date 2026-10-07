@@ -1,0 +1,14 @@
+[book]
+title = "Fullstack GraphQL"
+authors = ["Julian Mayorga"]
+description = "An open source book about full stack GraphQL development with React and Node"
+language = "en"
+src = "manuscript"
+
+[build]
+build-dir = "book"
+
+[output.html]
+git-repository-url = "https://github.com/GraphQLCollege/fullstack-graphql"
+edit-url-template = "https://github.com/GraphQLCollege/fullstack-graphql/edit/master/{path}"
+site-url = "/fullstack-graphql/"

@@ -1,12 +1,10 @@
 # Fullstack GraphQL
 
-> New! Build, test, and document your APIs with [GraphQL Admin](https://www.graphqladmin.com)
-
 An open source book about full stack GraphQL development with React and Node.
 
-<a href="https://www.graphqladmin.com/books/fullstack-graphql">https://www.graphqladmin.com/books/fullstack-graphql</a>.
+Read it online for free at <a href="https://graphqlcollege.github.io/fullstack-graphql/">graphqlcollege.github.io/fullstack-graphql</a>.
 
-<a href="https://www.graphqladmin.com/books/fullstack-graphql">
+<a href="https://graphqlcollege.github.io/fullstack-graphql/">
   <img src="manuscript/images/title_page.png" width="400px" alt="Cover" />
 </a>
 
@@ -19,6 +17,8 @@ Every image in the book is located in `manuscript/images`.
 The order of the chapters is determined by the `Book.txt` file.
 
 `Sample.txt` defines the content of the book's sample chapter.
+
+The website is built with [mdBook](https://rust-lang.github.io/mdBook/). `manuscript/SUMMARY.md` defines the table of contents, and every push to `master` deploys to GitHub Pages. To preview it locally, run `mdbook serve --open`.
 
 ## Contributing
 
@@ -38,7 +38,7 @@ Please file an issue to suggest new chapters. Chapter suggestions are always wel
 
 ### Questions
 
-If you have any questions regarding the book, or GraphQL in general, please create a new conversation in https://spectrum.chat/graphql instead of a GitHub issue.
+If you have any questions regarding the book, or GraphQL in general, please open a GitHub issue.
 
 ## License
 

@@ -1,7 +1,5 @@
 # PREFACE
 
-[https://www.graphqladmin.com/books/fullstack-graphql/00-preface](https://www.graphqladmin.com/books/fullstack-graphql/00-preface)
-
 GraphQL is revolutionizing client-server communication. It is a technology that enables better documented APIs, easier data management in HTTP clients, and optimized network usage.
 
 One of the main benefits of GraphQL is that improves communication between APIs and API consumers. Facilitates team communication by providing an easy way for frontend developers to know all methods that the API exposes. It also enables better communication with 3rd party API consumers because GraphQL services have zero configuration API documentation.

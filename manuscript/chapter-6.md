@@ -1,7 +1,5 @@
 # 6. Testing
 
-[https://www.graphqladmin.com/books/fullstack-graphql/06-testing](https://www.graphqladmin.com/books/fullstack-graphql/06-testing)
-
 Testing is key when producing solid software. A solid testing suite improves development speed because it provides confidence that all features keep working after adding new functionality.
 
 This chapter will teach you how to test GraphQL APIs and clients. You will write tests that verify the behavior of all features you added in this book.
@@ -1159,8 +1157,8 @@ The test will check that this new pin appears in the pins list by using `expect(
 ```js
 it("should allow logged in users to add pins", async () => {
   const title = "GraphQL College";
-  const link = "http://graphql.college";
-  const image = "http://www.graphql.college/fullstack-graphql";
+  const link = "https://example.com";
+  const image = "https://example.com/fullstack-graphql";
   const email = "name@example.com";
   const token = "5minutes";
   const mocks = [

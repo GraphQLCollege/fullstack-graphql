@@ -1,7 +1,5 @@
 # 4. GraphQL clients
 
-[https://www.graphqladmin.com/books/fullstack-graphql/04-graphql-clients](https://www.graphqladmin.com/books/fullstack-graphql/04-graphql-clients)
-
 In this chapter you will learn how to build a GraphQL client using React and Apollo GraphQL.
 
 ![Client](images/client.png)

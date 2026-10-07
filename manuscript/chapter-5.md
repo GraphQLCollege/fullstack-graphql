@@ -1,7 +1,5 @@
 # 5. Subscriptions
 
-[https://www.graphqladmin.com/books/fullstack-graphql/05-subscriptions](https://www.graphqladmin.com/books/fullstack-graphql/05-subscriptions)
-
 GraphQL servers can provide a way for clients to fetch data in response to server-sent events. This enables GraphQL powered applications to push data to users in response to events.
 
 For example, you could use Subscriptions to send notifications to users when another user creates new pins.

@@ -1,7 +1,5 @@
 # 1. Reading and writing data
 
-[https://www.graphqladmin.com/books/fullstack-graphql/01-reading-and-writing-data](https://www.graphqladmin.com/books/fullstack-graphql/01-reading-and-writing-data)
-
 In this chapter you will learn how to use GraphQL from a frontend developer's perspective. This chapter explains how to use queries and mutations to read and write data from GraphQL.
 
 ![Queries and mutations](images/graphql-schema.png)

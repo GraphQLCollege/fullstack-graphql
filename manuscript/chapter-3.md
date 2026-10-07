@@ -1,7 +1,5 @@
 # 3. GraphQL APIs
 
-[https://www.graphqladmin.com/books/fullstack-graphql/03-graphql-apis](https://www.graphqladmin.com/books/fullstack-graphql/03-graphql-apis)
-
 The most common way of exposing a GraphQL schema is with an HTTP server. Building GraphQL APIs is much more than just designing schemas. This chapter will teach you how to create robust, layered GraphQL APIs.
 
 ![Server](images/server.png)
@@ -235,7 +233,7 @@ The second function, `sendShortLivedToken`, uses a function defined in `email.js
 ```js
 const sendShortLivedToken = (email, token) => {
   return sendMail({
-    from: '"Julian" <julian@graphql.college>',
+    from: '"Julian" <julian@example.com>',
     to: email,
     text: `${process.env.APP_URL}/verify?token=${token}`,
     html: `<a href="${process.env.APP_URL}/verify?token=${token}" target="_blank">Authenticate</a>`,
