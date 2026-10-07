@@ -29,32 +29,34 @@ Install the `pg` library by adding it to `package.json`'s `dependencies`.
 ```js
 "dependencies": {
   // ...
-  "pg": "^7.4.3"
+  "pg": "^8.0.0"
 }
 ```
 
 Replace all the code in `knexfile.js` with this:
 
 ```js
-const pg = require("pg");
-
-// Hack required to support connection strings and ssl in knex
-// https://github.com/tgriesser/knex/issues/852#issuecomment-229502678
-pg.defaults.ssl = true;
-
-let connection = process.env.DATABASE_URL;
-
 module.exports = {
   client: "pg",
-  connection,
+  connection: process.env.DATABASE_URL,
 };
 ```
 
-Now, create a Postgres database. We recommend creating a [Heroku Postgres](https://www.heroku.com/postgres) databases, because they are easy to create. But you can create a Postgres instance in the way that you feel most comfortable.
+Now, create a Postgres database. The easiest way to run one on your machine is with [Docker](https://www.docker.com/). The following command starts Postgres in a container called `pinapp-db`, with a database called `pinapp`:
 
-To create a Postgres database using Heroku, you need to create an account. After that, go to `https://dashboard.heroku.com/apps` and create a new app. Once you create the app, provision an add-on called `Heroku Postgres` by navigating to your app's resources page. You need to copy this database's URL by going to "Settings" -> "Config Vars" and copying the value of `DATABASE_URL`.
+```bash
+docker run -d --name pinapp-db -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=pinapp postgres:17
+```
 
-Once you have the database url, place it inside your project's `.env` as `DATABASE_URL=url_that_you_just_copied`. Run `npm run setup-db` from a terminal to verify your database connection and set up all migrations.
+If port 5432 is already in use on your machine, change the first number in `-p`, for example `-p 5433:5432`, and use that port in the URLs below. You can also create a Postgres instance in any other way you feel comfortable with.
+
+Place the database URL inside your project's `.env`:
+
+```
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/pinapp
+```
+
+Run `npm run setup-db` from a terminal to verify your database connection and set up all migrations.
 
 Database migration finished! You are now ready to implement server side subscriptions using Postgres as a PubSub system.
 
@@ -99,7 +101,7 @@ After adding this new dependency, create a new instance of it and assign it to a
 
 ```js
 const pubsub = new PostgresPubSub({
-  connectionString: `${process.env.DATABASE_URL}?ssl=true`,
+  connectionString: process.env.DATABASE_URL,
 });
 ```
 
@@ -119,7 +121,7 @@ const { verify, authorize } = require("../authentication");
 const database = require("../database");
 
 const pubsub = new PostgresPubSub({
-  connectionString: `${process.env.DATABASE_URL}?ssl=true`,
+  connectionString: process.env.DATABASE_URL,
 });
 
 const resolvers = {

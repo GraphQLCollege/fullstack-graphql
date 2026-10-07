@@ -67,8 +67,8 @@ class Server extends ApolloServer {
     const client = new Client({
       connectionString:
         process.env.NODE_ENV === "test"
-          ? `${process.env.TEST_DATABASE_URL}?ssl=true`
-          : `${process.env.DATABASE_URL}?ssl=true`,
+          ? process.env.TEST_DATABASE_URL
+          : process.env.DATABASE_URL,
     });
     client.connect();
     const pubsub = new PostgresPubSub({
@@ -99,7 +99,13 @@ class Server extends ApolloServer {
 module.exports = Server;
 ```
 
-You may have noticed a new database url, called `TEST_DATABASE_URL`. Create a new database in any provider you'd like, and assign it to `TEST_DATABASE_URL=` in `.env`. Creating Postgres databases in Heroku is free of charge.
+You may have noticed a new database url, called `TEST_DATABASE_URL`. Create a second database for tests inside the same Postgres container:
+
+```bash
+docker exec pinapp-db createdb -U postgres pinapp_test
+```
+
+Then add it to `.env` as `TEST_DATABASE_URL=postgres://postgres:postgres@localhost:5432/pinapp_test`.
 
 Now all resolvers can access database from their third argument, `context`. Modify all three resolvers by removing `const database = require("../database")` and accessing it from context.
 
