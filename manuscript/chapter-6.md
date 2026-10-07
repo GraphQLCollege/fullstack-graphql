@@ -8,7 +8,7 @@ Let's start by learning about API testing.
 
 ## 6.1 How to test GraphQL APIs
 
-This section will teach you how to test GraphQL APIs using two approaches. The first will test the GraphQL layer, and the second will test the HTTP layer. Both methods will use [Jest](http://facebook.github.io/jest/), a Javascript testing library.
+This section will teach you how to test GraphQL APIs using two approaches. The first will test the GraphQL layer, and the second will test the HTTP layer. Both methods will use [Jest](https://jestjs.io/), a Javascript testing library.
 
 The first approach tests the GraphQL layer by sending queries and mutations directly against the app's schema.
 
@@ -187,8 +187,6 @@ The final thing you need before you start writing tests is adding Jest to the `"
   },
 ```
 
-As with all examples, you can [remix the testing example](https://glitch.com/edit/#!/remix/pinapp-server-testing) in case you need to refer to a working project.
-
 ## 6.3 GraphQL layer
 
 Testing the data layer is as simple as using the `graphql` function from `graphql-js` against your schema. You will recognize this pattern, because it is the same approach you used to learn queries and mutations in Chapter 1. The only difference this time is that you will use this library in the context of a Jest test.
@@ -266,7 +264,7 @@ describe("GraphQL layer", () => {
 });
 ```
 
-This approach is inspired by an awesome open source project called [Spectrum](https://spectrum.chat/). It has an extensive testing suite that uses Jest snapshots to test their GraphQL schema. Check out [Spectrum's github repository](https://github.com/withspectrum/spectrum/tree/e603e77bbb965bbbc7c678d9e9295e976c9381e0/api/test) to see this approach in a production codebase.
+This approach is inspired by an awesome open source project called [Spectrum](https://github.com/withspectrum/spectrum). It has an extensive testing suite that uses Jest snapshots to test their GraphQL schema. Check out [Spectrum's github repository](https://github.com/withspectrum/spectrum/tree/e603e77bbb965bbbc7c678d9e9295e976c9381e0/api/test) to see this approach in a production codebase.
 
 Sometimes it's best to recreate the exact conditions in which users interact with a system. In this case, users are HTTP clients, not `graphql-js` clients. The next section will teach you how to test the HTTP layer of GraphQL APIs.
 
@@ -485,7 +483,7 @@ describe("HTTP layer", () => {
 
 Testing that users can create long lived token is a little more complex. The strategy for testing this would be to first create a short lived token, then parse the token from the email sent and send it to the server as a `"token"` variable, along with a `createLongLivedToken` query.
 
-To parse the token, you are going to use Node API's [`url.parse`](https://nodejs.org/docs/latest/api/url.html#url_url_parse_urlstring_parsequerystring_slashesdenotehost) function. When you pass it a URL as a first argument, and `true` as the second, it returns a query object. Parsing the url sent in the email message will contain a `token` key.
+To parse the token, you are going to use Node API's [`url.parse`](https://nodejs.org/docs/latest-v22.x/api/url.html#urlparseurlstring-parsequerystring-slashesdenotehost) function. When you pass it a URL as a first argument, and `true` as the second, it returns a query object. Parsing the url sent in the email message will contain a `token` key.
 
 To verify that the long lived token generated with `createLongLivedToken` is valid, you are going to use the `verify` function from `authenticate/index.js`. It returns the token data, or an error if the token is not valid. Checking that the token's email is the same as the user's email will be enough to verify that authentication works.
 
@@ -735,11 +733,9 @@ This is the final step in testing PinApp's API. The next sections will teach you
 
 ## 6.7 How to test React Apollo GraphQL clients
 
-In this chapter you will learn how to test React Apollo clients. To do this, you will use [Jest](https://facebook.github.io/jest/) as a test runner, [Enzyme](https://github.com/airbnb/enzyme/) because it provides testing tools for React, and React Apollo's testing utilities.
+In this chapter you will learn how to test React Apollo clients. To do this, you will use [Jest](https://jestjs.io/) as a test runner, [Enzyme](https://github.com/airbnb/enzyme/) because it provides testing tools for React, and React Apollo's testing utilities.
 
-To test the network layers, you are going to take advantage of the fact that Apollo GraphQL's network layer is configurable using [Apollo Link](https://www.apollographql.com/docs/react/advanced/network-layer.html). The strategy is swapping the Provider defined in `src/App.js` with a `MockedProvider`. This Provider is useful for testing purposes because it does not communicate with any server, instead it receives an array of mocks that it uses for sending GraphQL responses. If `MockedProvider` has a mock that corresponds to a request, it sends the mock's response. If no mock matches a request, it throws an error.
-
-As with all steps, you have the chance to [remix the current example](https://glitch.com/edit/#!/remix/pinapp-client-testing) in case you need any help.
+To test the network layers, you are going to take advantage of the fact that Apollo GraphQL's network layer is configurable using [Apollo Link](https://www.apollographql.com/docs/react/v2/networking/network-layer/). The strategy is swapping the Provider defined in `src/App.js` with a `MockedProvider`. This Provider is useful for testing purposes because it does not communicate with any server, instead it receives an array of mocks that it uses for sending GraphQL responses. If `MockedProvider` has a mock that corresponds to a request, it sends the mock's response. If no mock matches a request, it throws an error.
 
 Let's write a basic test. You may have seen this test a bunch of times if you are used to bootstrapping apps using [`create-react-app`](https://github.com/facebook/create-react-app). This test verifies that the app renders without crashing. To stop the app from making network requests, you will use Jest to replace `ApolloProvider` with a dummy component. You will also wrap the app with React Router's `MemoryRouter`, because Jest runs in Node, not in the browser.
 
@@ -791,19 +787,16 @@ export default class App extends React.Component {
 
 Finally install `react-router` by adding it to `package.json`. Note that the previous test will work whether or not you install `react-router`. This happens because `pinapp-components` already has React Router as a dependency. But now React Router is also a dependency of your app, because you use `MemoryRouter` in your tests.
 
-You also need to install `jest-cli` if you are following the examples on glitch. This is a temporary workaround because of a bug in `pnpm`, which is the package manager that Glitch uses. It is similar to NPM or Yarn, but much more disk efficient because it uses symlinks instead of installing duplicated packages. You normally don't need to install Jest if you are using `react-scripts` with Yarn or NPM, so skip `jest-cli` if you are developing outside of Glitch.
-
 ```json
 {
   "dependencies": {
     // ...
-    "jest-cli": "23.0.1",
     "react-router": "^4.2.0"
   }
 }
 ```
 
-Run the test suite by opening the console and running `npm test`.
+Run the test suite by running `npm test` from a terminal.
 
 Now let's write a test based on a use case of the app. You are going to verify that the app shows the text "There are no pins yet" initially.
 
@@ -1158,7 +1151,7 @@ The test will check that this new pin appears in the pins list by using `expect(
 it("should allow logged in users to add pins", async () => {
   const title = "GraphQL College";
   const link = "https://example.com";
-  const image = "https://example.com/fullstack-graphql";
+  const image = "https://example.com";
   const email = "name@example.com";
   const token = "5minutes";
   const mocks = [

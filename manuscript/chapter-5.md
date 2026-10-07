@@ -54,9 +54,7 @@ Now, create a Postgres database. We recommend creating a [Heroku Postgres](https
 
 To create a Postgres database using Heroku, you need to create an account. After that, go to `https://dashboard.heroku.com/apps` and create a new app. Once you create the app, provision an add-on called `Heroku Postgres` by navigating to your app's resources page. You need to copy this database's URL by going to "Settings" -> "Config Vars" and copying the value of `DATABASE_URL`.
 
-Once you have the database url, place it inside your project's `.env` as `DATABASE_URL=url_that_you_just_copied`. Run `npm run setup-db` inside your project's console to verify your database connection and set up all migrations.
-
-[Remix this step's project](https://glitch.com/edit/#!/remix/pinapp-postgres) if you got stuck somewhere along the way.
+Once you have the database url, place it inside your project's `.env` as `DATABASE_URL=url_that_you_just_copied`. Run `npm run setup-db` from a terminal to verify your database connection and set up all migrations.
 
 Database migration finished! You are now ready to implement server side subscriptions using Postgres as a PubSub system.
 
@@ -173,8 +171,6 @@ server.listen().then(({ url }) => {
 });
 ```
 
-[Remix](https://glitch.com/edit/#!/remix/pinapp-subscriptions) if you need a working version of the subscriptions example.
-
 Congratulations! You just implemented server side subscriptions. Now head over to your project's GraphQL Playground by clicking "Show".
 
 Complete the authentication process by sending a `sendShortLivedToken` mutation. Copy the token you received in your email inbox, and send it as a `token` param in `createLongLivedToken`. Place the result of the last mutation as an "Authorization" header.
@@ -212,8 +208,8 @@ And fill the pin variable argument in the "Query Variables" section.
 {
   "pin": {
     "title": "Hello subscriptions!",
-    "link": "https://pinapp-subscriptions.glitch.me/",
-    "image": "https://pinapp-subscriptions.glitch.me/"
+    "link": "https://example.com",
+    "image": "https://example.com"
   }
 }
 ```
@@ -309,7 +305,7 @@ onError(({ graphQLErrors, networkError }) => {
 
 The second link will simulate Apollo Boost's request interception. The app uses this feature to insert the token in every request, so it's important to keep providing this. The implementation of this function uses Observables. You could think as Observables as a superset of Promises. Learning about Observables is outside the scope of this book, but don't worry, we will only use them in this snippet.
 
-React Apollo has great information about how to migrate from Apollo Boost. They introduce this implementation of request interceptor in [their migration docs](https://www.apollographql.com/docs/react/advanced/boost-migration.html#advanced-migration).
+React Apollo has great information about how to migrate from Apollo Boost. They introduce this implementation of request interceptor in [their migration docs](https://www.apollographql.com/docs/react/v2/migrating/boost-migration/).
 
 This is how you create an `ApolloLink` that intercepts every request:
 
@@ -412,8 +408,6 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 ```
-
-As in every important PinApp milestone, feel free to [remix this step](https://glitch.com/edit/#!/remix/pinapp-apollo-boost-migration).
 
 And that's how you migrate from Apollo Boost. The ability to compose links provides the starting point for adding subscriptions to Apollo Client. The next section will teach you how to add a websockets transport using `apollo-link-ws`.
 
@@ -549,7 +543,7 @@ class PinListQuery extends React.Component {
 
 That's it! Now not only you will be able to see the pins you add in the list of pins, but anyone using the app will see the created pin, thanks to subscriptions.
 
-[Remix this step's project](https://glitch.com/edit/#!/remix/pinapp-client-subscriptions) if you got stuck in any step, and refer to the official [React Apollo's subscriptions documentation](https://www.apollographql.com/docs/react/advanced/subscriptions.html) to learn more about subscriptions.
+Refer to the official [React Apollo's subscriptions documentation](https://www.apollographql.com/docs/react/advanced/subscriptions.html) to learn more about subscriptions.
 
 ## 5.7 Summary
 

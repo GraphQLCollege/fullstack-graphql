@@ -8,8 +8,6 @@ You will learn how to expose GraphQL schemas using Apollo Server. How to connect
 
 ![Server layers](images/server-layers.png)
 
-All stages in this chapter have a corresponding project, which you can remix to learn by practice.
-
 Let's start by learning how to create an API using Apollo Server.
 
 ## 3.1 Server
@@ -32,10 +30,7 @@ server.listen().then(({ url }) => {
 });
 ```
 
-That's really it! With just a call to `server.listen()` you have a live GraphQL API. Remix the following example project to create your own copy.
-
-[Remix server example](https://glitch.com/edit/#!/remix/pinapp-server)
-
+That's really it! With just a call to `server.listen()` you have a live GraphQL API.
 Click the Show button, on the top left of the screen, to open a batteries included GraphQL client called [GraphQL Playground](https://github.com/prismagraphql/graphql-playground). It is more than just a GraphQL client, it almost feels like an IDE. It has query autocomplete, it has GraphQL schema documentation and it stores all your queries so you can reuse them later.
 
 ![GraphQL Playground](images/graphql-playground.png)
@@ -49,10 +44,6 @@ GraphQL APIs can be backed up by any data source. They can use SQL databases, No
 ![Database](images/database.png)
 
 In this chapter you will connect PinApp to a SQLite database using a database connector called [Knex](http://knexjs.org). Knex is a SQL query builder that can communicate with many SQL databases, like SQLite3, MySQL, Postgres and more.
-
-Remix the current iteration of PinApp so you can follow along the contents of this section with your own copy of the project.
-
-[Remix database example](https://glitch.com/edit/#!/remix/pinapp-database)
 
 > Remember to follow the getting started instructions on the project's README
 
@@ -105,8 +96,6 @@ module.exports = {
 };
 ```
 
-> [Glitch](https://glitch.com) allows you to persist data inside the `.data` folder. This is why `database.sqlite` is located in that folder.
-
 The final step you need in order to use a SQL file is to generate your database schema. Knex allows you to generate migration files using its CLI.
 
 Running `npx knex migrate:make create_users_table` creates a file called `[date]_create_users_table.js` inside the `.migrations` folder. This file exports two methods, `up` and `down`. These files are placeholders, which you need to fill in with your specific needs. In this case, the user table needs to have two fields, `id` and `email`. Both will have type `string`. The `id` field will be a primary key.
@@ -124,7 +113,7 @@ exports.down = function (knex) {
 };
 ```
 
-There is another migration in the project you remixed, called `[date]_create_pins_migration`. It defines five `string` fields: `id`, `title`, `link`, `image` and `pin_id`.
+PinApp needs one more migration, called `[date]_create_pins_migration`. It defines five `string` fields: `id`, `title`, `link`, `image` and `pin_id`.
 
 ```js
 exports.up = function (knex) {
@@ -157,7 +146,7 @@ Teaching SQL is outside of the scope of this book, it needs a book on its own if
 
 ## 3.3 Authentication
 
-A common question when building GraphQL APIs is "Where to put authentication and authorization?". Should it be in the GraphQL layer? Database layer? Business logic? Even though the answer depends on the context of what API you are building, a common way to solve this problem is to put authentication and authorization in the business layer. Putting auth related code in the business layer is [Facebook's approach](https://dev-blog.apollodata.com/graphql-at-facebook-by-dan-schafer-38d65ef075af).
+A common question when building GraphQL APIs is "Where to put authentication and authorization?". Should it be in the GraphQL layer? Database layer? Business logic? Even though the answer depends on the context of what API you are building, a common way to solve this problem is to put authentication and authorization in the business layer. Putting auth related code in the business layer is [Facebook's approach](https://web.archive.org/web/20180627132402/https://dev-blog.apollodata.com/graphql-at-facebook-by-dan-schafer-38d65ef075af).
 
 ![Business Logic](images/business-logic.png)
 
@@ -192,10 +181,6 @@ type Mutation {
   createLongLivedToken(token: String!): String
 }
 ```
-
-Remix this project so you can follow the implementation of email based auth.
-
-[Remix email authentication example](https://glitch.com/edit/#!/remix/pinapp-email-authentication)
 
 Now let's analyze how the email-related resolvers look like.
 
@@ -296,7 +281,7 @@ const createLongLivedToken = (token) => {
 };
 ```
 
-Go ahead and configure your remixed project with your Ethereal account. Once you have setup everything, hop into GraphQL Playground by clicking the "Show" button and authenticate using your email (or any email actually, Ethereal intercepts all of them :D).
+Go ahead and configure your project with your Ethereal account. Once you have setup everything, start the server, open GraphQL Playground at the URL it prints and authenticate using your email (or any email actually, Ethereal intercepts all of them :D).
 
 ## 3.4 File organization
 
@@ -311,10 +296,6 @@ The project's current file structure looks like this:
 You are going to split `schema.graphql`, `resolvers.js` and `business-logic.js` into three features: `authentication`, `pins` and `search`. The final directory structure will be the following:
 
 ![Final file structure](images/final-file-structure.png)
-
-Remix the project if you want to see how the final version looks like.
-
-[Remix file organization example](https://glitch.com/edit/#!/remix/pinapp-files)
 
 The main entry point of the GraphQL schema will still be `schema.graphql`. The difference is that it will not contain any type definitions, it will import all types from the `schema.graphql` of every feature folder. The main schema will import the rest of the schemas using the `import` statement that `graphql-import` provides. Its syntax is `# import * from "module-name.graphql"`.
 

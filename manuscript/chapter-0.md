@@ -57,4 +57,4 @@ You will build this application in layers. First you will design the data layer,
 
 ## Development environment
 
-There are no environment requirements to try the examples in this book, other than having a web browser and internet connection. Every step of the application has a live, editable online version hosted at glitch.com. Glitch is an awesome community to build apps created by the folks that developed Stack Overflow and Trello.
+To follow along you need [Node.js](https://nodejs.org) and a code editor. Every chapter shows the code you need to write step by step, so you can build PinApp on your own machine and run each example from a terminal.

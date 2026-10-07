@@ -21,12 +21,6 @@ The schema you will create is more than just an example that illustrates how to 
 - Search pins and users
 - List pins
 
-Make your own copy of this example with the following button:
-
-[Remix schema example](https://glitch.com/edit/#!/remix/pinapp-schema)
-
-> After remixing, closely follow the instructions in `README.md`. This project's README instructs you to configure environment variables in `.env`.
-
 Note that this schema is not exposed over HTTP. It is accessible with scripts using `graphql-js`. The next chapter will show you how to add an HTTP layer to this schema, using Apollo Server.
 
 In the next section you will understand how to create schemas using a function called `makeExecutableSchema`.
@@ -35,7 +29,7 @@ In the next section you will understand how to create schemas using a function c
 
 You create schemas by combining type definitions and resolvers. There is a handy package called [`graphql-tools`](https://github.com/apollographql/graphql-tools) that provides a function called `makeExecutableSchema`. The previous chapter contained a lot of `graphql(query, schema)` calls. All of those examples sent queries agains a schema generated with `makeExecutableSchema`.
 
-Open the file called `schema.js` in the example project you just remixed to see how you can create a schema.
+Create a file called `schema.js`. This is where you will define PinApp's schema.
 
 ```js
 const { makeExecutableSchema } = require("graphql-tools");
@@ -324,7 +318,7 @@ You can see that most of the logic in the fields of `Query` and `Mutations` come
 
 Some of the types in `resolvers.js` have methods named `__resolveType`. This is a method that `makeExecutableSchema` from `graphql-tools` uses. It determines the type of objects which are of type `Union` or `Interface`.
 
-You can try this example schema by opening your remixed example's console and run `node queries.js`. This script simulates a user who first creates an authentication token, and sends it in order to add a new pin.
+You can try this example schema by running `node queries.js` from a terminal. This script simulates a user who first creates an authentication token, and sends it in order to add a new pin.
 
 ```bash
 $ node queries
@@ -335,8 +329,8 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     "addPin": {
       "id": "f5220ee1-bfeb-48a0-be9f-c63d055b8139",
       "title": "Hello world",
-      "link": "https://example.com/fullstack-graphql",
-      "image": "https://example.com/fullstack-graphql",
+      "link": "https://example.com",
+      "image": "https://example.com",
       "user_id": "75c16079-b3ef-43f0-a352-ae03f2488baa"
     }
   }

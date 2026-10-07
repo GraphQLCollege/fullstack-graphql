@@ -30,7 +30,7 @@ If you see a bug or typo please open a GitHub issue.
 
 ### Fixes
 
-To contribute with code fixes, please remix the example on Glitch and create a Pull Request referencing the fix's Glitch URL.
+To contribute with code fixes, please open a Pull Request that explains the fix.
 
 ### New chapters
 

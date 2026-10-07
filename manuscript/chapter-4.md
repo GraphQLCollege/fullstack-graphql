@@ -22,10 +22,6 @@ export default class App extends React.Component {
 }
 ```
 
-Remix this project to create your own copy of it:
-
-[Remix initial React client](https://glitch.com/edit/#!/remix/pinapp-initial)
-
 The next section will teach you how to create a client side version of PinApp.
 
 ## 4.2 Client side state
@@ -133,8 +129,6 @@ function wait(time) {
 }
 ```
 
-[Remix this step's application](https://glitch.com/edit/#!/remix/pinapp-client-side-state) if you got stuck in some way.
-
 Congratulations! You have got a working version of PinApp. Too bad that all pins get lost when you refresh the application. This happens because the app stores everything in-memory. The next couple of sections will teach you how to connect PinApp with your GraphQL API.
 
 ## 4.3 Apollo Client
@@ -170,13 +164,13 @@ const client = new ApolloClient({
 });
 ```
 
-Remember to add `REACT_APP_API_URL=https://pinapp-files.glitch.me` to the `.env` file, pointing to your API URL.
+Remember to add `REACT_APP_API_URL=http://localhost:4000` to the `.env` file, pointing to your API URL.
 
 Once you have created an instance of Apollo Client, you can use it to send queries and mutations to your API. Let's use the `query` method from Apollo Client to fetch the list of pins from the API. This method receives an object with a `query` key. Inside that key you can send queries using the `gql` function from `graphql-tag`.
 
 The `gql` function receives a string written in SDL and transforms it into a Javascript object. `client.query` accepts this Javascript object. Note that `client.query` throws an error if you pass a string directly, without using `gql`.
 
-Another handy feature of `gql` is that many IDEs add syntax highlighting to `gql` calls. Unfortunately, at the moment Glitch does not support this feature. But who knows, maybe in the future it supports `gql` syntax highlighting. And maybe you are reading this in the future and enjoying beautiful GraphQL queries in our Glitch's code examples.
+Another handy feature of `gql` is that many IDEs add syntax highlighting to `gql` calls.
 
 Add the following `componentDidMount` function to the `App` component:
 
@@ -197,8 +191,6 @@ componentDidMount() {
     .then(result => this.setState({ pins: result.data.pins }));
 }
 ```
-
-You can click [here](https://glitch.com/edit/#!/remix/pinapp-apollo-client) to remix this step's version of PinApp. Remember to edit `REACT_APP_API_URL` in `.env`.
 
 As you can see, it's really easy to use Apollo Client to communicate with GraphQL APIs. But Apollo Client provides an even better way of connecting your React application with a GraphQL API. It provides a library called React Apollo, which lets you collocate components with data by placing queries alongside your components. The next section will teach you how to setup React Apollo to interact with PinApp's API.
 
@@ -552,8 +544,6 @@ export default class App extends React.Component {
   }
 }
 ```
-
-[Remix](https://glitch.com/edit/#!/remix/pinapp-react-apollo) the final version of PinApp's client to see what it looks like.
 
 ## 4.5 Summary
 
